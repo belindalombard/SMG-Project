@@ -9,18 +9,16 @@ public class ChatRoom {
 
 	public ChatRoom() {
 		JFrame window = new JFrame("Sell My Goods: Chat Room");
-	        window.setMinimumSize(new Dimension(700, 500));
-        	window.setLocation(300, 200);
-        	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
+		window.setMinimumSize(new Dimension(700, 600));
+		window.setLocation(300, 200);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		JPanel components = new JPanel(new BorderLayout());
 
-		JPanel navigation = new JPanel();
-		navigation.setLayout(new BoxLayout(navigation, BoxLayout.LINE_AXIS));
+		JPanel navigation = new JPanel(new FlowLayout());
 
 		JButton back = new JButton("<- Back");
 		navigation.add(back);
-		navigation.add(Box.createHorizontalGlue());
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				shopView home = new shopView();
@@ -33,10 +31,10 @@ public class ChatRoom {
 		JButton sendMessage = new JButton("Send Message to Seller");
 		sendMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null,"Message send successfully");
-				shopView shopView = new shopView();
+				JOptionPane.showMessageDialog(null,"Message sent successfully");
+				homeView homeView = new homeView();
 				window.setVisible(false);
-						
+
 			}
 		});
 
@@ -50,7 +48,7 @@ public class ChatRoom {
 		components.setBackground(new Color(118,215,196));
 		messageStuff.setBackground(new Color(118,215,196));
 		navigation.setBackground(new Color(118,240,196));
-		
+
 		window.add(components);
 		window.setVisible(true);
 

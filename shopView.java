@@ -11,7 +11,7 @@ public class shopView {
 
     public shopView(){
         JFrame window = new JFrame("Sell My Goods: Shop View");
-        window.setMinimumSize(new Dimension(700, 500));
+        window.setMinimumSize(new Dimension(700, 600));
         window.setLocation(300, 200);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

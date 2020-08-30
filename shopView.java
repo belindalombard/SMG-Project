@@ -72,11 +72,6 @@ public class shopView {
         productExample.add(information);
         productExample.add(contact_seller);
 
-//        flowLayoutPanel.add(backHomeButton);
-//        flowLayoutPanel.add(paymentsViewButton);
-//        backButtonLayout.add(flowLayoutPanel, BorderLayout.CENTER);
-//        paymentsButtonLayout.add(flowLayoutPanel, BorderLayout.CENTER);
-//        window.add(backButtonLayout,BorderLayout.NORTH);
         buttonLayout.add(backHomeButton);
         buttonLayout.add(Box.createHorizontalGlue());
         buttonLayout.add(paymentsViewButton);

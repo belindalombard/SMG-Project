@@ -5,23 +5,18 @@ import java.awt.event.ActionListener;
 
 public class paymentsView {
 
-    JButton backButton, submitOrderPaymentButton;
+    JButton backButton, payButton;
 
     public paymentsView(){
         JFrame window = new JFrame("Sell My Goods: Payments");
-        window.setMinimumSize(new Dimension(700, 500));
+        window.setMinimumSize(new Dimension(700, 600));
         window.setLocation(300, 200);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-//        JPanel flowLayoutPanel = new JPanel(new FlowLayout());
-//        JPanel backButtonLayout = new JPanel(new BorderLayout());
-//
-//        JPanel flowLayoutPanelPay = new JPanel(new FlowLayout());
-//        JPanel payButtonLayout = new JPanel(new BorderLayout());
-        JPanel buttonLayout = new JPanel();
-        buttonLayout.setLayout(new BoxLayout(buttonLayout, BoxLayout.LINE_AXIS));
+        JPanel flowLayoutPanel = new JPanel(new FlowLayout());
+        JPanel backButtonLayout = new JPanel(new BorderLayout());
+        backButton = new JButton("Back");
 
-        backButton = new JButton("<-Back");
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -30,34 +25,32 @@ public class paymentsView {
             }
         });
 
-        submitOrderPaymentButton = new JButton("Submit Order");
-        submitOrderPaymentButton.addActionListener(new ActionListener() {
+        JLabel apimessage = new JLabel("Payment API/platform will be used here");
+
+        //Button to pay (obviously not so simple when we're implementing this)
+        payButton = new JButton("Make Payment");
+        payButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                confirmationView toConfirmationView = new confirmationView();
+                confirmationView confirmationView = new confirmationView();
                 window.setVisible(false);
             }
         });
 
-        buttonLayout.add(backButton);
-        buttonLayout.add(Box.createHorizontalGlue());
-        buttonLayout.add(submitOrderPaymentButton);
 
-        window.add(buttonLayout, BorderLayout.NORTH);
+        apimessage.setPreferredSize(new Dimension(10,10));
 
+        flowLayoutPanel.add(backButton);
+        flowLayoutPanel.add(payButton);
+        backButtonLayout.add(flowLayoutPanel, BorderLayout.WEST);
+        backButtonLayout.add(apimessage, BorderLayout.CENTER);
+        apimessage.setBorder(BorderFactory.createLineBorder(Color.black));
 
-//        backButtonLayout.add(backButton, BorderLayout.WEST);
-//        backButtonLayout.add(submitOrderPaymentButton, BorderLayout.EAST);
-//        window.add(backButtonLayout);
-//        flowLayoutPanel.add(backButton);
-//        flowLayoutPanelPay.add(submitOrderPaymentButton);
-//        backButtonLayout.add(flowLayoutPanel, BorderLayout.WEST);
-//        payButtonLayout.add(flowLayoutPanelPay, BorderLayout.EAST);
-
-//        window.add(submitOrderPaymentButton);
-//        window.add(backButtonLayout);
-////        window.add(payButtonLayout);
-
+        window.add(backButtonLayout);
+        window.setBackground(new Color(118,240,196));
+        flowLayoutPanel.setBackground(new Color(118,240,196));
+        backButtonLayout.setBackground(new Color(118,240,196));
         window.setVisible(true);
+
     }
 }

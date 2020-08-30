@@ -15,10 +15,12 @@ public class ChatRoom {
 	
 		JPanel components = new JPanel(new BorderLayout());
 
-		JPanel navigation = new JPanel(new FlowLayout());
+		JPanel navigation = new JPanel();
+		navigation.setLayout(new BoxLayout(navigation, BoxLayout.LINE_AXIS));
 
 		JButton back = new JButton("<- Back");
 		navigation.add(back);
+		navigation.add(Box.createHorizontalGlue());
 		back.addActionListener(new ActionListener() {
             		public void actionPerformed(ActionEvent e) {
                 		shopView home = new shopView();

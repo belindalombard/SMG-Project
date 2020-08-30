@@ -27,7 +27,7 @@ public class login {
         usernameLabel = new JLabel("Email Address:");
         usernameLabel.setHorizontalAlignment(JLabel.CENTER);
         usernameField = new JTextField(25);
-//        usernameLabel.setLabelFor(usernameField);
+
         passwordLabel = new JLabel("Password:");
         passwordLabel.setHorizontalAlignment(JLabel.CENTER);
         passwordField = new JPasswordField(25);
@@ -52,40 +52,7 @@ public class login {
 
         flow.add(grd);
         window.add(flow, BorderLayout.CENTER);
-//        area = new JPanel();
-//        area.setLayout(new BoxLayout(area, BoxLayout.Y_AXIS));
-//
-//        JPanel flow1 = new JPanel(new FlowLayout());
-//        JPanel flow2 = new JPanel(new FlowLayout());
-//        // credentials
-//        usernameLabel = new JLabel("Email Address:");
-//        usernameLabel.setLabelFor(usernameField);
-//        area.add(usernameLabel);
-//
-//        usernameField = new JTextField(25);
-//        area.add(usernameField);
-//
-//        passwordLabel = new JLabel("Password:");
-//        area.add(passwordLabel);
-//
-//        passwordField = new JPasswordField(25);
-//        flow1.add(passwordField);
-//
-//        //login button
-//        loginButton = new JButton("Login");
-////        area.add(flow1);
-////        area.add(flow2);
-//        area.add(loginButton, BorderLayout.CENTER);
-//
-//        loginButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                homeView toHomeView = new homeView();
-//                window.setVisible(false);
-//            }
-//        });
-//
-//        window.add(area);
+
         window.setVisible(true);
 
     }

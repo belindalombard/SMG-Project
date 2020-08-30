@@ -22,11 +22,11 @@ public class ChatRoom {
 		navigation.add(back);
 		navigation.add(Box.createHorizontalGlue());
 		back.addActionListener(new ActionListener() {
-            		public void actionPerformed(ActionEvent e) {
-                		shopView home = new shopView();
-                		window.setVisible(false);
-            		}
-          	});
+			public void actionPerformed(ActionEvent e) {
+				shopView home = new shopView();
+				window.setVisible(false);
+			}
+		});
 
 		JLabel instruction = new JLabel("Type your message to xxxxx below");
 		TextArea message = new TextArea(20,50);
@@ -34,7 +34,7 @@ public class ChatRoom {
 		sendMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null,"Message send successfully");
-				homeView homeView = new homeView();
+				shopView shopView = new shopView();
 				window.setVisible(false);
 						
 			}
@@ -45,14 +45,14 @@ public class ChatRoom {
 		messageStuff.add(message);
 		messageStuff.add(sendMessage);
 
-                components.add(navigation,BorderLayout.NORTH);
-       		components.add(messageStuff,BorderLayout.CENTER);
-	        components.setBackground(new Color(118,215,196));
+		components.add(navigation,BorderLayout.NORTH);
+		components.add(messageStuff,BorderLayout.CENTER);
+		components.setBackground(new Color(118,215,196));
 		messageStuff.setBackground(new Color(118,215,196));
-       		navigation.setBackground(new Color(118,240,196));
+		navigation.setBackground(new Color(118,240,196));
 		
 		window.add(components);
-                window.setVisible(true);
+		window.setVisible(true);
 
 
 

@@ -15,9 +15,12 @@ public class shopView {
         window.setLocation(300, 200);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel flowLayoutPanel = new JPanel(new FlowLayout());
+//        JPanel flowLayoutPanel = new JPanel(new FlowLayout());
         backButtonLayout = new JPanel(new BorderLayout());
         paymentsButtonLayout = new JPanel(new BorderLayout());
+
+        JPanel buttonLayout = new JPanel();
+        buttonLayout.setLayout(new BoxLayout(buttonLayout, BoxLayout.LINE_AXIS));
 
         backHomeButton = new JButton("<-Back");
 
@@ -28,7 +31,7 @@ public class shopView {
                 homeView home = new homeView();
                 window.setVisible(false);
             }
-	  });
+	    });
         
 
         paymentsViewButton = new JButton("Next -> Pay");
@@ -40,9 +43,9 @@ public class shopView {
             }
         });
 
-	productExample = new JPanel(new FlowLayout(FlowLayout.CENTER,20,30));
-	JLabel image = new JLabel("IMAGE OF PRODUCT");
-	JButton contact_seller = new JButton("Contact Seller");
+        productExample = new JPanel(new FlowLayout(FlowLayout.CENTER,20,30));
+        JLabel image = new JLabel("IMAGE OF PRODUCT");
+        JButton contact_seller = new JButton("Contact Seller");
         contact_seller.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -53,35 +56,40 @@ public class shopView {
 
 	
 	
-	JTextArea information = new JTextArea(5,20);
-	information.append("PRODUCT NAME\n");
-	information.append("PRICE: Rxxx\n");
-	information.append("LOCATION: xxxx\n");
-	information.append("\n");
-	information.append("Quantity Left: xxx\n");
-	information.setFont(font);
-	information.setEditable(false);
-	image.setFont(font);
-	image.setPreferredSize(new Dimension(200,200));
-	image.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-	image.setBackground(Color.GREEN);
+        JTextArea information = new JTextArea(5,20);
+        information.append("PRODUCT NAME\n");
+        information.append("PRICE: Rxxx\n");
+        information.append("LOCATION: xxxx\n");
+        information.append("\n");
+        information.append("Quantity Left: xxx\n");
+        information.setFont(font);
+        information.setEditable(false);
+        image.setFont(font);
+        image.setPreferredSize(new Dimension(200,200));
+        image.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+        image.setBackground(Color.GREEN);
 
-	productExample.add(image);
-	productExample.add(information);
-	productExample.add(contact_seller);
+        productExample.add(image);
+        productExample.add(information);
+        productExample.add(contact_seller);
 
-        flowLayoutPanel.add(backHomeButton);
-        flowLayoutPanel.add(paymentsViewButton);
-        backButtonLayout.add(flowLayoutPanel, BorderLayout.CENTER);
-        paymentsButtonLayout.add(flowLayoutPanel, BorderLayout.CENTER);
-        window.add(backButtonLayout,BorderLayout.NORTH);
-        window.add(paymentsButtonLayout,BorderLayout.NORTH);
-	window.add(productExample,BorderLayout.CENTER);
-	backButtonLayout.setBackground(new Color(118,215,196));
-	window.setBackground(new Color(118,215,196));
-	productExample.setBackground(new Color(118,215,196));
-        flowLayoutPanel.setBackground(new Color(118,240,186));
-	window.setVisible(true);
+//        flowLayoutPanel.add(backHomeButton);
+//        flowLayoutPanel.add(paymentsViewButton);
+//        backButtonLayout.add(flowLayoutPanel, BorderLayout.CENTER);
+//        paymentsButtonLayout.add(flowLayoutPanel, BorderLayout.CENTER);
+//        window.add(backButtonLayout,BorderLayout.NORTH);
+        buttonLayout.add(backHomeButton);
+        buttonLayout.add(Box.createHorizontalGlue());
+        buttonLayout.add(paymentsViewButton);
+
+        window.add(buttonLayout,BorderLayout.NORTH);
+
+        window.add(productExample,BorderLayout.CENTER);
+        backButtonLayout.setBackground(new Color(118,215,196));
+        window.setBackground(new Color(118,215,196));
+        productExample.setBackground(new Color(118,215,196));
+        buttonLayout.setBackground(new Color(118,240,186));
+	    window.setVisible(true);
 	
 
     }

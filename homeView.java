@@ -76,7 +76,7 @@ public class homeView{
 	window.setBackground(new Color(118,215,196));
 	center_layout.setBackground(new Color(118,215,196));
 	searchLabel.setBackground(new Color(209,242,235));
-	filters.setBackground(new Color(118,215,196));
+	filters.setBackground(new Color(119,215,196));
 
 
 	window.add(bPanel);

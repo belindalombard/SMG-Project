@@ -3,16 +3,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.border.Border;
+
 public class homeView{
     JFrame window;
     JTextField searchField;
+
     JPanel flowPanel, bPanel, filters, center_layout;
     JButton search, nextViewButton;
     JLabel searchLabel = new JLabel("");
     Border plainborder = BorderFactory.createLineBorder(Color.black);
     Font font = new Font("TimesRoman",Font.BOLD,25);
     Checkbox localbased,countrybased,shop,products;
- 
+
+    JButton searchButton;
+
 
     public homeView(){
         window = new JFrame("Sell My Goods: Home");
@@ -27,6 +31,7 @@ public class homeView{
 
         //search field
         searchField = new JTextField(20);
+
         search = new JButton("Search");
 	search.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -51,6 +56,11 @@ public class homeView{
 	filters.add(products);	
 
 
+        //search button
+        searchButton = new JButton("Search");
+        //
+
+
         //the next button
         nextViewButton = new JButton("Next -> Shop");
         nextViewButton.addActionListener(new ActionListener() {
@@ -62,9 +72,15 @@ public class homeView{
         });
 
 
+
 	center_layout = new JPanel();
         flowPanel.add(searchField);
         flowPanel.add(search);
+
+        flowPanel.add(searchField);
+        flowPanel.add(searchButton);
+
+
         bPanel.add(nextViewButton, BorderLayout.SOUTH);
         bPanel.add(flowPanel, BorderLayout.NORTH);
 	center_layout.add(filters);
@@ -80,14 +96,17 @@ public class homeView{
 
 
 	window.add(bPanel);
-        window.setVisible(true);
+	window.setVisible(true);
   
 
   
     }
+
 
 
     public static void main(String [] args){
         homeView x = new homeView();
     }
 }
+
+

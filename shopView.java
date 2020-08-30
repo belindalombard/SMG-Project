@@ -15,7 +15,7 @@ public class shopView {
         window.setLocation(300, 200);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-//        JPanel flowLayoutPanel = new JPanel(new FlowLayout());
+        JPanel flowLayoutPanel = new JPanel(new FlowLayout());
         backButtonLayout = new JPanel(new BorderLayout());
         paymentsButtonLayout = new JPanel(new BorderLayout());
 

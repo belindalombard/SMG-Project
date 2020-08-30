@@ -54,8 +54,7 @@ public class shopView {
             }
         });
 
-	
-	
+
         JTextArea information = new JTextArea(5,20);
         information.append("PRODUCT NAME\n");
         information.append("PRICE: Rxxx\n");

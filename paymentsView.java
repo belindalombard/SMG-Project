@@ -13,11 +13,6 @@ public class paymentsView {
         window.setLocation(300, 200);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-//        JPanel flowLayoutPanel = new JPanel(new FlowLayout());
-//        JPanel backButtonLayout = new JPanel(new BorderLayout());
-//
-//        JPanel flowLayoutPanelPay = new JPanel(new FlowLayout());
-//        JPanel payButtonLayout = new JPanel(new BorderLayout());
         JPanel buttonLayout = new JPanel();
         buttonLayout.setLayout(new BoxLayout(buttonLayout, BoxLayout.LINE_AXIS));
 
@@ -44,19 +39,6 @@ public class paymentsView {
         buttonLayout.add(submitOrderPaymentButton);
 
         window.add(buttonLayout, BorderLayout.NORTH);
-
-
-//        backButtonLayout.add(backButton, BorderLayout.WEST);
-//        backButtonLayout.add(submitOrderPaymentButton, BorderLayout.EAST);
-//        window.add(backButtonLayout);
-//        flowLayoutPanel.add(backButton);
-//        flowLayoutPanelPay.add(submitOrderPaymentButton);
-//        backButtonLayout.add(flowLayoutPanel, BorderLayout.WEST);
-//        payButtonLayout.add(flowLayoutPanelPay, BorderLayout.EAST);
-
-//        window.add(submitOrderPaymentButton);
-//        window.add(backButtonLayout);
-////        window.add(payButtonLayout);
 
         window.setVisible(true);
     }

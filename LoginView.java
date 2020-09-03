@@ -27,7 +27,8 @@ public class LoginView {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                HomeView homeView = new HomeView();
+                window.setVisible(false);
             }
         });
 

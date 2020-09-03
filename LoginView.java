@@ -27,7 +27,7 @@ public class LoginView {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                HomeView homeView = new HomeView();
+                HomeView homeView = new HomeView(window);
                 window.setVisible(false);
             }
         });
@@ -36,7 +36,7 @@ public class LoginView {
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SignUpView toSignUpView = new SignUpView();
+                SignUpView toSignUpView = new SignUpView(window);
                 window.setVisible(false);
             }
         });

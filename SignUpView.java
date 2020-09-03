@@ -1,6 +1,10 @@
+import javafx.scene.control.CheckBox;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class SignUpView {
 
@@ -54,17 +58,39 @@ public class SignUpView {
         confirmPasswordField = new JPasswordField(10);
         confirmPasswordField.setBounds(420, 280, 150, 27);
 
-        JCheckBox seller = new JCheckBox();
-        seller.setBounds(370, 310,50,50);
-        JLabel sellerLabel = new JLabel("Seller : ");
-        sellerLabel.setBounds(320, 310, 50, 50);
+        Checkbox seller = new Checkbox("Seller", true);
+        seller.setBounds(330, 310,100,50);
 
-        JCheckBox buyer = new JCheckBox();
-        buyer.setBounds(480, 310,50,50);
-        JLabel buyerLabel = new JLabel("Buyer : ");
-        buyerLabel.setBounds(430, 310, 50, 50);
+        Checkbox buyer = new Checkbox("Customer");
+        buyer.setBounds(440, 310,150,50);
 
 
+        seller.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(seller.getState() == true){
+                    buyer.setState(false);
+                }
+                else{
+                    buyer.setState(true);
+                }
+            }
+        });
+
+        buyer.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(buyer.getState() == true){
+                    seller.setState(false);
+                }
+                else{
+                    seller.setState(true);
+                }
+            }
+        });
+
+
+        //Adding components in the window
         window.add(nameLabel);
         window.add(nameField);
         window.add(idLabel);
@@ -81,9 +107,7 @@ public class SignUpView {
         window.add(confirmPasswordField);
 
         window.add(seller);
-        window.add(sellerLabel);
         window.add(buyer);
-        window.add(buyerLabel);
 
         window.setResizable(false);
         window.setVisible(true);

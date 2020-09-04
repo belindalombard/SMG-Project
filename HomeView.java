@@ -2,8 +2,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,10 +38,24 @@ public class HomeView extends SignUpView{
         scrollPane.setViewportView(shopList);
         shopList.setLayoutOrientation(JList.VERTICAL);
         shopList.setFixedCellHeight(60);
-        shopList.addListSelectionListener(new ListSelectionListener() {
+        shopList.addMouseListener(new MouseListener() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {
+            public void mouseClicked(MouseEvent e) {
+                ShopView shopView = new ShopView(window);
+                window.setVisible(false);
             }
+
+            @Override
+            public void mousePressed(MouseEvent e) { }
+
+            @Override
+            public void mouseReleased(MouseEvent e) { }
+
+            @Override
+            public void mouseEntered(MouseEvent e) { }
+
+            @Override
+            public void mouseExited(MouseEvent e) { }
         });
 
         topSearchBarLayout.add(logoutButton);

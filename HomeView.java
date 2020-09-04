@@ -18,6 +18,15 @@ public class HomeView extends SignUpView{
         //
 
         JPanel topSearchBarLayout = new JPanel(new FlowLayout());
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoginView loginView = new LoginView();
+                window.dispose();
+            }
+        });
+
         JTextField searchBar = new JTextField(25);
         JButton searchButton = new JButton("Search");
 
@@ -36,6 +45,7 @@ public class HomeView extends SignUpView{
             }
         });
 
+        topSearchBarLayout.add(logoutButton);
         topSearchBarLayout.add(searchBar);
         topSearchBarLayout.add(searchButton);
         window.add(topSearchBarLayout, BorderLayout.NORTH);

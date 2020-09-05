@@ -8,6 +8,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class ProductView {
+
+    int quantityOfItems = 1;
+
     public ProductView(JFrame previousWindowFrame){
         //Frame
         JFrame window = new JFrame("Sell My Goods: Home");
@@ -42,18 +45,56 @@ public class ProductView {
 
         JTextArea productDetailsLabel = new JTextArea();
         productDetailsLabel.setText("Product Details :\nHello World, this product is so \ncool, like really cool! \nIt does everything");
-        productDetailsLabel.setBounds(350, 200, 400, 100);
+        productDetailsLabel.setBounds(350, 200, 400, 85);
         productDetailsLabel.setBackground(window.getBackground());
-        
+
+        JLabel availableStock = new JLabel("Available Stock : 10");
+        availableStock.setBounds(350, 270, 150, 50);
+
+        JTextField quantityField = new JTextField(10);
+        quantityField.setBounds(390, 320, 70, 27);
+//        quantityField.setText(""+quantityOfItems);
+        quantityField.setText("1");
+        quantityField.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JButton addItemButton = new JButton("+");
+        addItemButton.setBounds(340, 321, 50, 25);
+        addItemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                quantityOfItems = Integer.parseInt(quantityField.getText())+1;
+                quantityField.setText(""+quantityOfItems);
+            }
+        });
+
+        JButton subtractItemButton = new JButton("-");
+        subtractItemButton.setBounds(460, 321, 50, 25);
+        subtractItemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                quantityOfItems = Integer.parseInt(quantityField.getText())-1;
+                quantityField.setText(""+quantityOfItems);
+            }
+        });
+
+
         topButtonLayout.add(backButton);
 
         window.add(topButtonLayout, BorderLayout.NORTH);
         window.add(productName);
         window.add(productPrice);
         window.add(productDetailsLabel);
+        window.add(availableStock);
+        window.add(addItemButton);
+        window.add(quantityField);
+        window.add(subtractItemButton);
         window.add(productImage);
 
         window.add(new JLabel());
         window.setVisible(true);
     }
+
+//    public static void main(String [] args){
+//        ProductView x = new ProductView(new JFrame());
+//    }
 }

@@ -2,11 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class ShopView {
     public ShopView(JFrame previousWindowFrame, int selectedShop, String [] shops){
         //Frame
-        JFrame window = new JFrame("Sell My Goods: Shop");
+        JFrame window = new JFrame("Sell My Goods: "+shops[selectedShop]);
         window.setMinimumSize(new Dimension(800, 600));
         window.setLocation(300, 150);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +33,7 @@ public class ShopView {
 
         String [] products = new String[100];
         for(int i = 0; i < 100; i++){
-            products[i] = "Hello "+i;
+            products[i] = "Product "+i;
         }
 
         JList productList = new JList(products);
@@ -40,14 +42,37 @@ public class ShopView {
         productList.setLayoutOrientation(JList.VERTICAL);
         productList.setFixedCellHeight(60);
 
+        productList.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ProductView productView = new ProductView(window);
+                window.setVisible(false);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
         topButtonLayout.add(backButton);
-        topButtonLayout.add(productsLabel);
-        topButtonLayout.add(Box.createHorizontalGlue());
 
-
-//        window.add(new JLabel());
         window.add(topButtonLayout, BorderLayout.NORTH);
-//        window.add(productsLabel);
         window.add(scrollPane);
         window.setVisible(true);
     }

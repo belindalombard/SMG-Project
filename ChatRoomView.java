@@ -48,6 +48,8 @@ public class ChatRoomView {
                 pay.setEnabled(true);
                 contactSeller.setEnabled(true);
                 previousWindowFrame.setFocusable(true);
+
+                JOptionPane.showMessageDialog(null, "Message succesfully sent!");
                 window.setVisible(false);
             }
         });

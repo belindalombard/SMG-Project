@@ -13,9 +13,9 @@ public class ProductView {
     JLabel totalAmount;
     String shopLocation;
 
-    public ProductView(JFrame previousWindowFrame){
+    public ProductView(JFrame previousWindowFrame, int selectedProduct, String [] products){
         //Frame
-        JFrame window = new JFrame("Sell My Goods: Home");
+        JFrame window = new JFrame("Sell My Goods: "+products[selectedProduct]);
         window.setMinimumSize(new Dimension(800, 600));
         window.setLocation(300, 150);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,7 +38,7 @@ public class ProductView {
         productImage.setBounds(80, 100, 250, 250);
 
         JLabel productName = new JLabel();
-        productName.setText("Product Name");
+        productName.setText(products[selectedProduct]);
         productName.setFont(new Font(null, Font.BOLD, 20));
         productName.setBounds(400, 100, 150, 50);
 

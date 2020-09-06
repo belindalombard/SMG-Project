@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 public class PaymentView {
     public PaymentView(JFrame previousWindowFrame){
         //Frame
-        JFrame window = new JFrame("Sell My Goods: Home");
+        JFrame window = new JFrame("Sell My Goods: Payment");
         window.setMinimumSize(new Dimension(800, 600));
         window.setLocation(300, 150);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

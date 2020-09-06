@@ -61,9 +61,21 @@ public class ProductView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Add more edge cases
-                quantityOfItems = Integer.parseInt(quantityField.getText());
-                System.out.println(quantityOfItems*productPriceAmount);
-                totalAmount.setText("Total : R"+ quantityOfItems*productPriceAmount);
+                if(quantityField.getText().isEmpty()){
+                    quantityOfItems = 1;
+                    quantityField.setText(""+quantityOfItems);
+                    totalAmount.setText("Total : R"+ quantityOfItems*productPriceAmount);
+                }
+                else if(Integer.parseInt(quantityField.getText()) > availableStockItems || Integer.parseInt(quantityField.getText()) < 1){
+                    quantityOfItems = 1;
+                    quantityField.setText(""+quantityOfItems);
+                    totalAmount.setText("Total : R"+ quantityOfItems*productPriceAmount);
+                }
+                else{
+                    quantityOfItems = Integer.parseInt(quantityField.getText());
+                    totalAmount.setText("Total : R"+ quantityOfItems*productPriceAmount);
+                }
+
             }
         });
 

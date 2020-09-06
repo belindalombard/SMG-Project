@@ -2,12 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 
 public class ProductView {
 
     int quantityOfItems = 1;
     int availableStockItems = 160;
-    double productPriceAmount = 270.00;
+    double productPriceAmount = 200.67;
     double quantityTotalPrice = productPriceAmount;
     JLabel totalAmount;
 
@@ -41,7 +42,7 @@ public class ProductView {
         productName.setBounds(400, 100, 150, 50);
 
         JLabel productPrice = new JLabel();
-        productPrice.setText("Product Price : R"+ quantityOfItems*productPriceAmount);
+        productPrice.setText("Product Price : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
         productPrice.setBounds(400, 150, 150, 50);
 
         JTextArea productDetailsLabel = new JTextArea();
@@ -61,21 +62,23 @@ public class ProductView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Add more edge cases
-                if(quantityField.getText().isEmpty()){
-                    quantityOfItems = 1;
-                    quantityField.setText(""+quantityOfItems);
-                    totalAmount.setText("Total : R"+ quantityOfItems*productPriceAmount);
+                try{
+                    if(quantityField.getText().isEmpty()){
+                        quantityOfItems = 1;
+                        quantityField.setText(""+quantityOfItems);
+                        totalAmount.setText("Total : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
+                    }
+                    else if(Integer.parseInt(quantityField.getText()) > availableStockItems || Integer.parseInt(quantityField.getText()) < 1){
+                        quantityOfItems = 1;
+                        quantityField.setText(""+quantityOfItems);
+                        totalAmount.setText("Total : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
+                    }
+                    else{
+                        quantityOfItems = Integer.parseInt(quantityField.getText());
+                        totalAmount.setText("Total : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
+                    }
                 }
-                else if(Integer.parseInt(quantityField.getText()) > availableStockItems || Integer.parseInt(quantityField.getText()) < 1){
-                    quantityOfItems = 1;
-                    quantityField.setText(""+quantityOfItems);
-                    totalAmount.setText("Total : R"+ quantityOfItems*productPriceAmount);
-                }
-                else{
-                    quantityOfItems = Integer.parseInt(quantityField.getText());
-                    totalAmount.setText("Total : R"+ quantityOfItems*productPriceAmount);
-                }
-
+                catch (Exception k){ }
             }
         });
 
@@ -87,20 +90,24 @@ public class ProductView {
         addItemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(quantityField.getText().isEmpty()){
-                    quantityOfItems = 1;
-                    quantityField.setText("" + quantityOfItems);
+                try{
+                    if(quantityField.getText().isEmpty()){
+                        quantityOfItems = 1;
+                        quantityField.setText("" + quantityOfItems);
+                    }
+                    else if(Integer.parseInt(quantityField.getText()) < availableStockItems){
+                        quantityOfItems = Integer.parseInt(quantityField.getText())+1;
+                        quantityTotalPrice += productPriceAmount;
+                        quantityField.setText(""+quantityOfItems);
+                        totalAmount.setText("Total : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
+                    }
+                    else{
+                        quantityOfItems = availableStockItems;
+                        quantityField.setText(""+quantityOfItems);
+                    }
                 }
-                else if(Integer.parseInt(quantityField.getText()) < availableStockItems){
-                    quantityOfItems = Integer.parseInt(quantityField.getText())+1;
-                    quantityTotalPrice += productPriceAmount;
-                    quantityField.setText(""+quantityOfItems);
-                    totalAmount.setText("Total : R"+ quantityOfItems*productPriceAmount);
-                }
-                else{
-                    quantityOfItems = availableStockItems;
-                    quantityField.setText(""+quantityOfItems);
-                }
+                catch (Exception k){ }
+
             }
         });
 
@@ -109,20 +116,21 @@ public class ProductView {
         subtractItemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(quantityField.getText().isEmpty()){
-                    quantityOfItems = 1;
-                    quantityField.setText("" + quantityOfItems);
+                try {
+                    if (quantityField.getText().isEmpty()) {
+                        quantityOfItems = 1;
+                        quantityField.setText("" + quantityOfItems);
+                    } else if (Integer.parseInt(quantityField.getText()) > availableStockItems) {
+                        quantityOfItems = availableStockItems;
+                        quantityField.setText("" + quantityOfItems);
+                    } else if (Integer.parseInt(quantityField.getText()) > 1) {
+                        quantityOfItems = Integer.parseInt(quantityField.getText()) - 1;
+                        quantityTotalPrice -= productPriceAmount;
+                        quantityField.setText("" + quantityOfItems);
+                        totalAmount.setText("Total : R" + String.format("%.2f", Math.round(quantityOfItems * productPriceAmount * 100.0) / 100.0));
+                    }
                 }
-                else if (Integer.parseInt(quantityField.getText()) > availableStockItems) {
-                    quantityOfItems = availableStockItems;
-                    quantityField.setText("" + quantityOfItems);
-                }
-                else if (Integer.parseInt(quantityField.getText()) > 1) {
-                    quantityOfItems = Integer.parseInt(quantityField.getText()) - 1;
-                    quantityTotalPrice -= productPriceAmount;
-                    quantityField.setText("" + quantityOfItems);
-                    totalAmount.setText("Total : R"+ quantityOfItems*productPriceAmount);
-                }
+                catch (Exception k){ }
             }
         });
 
@@ -130,20 +138,26 @@ public class ProductView {
         payButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(quantityField.getText().isEmpty()){
-                    JOptionPane.showMessageDialog(null, "Error: Invalid quantity of items");
+                try{
+                    if(quantityField.getText().isEmpty()){
+                        JOptionPane.showMessageDialog(null, "Error: Invalid quantity of items");
+                    }
+                    else if(Integer.parseInt(quantityField.getText()) < 1){
+                        JOptionPane.showMessageDialog(null, "Entry unacceptable");
+                    }
+                    else if(Integer.parseInt(quantityField.getText()) > availableStockItems){
+                        JOptionPane.showMessageDialog(null, "Too many more than available stock items requested");
+                    }
+                    else if(Integer.parseInt(quantityField.getText()) <= availableStockItems){
+                        quantityOfItems = Integer.parseInt(quantityField.getText());
+                        totalAmount.setText("Total : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
+                        PaymentView paymentView = new PaymentView(window);
+                        window.setVisible(false);
+                    }
                 }
-                else if(Integer.parseInt(quantityField.getText()) < 1){
-                    JOptionPane.showMessageDialog(null, "Entry unacceptable");
+                catch (Exception k) {
+                    JOptionPane.showMessageDialog(null, "Error! That is not a valid entry. Numbers only are allowed");
                 }
-                else if(Integer.parseInt(quantityField.getText()) > availableStockItems){
-                    JOptionPane.showMessageDialog(null, "Too many more than available stock items requested");
-                }
-                else if(Integer.parseInt(quantityField.getText()) <= availableStockItems){
-                    PaymentView paymentView = new PaymentView(window);
-                    window.setVisible(false);
-                }
-
             }
         });
 

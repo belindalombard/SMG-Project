@@ -11,6 +11,7 @@ public class ProductView {
     double productPriceAmount = 200.67;
     double quantityTotalPrice = productPriceAmount;
     JLabel totalAmount;
+    String shopLocation;
 
     public ProductView(JFrame previousWindowFrame){
         //Frame
@@ -46,22 +47,25 @@ public class ProductView {
         productPrice.setBounds(400, 150, 150, 50);
 
         JTextArea productDetailsLabel = new JTextArea();
-        productDetailsLabel.setText("Product Details :\nHello World, this product is so \ncool, like really cool! \nIt does everything");
+        productDetailsLabel.setText("Product Details :\nHello World, this product is so \ncool, like really cool! \nIt does everything\nIt does everything");
         productDetailsLabel.setBounds(400, 200, 350, 85);
         productDetailsLabel.setBackground(window.getBackground());
         productDetailsLabel.setEditable(false);
 
+        shopLocation = "Cape Town";
+        JLabel locationLabel = new JLabel("Location : "+shopLocation);
+        locationLabel.setBounds(400, 275, 300, 50);
+
         JLabel availableStock = new JLabel("Available Stock : "+availableStockItems);
-        availableStock.setBounds(400, 270, 150, 50);
+        availableStock.setBounds(400, 305, 150, 50);
 
         JTextField quantityField = new JTextField(10);
-        quantityField.setBounds(440, 320, 70, 27);
+        quantityField.setBounds(440, 355, 70, 27);
         quantityField.setText("1");
         quantityField.setHorizontalAlignment(SwingConstants.CENTER);
         quantityField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Add more edge cases
                 try{
                     if(quantityField.getText().isEmpty()){
                         quantityOfItems = 1;
@@ -83,10 +87,10 @@ public class ProductView {
         });
 
         totalAmount = new JLabel("Total : R"+ quantityTotalPrice);
-        totalAmount.setBounds(400, 360, 150, 25);
+        totalAmount.setBounds(400, 395, 150, 25);
 
         JButton addItemButton = new JButton("+");
-        addItemButton.setBounds(390, 321, 50, 25);
+        addItemButton.setBounds(390, 356, 50, 25);
         addItemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -107,12 +111,11 @@ public class ProductView {
                     }
                 }
                 catch (Exception k){ }
-
             }
         });
 
         JButton subtractItemButton = new JButton("-");
-        subtractItemButton.setBounds(510, 321, 50, 25);
+        subtractItemButton.setBounds(510, 356, 50, 25);
         subtractItemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -169,6 +172,7 @@ public class ProductView {
         window.add(productName);
         window.add(productPrice);
         window.add(productDetailsLabel);
+        window.add(locationLabel);
         window.add(availableStock);
         window.add(addItemButton);
         window.add(quantityField);

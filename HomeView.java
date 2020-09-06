@@ -31,7 +31,7 @@ public class HomeView extends SignUpView{
 
         String [] shops = new String[100];
         for(int i = 0; i < 100; i++){
-            shops[i] = "Shop "+i;
+            shops[i] = "Shop Name "+i;
         }
         JList shopList = new JList(shops);
         JScrollPane scrollPane = new JScrollPane();
@@ -41,7 +41,7 @@ public class HomeView extends SignUpView{
         shopList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ShopView shopView = new ShopView(window);
+                ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops);
                 window.setVisible(false);
             }
 

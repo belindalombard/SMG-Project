@@ -54,7 +54,7 @@ public class ProductView {
         productDetailsLabel.setLineWrap(true);
         productDetailsLabel.setWrapStyleWord(true);
 
-        shopLocation = "Cape Town";
+        shopLocation = "Cape Town"; //Set the location of the shop.
         JLabel locationLabel = new JLabel("Location : "+shopLocation);
         locationLabel.setBounds(400, 275, 300, 50);
 
@@ -171,8 +171,11 @@ public class ProductView {
         contactSellerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChatRoomView chatRoomView = new ChatRoomView(window);
+                ChatRoomView chatRoomView = new ChatRoomView(window, backButton, payButton,contactSellerButton);
 //                window.setVisible(false);
+                contactSellerButton.setEnabled(false);
+                backButton.setEnabled(false);
+                payButton.setEnabled(false);
             }
         });
 

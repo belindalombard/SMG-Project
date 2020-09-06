@@ -47,10 +47,12 @@ public class ProductView {
         productPrice.setBounds(400, 150, 150, 50);
 
         JTextArea productDetailsLabel = new JTextArea();
-        productDetailsLabel.setText("Product Details :\nHello World, this product is so \ncool, like really cool! \nIt does everything\nIt does everything");
+        productDetailsLabel.setText("Product Details :\nHello World, this product is so cool, like really cool! It does everything...It does everything");
         productDetailsLabel.setBounds(400, 200, 350, 85);
         productDetailsLabel.setBackground(window.getBackground());
         productDetailsLabel.setEditable(false);
+        productDetailsLabel.setLineWrap(true);
+        productDetailsLabel.setWrapStyleWord(true);
 
         shopLocation = "Cape Town";
         JLabel locationLabel = new JLabel("Location : "+shopLocation);
@@ -164,11 +166,23 @@ public class ProductView {
             }
         });
 
+        JPanel bottomButtonLayout = new JPanel(new FlowLayout());
+        JButton contactSellerButton = new JButton("Contact Seller");
+        contactSellerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChatRoomView chatRoomView = new ChatRoomView(window);
+//                window.setVisible(false);
+            }
+        });
+
+        bottomButtonLayout.add(contactSellerButton);
         topButtonLayout.add(backButton);
         topButtonLayout.add(Box.createHorizontalGlue());
         topButtonLayout.add(payButton);
 
         window.add(topButtonLayout, BorderLayout.NORTH);
+        window.add(bottomButtonLayout, BorderLayout.SOUTH);
         window.add(productName);
         window.add(productPrice);
         window.add(productDetailsLabel);

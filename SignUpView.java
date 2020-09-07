@@ -15,6 +15,9 @@ public class SignUpView {
     JTextField nameField, idField, phoneNumberField, emailAddressField, passwordField, confirmPasswordField;
     JComboBox locationField;
 
+    JButton backToLoginButton, createAccountButton;
+    Checkbox seller, buyer;
+
     public SignUpView(){}
     public SignUpView(JFrame previousWindowFrame){
         //Frame
@@ -64,10 +67,10 @@ public class SignUpView {
         confirmPasswordField = new JPasswordField(10);
         confirmPasswordField.setBounds(420, 280, 150, 27);
 
-        Checkbox seller = new Checkbox("Seller", true);
+        seller = new Checkbox("Seller", true);
         seller.setBounds(310, 310,100,50);
 
-        Checkbox buyer = new Checkbox("Customer");
+        buyer = new Checkbox("Customer");
         buyer.setBounds(420, 310,150,50);
 
 
@@ -95,7 +98,7 @@ public class SignUpView {
             }
         });
 
-        JButton backToLoginButton = new JButton("Back");
+        backToLoginButton = new JButton("Back");
         backToLoginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -104,13 +107,14 @@ public class SignUpView {
             }
         });
 
-        JButton createAccountButton = new JButton("Sign Up");
+        createAccountButton = new JButton("Sign Up");
         createAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(seller.getState() == true){
-                    //Go to further shop registrationView
-                    System.out.println("Going to further reg");
+                    disable();
+                    ShopSignUpView shopSignUpView = new ShopSignUpView(window, backToLoginButton, createAccountButton, buyer, seller);
+//                    window.setVisible(false);
                 }
                 else{
                     HomeView homeView = new HomeView(window);
@@ -146,5 +150,13 @@ public class SignUpView {
 
         window.setResizable(false);
         window.setVisible(true);
+    }
+
+    public void disable(){
+        backToLoginButton.setEnabled(false);
+        createAccountButton.setEnabled(false);
+
+        seller.setEnabled(false);
+        buyer.setEnabled(false);
     }
 }

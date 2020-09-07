@@ -6,6 +6,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 public class ChatRoomView {
+
+    JTextArea messageBoard;
+
     public ChatRoomView(JFrame previousWindowFrame, JButton back, JButton pay, JButton contactSeller){
         //Frame
         JFrame window = new JFrame("Sell My Goods: ChatRoom");
@@ -44,17 +47,19 @@ public class ChatRoomView {
         sendMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                back.setEnabled(true);
-                pay.setEnabled(true);
-                contactSeller.setEnabled(true);
-                previousWindowFrame.setFocusable(true);
+                if(!messageBoard.getText().isEmpty()){
+                    back.setEnabled(true);
+                    pay.setEnabled(true);
+                    contactSeller.setEnabled(true);
+                    previousWindowFrame.setFocusable(true);
 
-                JOptionPane.showMessageDialog(null, "Message succesfully sent!");
-                window.setVisible(false);
+                    JOptionPane.showMessageDialog(null, "Message succesfully sent!");
+                    window.setVisible(false);
+                }
             }
         });
 
-        JTextArea messageBoard = new JTextArea();
+        messageBoard = new JTextArea();
         messageBoard.setLineWrap(true);
         messageBoard.setMargin(new Insets(10, 10, 10, 10));
         messageBoard.setWrapStyleWord(true);

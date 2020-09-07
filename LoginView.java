@@ -8,7 +8,7 @@ public class LoginView {
     public LoginView(){
         //Frame
         JFrame window = new JFrame("Sell My Goods: Login");
-        window.setMinimumSize(new Dimension(600, 300));
+        window.setMinimumSize(new Dimension(500, 300));
         window.setLocation(450, 200);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //

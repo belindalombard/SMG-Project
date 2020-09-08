@@ -1,11 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 public class ShopSignUpView {
 
-    public ShopSignUpView(JButton backButton, JButton createAccountButton, Checkbox buyer, Checkbox seller){
+    public ShopSignUpView(JFrame previousWindowFrame, JButton backButton, JButton createAccountButton, Checkbox buyer, Checkbox seller){
         //Frame
         JFrame window = new JFrame("Sell My Goods: Shop Registration");
         window.setMinimumSize(new Dimension(500, 350));
@@ -51,6 +53,15 @@ public class ShopSignUpView {
 
         JButton registerShopButton = new JButton("Confirm");
         registerShopButton.setBounds(185, 250, 150, 27);
+        registerShopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Shop successfully registered!");
+                window.dispose();
+                previousWindowFrame.dispose();
+                LoginView x = new LoginView();
+            }
+        });
 
         window.add(shopNameLabel);
         window.add(shopNameField);

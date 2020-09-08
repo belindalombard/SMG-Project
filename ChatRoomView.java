@@ -8,6 +8,7 @@ import java.awt.event.WindowListener;
 public class ChatRoomView {
 
     JTextArea messageBoard;
+    JScrollPane scrollPane;
 
     public ChatRoomView(JFrame previousWindowFrame, JButton back, JButton pay, JButton contactSeller){
         //Frame
@@ -63,7 +64,7 @@ public class ChatRoomView {
         messageBoard.setLineWrap(true);
         messageBoard.setMargin(new Insets(10, 10, 10, 10));
         messageBoard.setWrapStyleWord(true);
-        JScrollPane scrollPane = new JScrollPane();
+        scrollPane = new JScrollPane();
         scrollPane.setViewportView(messageBoard);
 
 

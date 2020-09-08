@@ -117,8 +117,13 @@ public class SignUpView {
 //                    window.setVisible(false);
                 }
                 else{
-                    HomeView homeView = new HomeView(window);
-                    window.setVisible(false);
+//                    HomeView homeView = new HomeView(window);
+                    try{
+                        ConfirmCustomerSignUpView confirmCustomerSignUpView = new ConfirmCustomerSignUpView(window);
+                        window.setVisible(false);
+                    }
+                    catch (Exception k){}
+
                 }
             }
         });

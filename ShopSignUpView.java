@@ -59,7 +59,7 @@ public class ShopSignUpView {
                 JOptionPane.showMessageDialog(null, "Shop successfully registered!");
                 window.dispose();
                 previousWindowFrame.dispose();
-                LoginView x = new LoginView();
+                FoldersView foldersView = new FoldersView();
             }
         });
 

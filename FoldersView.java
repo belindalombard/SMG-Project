@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class FoldersView {
 
@@ -16,11 +17,7 @@ public class FoldersView {
         window.setResizable(false);
         //
 
-        String [] folders = new String[100];
-        for(int i = 0; i < 100; i++){
-            folders[i] = "Folder "+i;
-        }
-
+        DefaultListModel folders = new DefaultListModel();
         JList foldersList = new JList(folders);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(foldersList);
@@ -36,8 +33,7 @@ public class FoldersView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 disable();
-                AddFolderView addFolderView = new AddFolderView(addFolderButton, removeFolderButton);
-
+                AddFolderView addFolderView = new AddFolderView(addFolderButton, removeFolderButton, folders);
             }
         });
         removeFolderButton = new JButton("-");
@@ -62,11 +58,7 @@ public class FoldersView {
 
         window.setVisible(true);
     }
-
-    public static void main(String [] args){
-        FoldersView x = new FoldersView();
-    }
-
+    
     public void disable(){
         addFolderButton.setEnabled(false);
         removeFolderButton.setEnabled(false);

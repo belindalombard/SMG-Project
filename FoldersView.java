@@ -38,6 +38,14 @@ public class FoldersView {
         });
         removeFolderButton = new JButton("-");
         removeFolderButton.setBounds(750, 0, 50, 27);
+        removeFolderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(foldersList.isSelectedIndex(foldersList.getSelectedIndex())){
+                    folders.remove(foldersList.getSelectedIndex());
+                }
+            }
+        });
 
         JButton logoutButton = new JButton("Logout");
         logoutButton.addActionListener(new ActionListener() {
@@ -58,7 +66,7 @@ public class FoldersView {
 
         window.setVisible(true);
     }
-    
+
     public void disable(){
         addFolderButton.setEnabled(false);
         removeFolderButton.setEnabled(false);

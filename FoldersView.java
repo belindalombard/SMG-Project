@@ -36,7 +36,7 @@ public class FoldersView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 disable();
-                AddFolderView addFolderView = new AddFolderView();
+                AddFolderView addFolderView = new AddFolderView(addFolderButton, removeFolderButton);
 
             }
         });

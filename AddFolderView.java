@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class AddFolderView {
     public AddFolderView(JButton addFolderButton, JButton removeFolderButton, DefaultListModel folders){
         //Frame
-        JFrame window = new JFrame("Sell My Goods: Folders");
+        JFrame window = new JFrame("Sell My Goods: Add Folders");
         window.setMinimumSize(new Dimension(300, 120));
         window.setLocation(550, 300);
         window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -47,13 +47,10 @@ public class AddFolderView {
         createFolder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-//                folders[folders.length] = folderNameField.getText();
-//                folders.add(0, folderNameField.getText());
-//                System.out.println(Arrays.toString(folders.toArray()));
-//                System.out.println(folders.size());
+                addFolderButton.setEnabled(true);
+                removeFolderButton.setEnabled(true);
                 folders.addElement(folderNameField.getText());
-
+                window.setVisible(false);
             }
         });
 

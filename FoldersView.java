@@ -2,11 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class FoldersView {
 
     JButton addFolderButton, removeFolderButton;
+    DefaultListModel hiddenFolders;
 
     public FoldersView(){
         //Frame
@@ -17,12 +20,41 @@ public class FoldersView {
         window.setResizable(false);
         //
 
+        hiddenFolders = new DefaultListModel();
         DefaultListModel folders = new DefaultListModel();
         JList foldersList = new JList(folders);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(foldersList);
         foldersList.setLayoutOrientation(JList.VERTICAL);
         foldersList.setFixedCellHeight(60);
+
+        foldersList.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ProductFolderView productFolderView = new ProductFolderView(window, foldersList.getSelectedIndex(), folders, hiddenFolders);
+                window.setVisible(false);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         JPanel topLayout = new JPanel();
         topLayout.setLayout(new BoxLayout(topLayout, BoxLayout.LINE_AXIS));

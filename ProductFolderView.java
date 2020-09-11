@@ -5,9 +5,9 @@ import java.awt.event.*;
 public class ProductFolderView {
 
     JTextField productName;
-    Checkbox show, hide, hideRemove;
+    Checkbox show, hide;
 
-    public ProductFolderView(JFrame previousWindowFrame, int selectedFolder, DefaultListModel folders){
+    public ProductFolderView(JFrame previousWindowFrame, int selectedFolder, DefaultListModel folders, DefaultListModel hiddenFolders){
         //Frame
         JFrame window = new JFrame("Sell My Goods: "+folders.getElementAt(selectedFolder));
         window.setMinimumSize(new Dimension(800, 500));
@@ -33,52 +33,44 @@ public class ProductFolderView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 folders.setElementAt(productName.getText(), selectedFolder);
+                if(hide.getState()){
+                    hiddenFolders.addElement(folders.getElementAt(selectedFolder));
+                    System.out.println(hiddenFolders.size());
+                    /*hiddenFolders is going to be used in
+                    the database in order to know what to hide from the user.*/
+
+//                    folders.removeElementAt(selectedFolder);
+                }
+
                 previousWindowFrame.setVisible(true);
                 window.setVisible(false);
             }
         });
 
         show = new Checkbox("Show", true);
-        show.setBounds(250, 50, 100, 20);
+        show.setBounds(340, 50, 100, 20);
         show.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if(hide.getState() || hideRemove.getState()){
-                    hideRemove.setState(false);
+                if(hide.getState()){
                     hide.setState(false);
                 }
-                else if(show.getState() == false && hide.getState() == false && hideRemove.getState() == false){
+                else if(show.getState() == false && hide.getState() == false){
                     show.setState(true);
                 }
             }
         });
 
         hide = new Checkbox("Hide");
-        hide.setBounds(350, 50, 100, 20);
+        hide.setBounds(440, 50, 100, 20);
         hide.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if(show.getState() || hideRemove.getState()){
+                if(show.getState()){
                     show.setState(false);
-                    hideRemove.setState(false);
                 }
-                else if(show.getState() == false && hide.getState() == false && hideRemove.getState() == false){
+                else if(show.getState() == false && hide.getState() == false){
                     hide.setState(true);
-                }
-            }
-        });
-
-        hideRemove = new Checkbox("Hide & Remove");
-        hideRemove.setBounds(450, 50, 150, 20);
-        hideRemove.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if(show.getState() || hide.getState()){
-                    show.setState(false);
-                    hide.setState(false);
-                }
-                else if(show.getState() == false && hide.getState() == false && hideRemove.getState() == false){
-                    hideRemove.setState(true);
                 }
             }
         });
@@ -92,7 +84,7 @@ public class ProductFolderView {
         productName = new JTextField();
         productName.setText((String) folders.getElementAt(selectedFolder));
         productName.setFont(new Font(null, Font.BOLD, 20));
-        productName.setBounds(500, 100, 270, 50);
+        productName.setBounds(510, 100, 260, 50);
         productName.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -132,7 +124,6 @@ public class ProductFolderView {
 
         window.add(show);
         window.add(hide);
-        window.add(hideRemove);
         window.add(productImage);
         window.add(productNameLabel);
         window.add(productName);

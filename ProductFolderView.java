@@ -43,10 +43,14 @@ public class ProductFolderView {
         JLabel productImage = new JLabel(new ImageIcon("/Users/lindazungu/Desktop/Sell My Goods/src/sampleImage.png"));
         productImage.setBounds(80, 100, 250, 250);
 
+
+        JLabel productNameLabel = new JLabel("Product Name : ");
+        productNameLabel.setBounds(400, 100, 150, 50);
+        
         productName = new JTextField();
         productName.setText((String) folders.getElementAt(selectedFolder));
         productName.setFont(new Font(null, Font.BOLD, 20));
-        productName.setBounds(400, 100, 150, 50);
+        productName.setBounds(500, 100, 270, 50);
         productName.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -85,6 +89,7 @@ public class ProductFolderView {
         topButtonLayout.add(saveProductButton);
 
         window.add(productImage);
+        window.add(productNameLabel);
         window.add(productName);
         window.add(productPrice);
         window.add(productPriceField);

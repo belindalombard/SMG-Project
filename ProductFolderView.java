@@ -1,13 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
 public class ProductFolderView {
 
     JTextField productName;
+    Checkbox show, hide, hideRemove;
 
     public ProductFolderView(JFrame previousWindowFrame, int selectedFolder, DefaultListModel folders){
         //Frame
@@ -40,13 +38,57 @@ public class ProductFolderView {
             }
         });
 
+        show = new Checkbox("Show", true);
+        show.setBounds(250, 50, 100, 20);
+        show.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(hide.getState() || hideRemove.getState()){
+                    hideRemove.setState(false);
+                    hide.setState(false);
+                }
+                else if(show.getState() == false && hide.getState() == false && hideRemove.getState() == false){
+                    show.setState(true);
+                }
+            }
+        });
+
+        hide = new Checkbox("Hide");
+        hide.setBounds(350, 50, 100, 20);
+        hide.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(show.getState() || hideRemove.getState()){
+                    show.setState(false);
+                    hideRemove.setState(false);
+                }
+                else if(show.getState() == false && hide.getState() == false && hideRemove.getState() == false){
+                    hide.setState(true);
+                }
+            }
+        });
+
+        hideRemove = new Checkbox("Hide & Remove");
+        hideRemove.setBounds(450, 50, 150, 20);
+        hideRemove.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(show.getState() || hide.getState()){
+                    show.setState(false);
+                    hide.setState(false);
+                }
+                else if(show.getState() == false && hide.getState() == false && hideRemove.getState() == false){
+                    hideRemove.setState(true);
+                }
+            }
+        });
+
         JLabel productImage = new JLabel(new ImageIcon("/Users/lindazungu/Desktop/Sell My Goods/src/sampleImage.png"));
         productImage.setBounds(80, 100, 250, 250);
 
-
         JLabel productNameLabel = new JLabel("Product Name : ");
         productNameLabel.setBounds(400, 100, 150, 50);
-        
+
         productName = new JTextField();
         productName.setText((String) folders.getElementAt(selectedFolder));
         productName.setFont(new Font(null, Font.BOLD, 20));
@@ -88,6 +130,9 @@ public class ProductFolderView {
         topButtonLayout.add(Box.createHorizontalGlue());
         topButtonLayout.add(saveProductButton);
 
+        window.add(show);
+        window.add(hide);
+        window.add(hideRemove);
         window.add(productImage);
         window.add(productNameLabel);
         window.add(productName);

@@ -92,7 +92,7 @@ public class LoginView {
     // Lookup user in the database
     private Boolean verify(String username, String password)
     {
-        boolean exists = false;
+        boolean exists = true;
         String encPassword = encrypt(password);
         // lookUp method waiting for the database design :Belinda
         return exists;

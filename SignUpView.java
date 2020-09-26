@@ -1,4 +1,4 @@
-import javafx.scene.control.CheckBox;
+//import javafx.scene.control.CheckBox;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class SignUpView {
 
@@ -51,6 +53,8 @@ public class SignUpView {
         phoneNumberLabel.setBounds(270, 190, 150, 27);
         phoneNumberField = new JTextField(10);
         phoneNumberField.setBounds(420, 190, 150, 27);
+
+
 
         emailAddressLabel = new JLabel("Email Address : ");
         emailAddressLabel.setBounds(270, 220, 150, 27);
@@ -113,7 +117,8 @@ public class SignUpView {
             public void actionPerformed(ActionEvent e) {
                 if(seller.getState() == true){
                     disable();
-                    ShopSignUpView shopSignUpView = new ShopSignUpView(window, backToLoginButton, createAccountButton, buyer, seller);
+                    seller sellerObj = new seller(nameField.getText()+phoneNumberField.getText(),locationField.getSelectedItem().toString(),nameField.getText(),encrypt(passwordField.getText()),emailAddressField.getText(),phoneNumberField.getText());
+                    ShopSignUpView shopSignUpView = new ShopSignUpView(window, backToLoginButton, createAccountButton, buyer, seller,sellerObj);
 //                    window.setVisible(false);
                 }
                 else{
@@ -163,5 +168,24 @@ public class SignUpView {
 
         seller.setEnabled(false);
         buyer.setEnabled(false);
+    }
+    private String encrypt(String pass)
+    {
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("MD5");
+            byte[] passBytes = pass.getBytes();
+            md.reset();
+            byte[] digested = md.digest(passBytes);
+            StringBuffer encPassword = new StringBuffer();
+            for(int i=0;i<digested.length;i++){
+                encPassword.append(Integer.toHexString(0xff & digested[i]));
+            }
+            return encPassword.toString();
+        } catch (NoSuchAlgorithmException ex) {
+
+        }
+        return null;
+
     }
 }

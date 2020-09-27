@@ -10,7 +10,7 @@ public class ShopSignUpView {
     public ShopSignUpView(JFrame previousWindowFrame, JButton backButton, JButton createAccountButton, Checkbox buyer, Checkbox seller, seller sellerObj){
         //Frame
         JFrame window = new JFrame("Sell My Goods: Shop Registration");
-        window.setMinimumSize(new Dimension(500, 350));
+        window.setMinimumSize(new Dimension(500, 480));
         window.setLocation(450, 250);
         window.setResizable(false);
         window.addWindowListener(new WindowListener() {
@@ -37,38 +37,38 @@ public class ShopSignUpView {
         //
 
         JLabel shopNameLabel = new JLabel("Shop Name : ");
-        shopNameLabel.setBounds(120, 60, 150, 50);
+        shopNameLabel.setBounds(110, 40, 150, 50);
         JTextField shopNameField = new JTextField(10);
-        shopNameField.setBounds(250, 72, 150, 27);
+        shopNameField.setBounds(270, 52, 150, 27);
 
         JLabel bankAccNumberLabel = new JLabel("Bank Account Number : ");
-        bankAccNumberLabel.setBounds(120, 110, 150, 50);
+        bankAccNumberLabel.setBounds(110, 90, 180, 50);
         JTextField bankAccNumberField = new JTextField(10);
-        bankAccNumberField.setBounds(250, 122, 150, 27);
+        bankAccNumberField.setBounds(270, 102, 150, 27);
 
         JLabel bankNameLabel = new JLabel("Bank Name : ");
-        bankNameLabel.setBounds(120, 160, 150, 50);
+        bankNameLabel.setBounds(110, 140, 150, 50);
         JTextField bankNameField = new JTextField(10);
-        bankNameField.setBounds(250, 172, 150, 27);
+        bankNameField.setBounds(270, 152, 150, 27);
 
         JLabel bankBranchCodeLabel = new JLabel("Bank Branch code : ");
-        bankBranchCodeLabel.setBounds(120, 210, 150, 50);
+        bankBranchCodeLabel.setBounds(110, 190, 150, 50);
         JTextField bankBranchCodeField = new JTextField(10);
-        bankBranchCodeField.setBounds(250, 222, 150, 27);
+        bankBranchCodeField.setBounds(270, 202, 150, 27);
 
         JLabel deliveryMethodLabel = new JLabel("Delivery Method : ");
-        deliveryMethodLabel.setBounds(120, 260, 150, 50);
-        String choiceList [] = {"Choose", "Collection", "Delivery", "Both"};
+        deliveryMethodLabel.setBounds(110, 240, 150, 50);
+        String choiceList [] = {"Choose", "Collection", "Delivery", "Collection & Delivery"};
         JComboBox deliveryMethodField = new JComboBox<String>(choiceList);
-        deliveryMethodField.setBounds(250, 272, 150, 27);
+        deliveryMethodField.setBounds(270, 252, 150, 27);
 
         JLabel shopDescriptionLabel = new JLabel("Shop Description: ");
-        shopDescriptionLabel.setBounds(120, 310, 150, 50);
+        shopDescriptionLabel.setBounds(110, 290, 150, 50);
         JTextField shopDescriptionField = new JTextField(10);
-        shopDescriptionField.setBounds(250, 322, 150, 27);
+        shopDescriptionField.setBounds(270, 302, 150, 27);
 
         JButton registerShopButton = new JButton("Confirm");
-        registerShopButton.setBounds(185, 400, 150, 27);
+        registerShopButton.setBounds(185, 380, 150, 27);
         registerShopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

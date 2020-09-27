@@ -8,14 +8,16 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import javax.swing.border.LineBorder;
 import java.util.concurrent.Flow;
 
 public class LoginView {
     public LoginView(){
         //Frame
         JFrame window = new JFrame("Sell My Goods: Login");
-        window.setMinimumSize(new Dimension(500, 300));
+        window.setMinimumSize(new Dimension(500, 250));
         window.setLocation(450, 200);
+        window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //
         // Fields
@@ -25,7 +27,8 @@ public class LoginView {
         JPasswordField passwordField = new JPasswordField(10);
         //
         //Layouts
-        JPanel userNameFlow = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 80));
+        JPanel unknownAccountFlow = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 10));
+        JPanel userNameFlow = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 30));
         JPanel passwordFlow = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         JPanel flowsGrid = new JPanel(new GridLayout(2, 1));
         JPanel boxLayout = new JPanel();
@@ -46,7 +49,15 @@ public class LoginView {
                }
                else
                {
-                   // Error management :Pop up or red text, Linda
+                   System.out.println("This account does not exist");
+                   JLabel accountDoesNotExistLabel = new JLabel("Account Does Not Exist");
+                   unknownAccountFlow.add(accountDoesNotExistLabel);
+                   accountDoesNotExistLabel.setForeground(Color.RED);
+                   accountDoesNotExistLabel.setBounds(170, 0, 200, 27);
+
+                   nameField.setBorder(new LineBorder(Color.red,1));
+                   passwordField.setBorder(new LineBorder(Color.red,1));
+                   window.repaint();
                }
 
             }
@@ -61,7 +72,6 @@ public class LoginView {
         });
         JLabel noAccountYetLabel = new JLabel("Don't have an account yet? ");
         noAccountYetLabel.setForeground(new Color(0x9A9B9C));
-
 
 
         userNameFlow.add(nameLabel);
@@ -79,9 +89,9 @@ public class LoginView {
         boxLayout.add(Box.createHorizontalGlue());
         boxLayout.add(flowSignUpLayout);
 
+        window.add(unknownAccountFlow, BorderLayout.NORTH);
         window.add(boxLayout, BorderLayout.SOUTH);
         window.add(flowsGrid, BorderLayout.CENTER);
-        window.setResizable(false);
         window.setVisible(true);
     }
 
@@ -92,7 +102,7 @@ public class LoginView {
     // Lookup user in the database
     private Boolean verify(String username, String password)
     {
-        boolean exists = true;
+        boolean exists = false;
         String encPassword = encrypt(password);
         // lookUp method waiting for the database design :Belinda
         return exists;

@@ -22,19 +22,24 @@ public class LoginView {
         //
         // Fields
         JLabel nameLabel = new JLabel("Username : ");
+        nameLabel.setBounds(150, 60, 150, 27);
         JTextField nameField = new JTextField(10);
+        nameField.setBounds(230, 60, 150, 27);
         JLabel passwordLabel = new JLabel("Password : ");
+        passwordLabel.setBounds(150, 100, 150, 27);
         JPasswordField passwordField = new JPasswordField(10);
+        passwordField.setBounds(230, 100, 150, 27);
         //
         //Layouts
-        JPanel unknownAccountFlow = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 10));
-        JPanel userNameFlow = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 30));
-        JPanel passwordFlow = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        JPanel flowsGrid = new JPanel(new GridLayout(2, 1));
+        JPanel unknownAccountFlow = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        unknownAccountFlow.setVisible(false);
+
         JPanel boxLayout = new JPanel();
         boxLayout.setLayout(new BoxLayout(boxLayout, BoxLayout.LINE_AXIS));
         JPanel flowSignUpLayout = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         //
+
+        JLabel accountDoesNotExistLabel = new JLabel("Account Does Not Exist");
 
         JButton loginButton = new JButton("Login");
 
@@ -49,15 +54,11 @@ public class LoginView {
                }
                else
                {
-                   System.out.println("This account does not exist");
-                   JLabel accountDoesNotExistLabel = new JLabel("Account Does Not Exist");
-                   unknownAccountFlow.add(accountDoesNotExistLabel);
+                   unknownAccountFlow.setVisible(true);
                    accountDoesNotExistLabel.setForeground(Color.RED);
-                   accountDoesNotExistLabel.setBounds(170, 0, 200, 27);
 
                    nameField.setBorder(new LineBorder(Color.red,1));
                    passwordField.setBorder(new LineBorder(Color.red,1));
-                   window.repaint();
                }
 
             }
@@ -68,19 +69,19 @@ public class LoginView {
             public void actionPerformed(ActionEvent e) {
                 SignUpView toSignUpView = new SignUpView(window);
                 window.setVisible(false);
+
             }
         });
         JLabel noAccountYetLabel = new JLabel("Don't have an account yet? ");
         noAccountYetLabel.setForeground(new Color(0x9A9B9C));
+//        unknownAccountFlow.setBackground(Color.ORANGE);
 
 
-        userNameFlow.add(nameLabel);
-        userNameFlow.add(nameField);
-        passwordFlow.add(passwordLabel);
-        passwordFlow.add(passwordField);
-
-        flowsGrid.add(userNameFlow);
-        flowsGrid.add(passwordFlow);
+        window.add(nameLabel);
+        window.add(nameField);
+        window.add(passwordLabel);
+        window.add(passwordField);
+        window.add(new JLabel());
 
         flowSignUpLayout.add(noAccountYetLabel);
         flowSignUpLayout.add(signUpButton);
@@ -88,10 +89,10 @@ public class LoginView {
         boxLayout.add(loginButton);
         boxLayout.add(Box.createHorizontalGlue());
         boxLayout.add(flowSignUpLayout);
+        unknownAccountFlow.add(accountDoesNotExistLabel);
 
         window.add(unknownAccountFlow, BorderLayout.NORTH);
         window.add(boxLayout, BorderLayout.SOUTH);
-        window.add(flowsGrid, BorderLayout.CENTER);
         window.setVisible(true);
     }
 

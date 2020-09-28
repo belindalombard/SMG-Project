@@ -60,7 +60,6 @@ public class LoginView {
                    nameField.setBorder(new LineBorder(Color.red,1));
                    passwordField.setBorder(new LineBorder(Color.red,1));
                }
-
             }
         });
         JButton signUpButton = new JButton("Sign Up");
@@ -127,9 +126,5 @@ public class LoginView {
 
         }
         return null;
-
-
-
-
     }
 }

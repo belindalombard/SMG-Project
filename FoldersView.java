@@ -31,8 +31,10 @@ public class FoldersView {
         foldersList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ProductFolderView productFolderView = new ProductFolderView(window, foldersList.getSelectedIndex(), folders, hiddenFolders);
-                window.setVisible(false);
+                if(folders.size() != 0){
+                    ProductFolderView productFolderView = new ProductFolderView(window, foldersList.getSelectedIndex(), folders, hiddenFolders);
+                    window.setVisible(false);
+                }
             }
 
             @Override

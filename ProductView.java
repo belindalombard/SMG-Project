@@ -12,6 +12,7 @@ public class ProductView {
     double quantityTotalPrice = productPriceAmount;
     JLabel totalAmount;
     String shopLocation;
+    JButton contactSellerButton;
 
     public ProductView(JFrame previousWindowFrame, int selectedProduct, String [] products){
         //Frame
@@ -156,8 +157,14 @@ public class ProductView {
                     else if(Integer.parseInt(quantityField.getText()) <= availableStockItems){
                         quantityOfItems = Integer.parseInt(quantityField.getText());
                         totalAmount.setText("Total : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
-                        PaymentView paymentView = new PaymentView(window);
-                        window.setVisible(false);
+                        PaymentView paymentView = new PaymentView(window, payButton, backButton, quantityField, addItemButton, subtractItemButton, contactSellerButton);
+//                        window.setVisible(false);
+                        payButton.setEnabled(false);
+                        backButton.setEnabled(false);
+                        quantityField.setEditable(false);
+                        addItemButton.setEnabled(false);
+                        subtractItemButton.setEnabled(false);
+                        contactSellerButton.setEnabled(false);
                     }
                 }
                 catch (Exception k) {
@@ -167,7 +174,7 @@ public class ProductView {
         });
 
         JPanel bottomButtonLayout = new JPanel(new FlowLayout());
-        JButton contactSellerButton = new JButton("Contact Seller");
+        contactSellerButton = new JButton("Contact Seller");
         contactSellerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

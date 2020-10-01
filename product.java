@@ -11,4 +11,24 @@ public class product {
         this.productQty=productQty;
         this.productPrice=productPrice;
     }
+
+    private String getProductID(){
+        return productID;
+    }
+
+    private String getProductName(){
+        return productName;
+    }
+
+    private String getProductDescription(){
+        return productDescription;
+    }
+
+    private int getProductQty(){
+        return productQty;
+    }
+
+    private double getProductPrice(){
+        return productPrice;
+    }
 }

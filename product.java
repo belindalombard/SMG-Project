@@ -12,23 +12,23 @@ public class product {
         this.productPrice=productPrice;
     }
 
-    private String getProductID(){
+    public String getProductID(){
         return productID;
     }
 
-    private String getProductName(){
+    public String getProductName(){
         return productName;
     }
 
-    private String getProductDescription(){
+    public String getProductDescription(){
         return productDescription;
     }
 
-    private int getProductQty(){
+    public int getProductQty(){
         return productQty;
     }
 
-    private double getProductPrice(){
+    public double getProductPrice(){
         return productPrice;
     }
 }

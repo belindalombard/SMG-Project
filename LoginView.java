@@ -49,7 +49,12 @@ public class LoginView {
                 //System.out.println(new String(passwordField.getPassword()));
                 // Verify Login credentials
                if (verify(nameField.getText(),new String(passwordField.getPassword()))) {
-                   HomeView homeView = new HomeView(window);
+                   int sb = SellerOrBuyer(nameField.getText());   
+		   //TO DO: Still need to create page coming after login of Seller****
+		   //if (sb==1)
+			//Code to open Seller homeview. 	
+		   //else
+		  	   HomeView homeView = new HomeView(window);
                    window.setVisible(false);
                }
                else
@@ -104,8 +109,10 @@ public class LoginView {
     {
         boolean exists = false;
         String encPassword = encrypt(password);
-        // lookUp method waiting for the database design :Belinda
-        return exists;
+	DatabaseAccess db = new DatabaseAccess();
+	exists = db.Login(username, password);
+ 	db.CloseConnection();		
+	return exists;
     }
     //Method for encrypting user password
     private String encrypt(String pass)
@@ -127,4 +134,14 @@ public class LoginView {
         }
         return null;
     }
+
+    //Method to determine whether person signing in is a seller or a buyer.
+    private int SellerOrBuyer(String email) 
+    {
+	DatabaseAccess db = new DatabaseAccess(); 	
+	int seller_buyer = db.IsBuyerOrSeller(email); 	
+	db.CloseConnection();
+	return seller_buyer;	
+    }
+
 }

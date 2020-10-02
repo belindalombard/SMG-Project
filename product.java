@@ -16,6 +16,18 @@ public class product {
         this.productName = productName;
     }
 
+    public void setProductPrice(double productPrice){
+        this.productPrice = productPrice;
+    }
+
+    public void setProductQty(int productQty){
+        this.productQty = productQty;
+    }
+
+    public void setProductDescription(String productDescription){
+        this.productDescription = productDescription;
+    }
+
     public String getProductID(){
         return productID;
     }

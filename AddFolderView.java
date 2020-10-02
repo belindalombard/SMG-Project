@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AddFolderView {
-    public AddFolderView(JButton addFolderButton, JButton removeFolderButton, DefaultListModel folders){
+    public AddFolderView(JButton addFolderButton, JButton removeFolderButton, DefaultListModel folders, ArrayList productsList){
         //Frame
         JFrame window = new JFrame("Sell My Goods: Add Folders");
         window.setMinimumSize(new Dimension(300, 120));
@@ -49,7 +49,11 @@ public class AddFolderView {
             public void actionPerformed(ActionEvent e) {
                 addFolderButton.setEnabled(true);
                 removeFolderButton.setEnabled(true);
-                folders.addElement(folderNameField.getText());
+
+                product newProduct = new product("someValue", folderNameField.getText(), "", 0, 0);
+                folders.addElement(newProduct.getProductName());
+                productsList.add(newProduct);
+
                 window.setVisible(false);
             }
         });

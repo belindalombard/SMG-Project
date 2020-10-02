@@ -22,6 +22,7 @@ public class FoldersView {
 
         hiddenFolders = new DefaultListModel();
         DefaultListModel folders = new DefaultListModel();
+        ArrayList<product> productsList = new ArrayList<>();//to store all the products of the shop
         JList foldersList = new JList(folders);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(foldersList);
@@ -32,30 +33,18 @@ public class FoldersView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(folders.size() != 0){
-                    ProductFolderView productFolderView = new ProductFolderView(window, foldersList.getSelectedIndex(), folders, hiddenFolders);
+                    ProductFolderView productFolderView = new ProductFolderView(window, foldersList.getSelectedIndex(), folders, hiddenFolders, productsList);
                     window.setVisible(false);
                 }
             }
-
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
+            public void mousePressed(MouseEvent e) { }
             @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
+            public void mouseReleased(MouseEvent e) { }
             @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
+            public void mouseEntered(MouseEvent e) { }
             @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
+            public void mouseExited(MouseEvent e) { }
         });
 
         JPanel topLayout = new JPanel();
@@ -67,7 +56,7 @@ public class FoldersView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 disable();
-                AddFolderView addFolderView = new AddFolderView(addFolderButton, removeFolderButton, folders);
+                AddFolderView addFolderView = new AddFolderView(addFolderButton, removeFolderButton, folders, productsList);
             }
         });
         removeFolderButton = new JButton("-");
@@ -76,6 +65,7 @@ public class FoldersView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(foldersList.isSelectedIndex(foldersList.getSelectedIndex())){
+                    productsList.remove(foldersList.getSelectedIndex());
                     folders.remove(foldersList.getSelectedIndex());
                 }
             }

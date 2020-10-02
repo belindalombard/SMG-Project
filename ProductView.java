@@ -157,7 +157,7 @@ public class ProductView {
                     else if(Integer.parseInt(quantityField.getText()) <= availableStockItems){
                         quantityOfItems = Integer.parseInt(quantityField.getText());
                         totalAmount.setText("Total : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
-                        PaymentView paymentView = new PaymentView(window, payButton, backButton, quantityField, addItemButton, subtractItemButton, contactSellerButton);
+                        PaymentView paymentView = new PaymentView(window, payButton, backButton, quantityField, addItemButton, subtractItemButton, contactSellerButton, products[selectedProduct], totalAmount);
 //                        window.setVisible(false);
                         payButton.setEnabled(false);
                         backButton.setEnabled(false);

@@ -1,13 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class ProductFolderView {
 
     JTextField productName;
     Checkbox show, hide;
 
-    public ProductFolderView(JFrame previousWindowFrame, int selectedFolder, DefaultListModel folders, DefaultListModel hiddenFolders){
+    public ProductFolderView(JFrame previousWindowFrame, int selectedFolder, DefaultListModel folders, DefaultListModel hiddenFolders, ArrayList productsList){
         //Frame
         JFrame window = new JFrame("Sell My Goods: "+folders.getElementAt(selectedFolder));
         window.setMinimumSize(new Dimension(800, 500));
@@ -23,25 +24,6 @@ public class ProductFolderView {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                previousWindowFrame.setVisible(true);
-                window.setVisible(false);
-            }
-        });
-
-        JButton saveProductButton = new JButton("Save");
-        saveProductButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                folders.setElementAt(productName.getText(), selectedFolder);
-                if(hide.getState()){
-                    hiddenFolders.addElement(folders.getElementAt(selectedFolder));
-                    System.out.println(hiddenFolders.size());
-                    /*hiddenFolders is going to be used in
-                    the database in order to know what to hide from the user.*/
-
-//                    folders.removeElementAt(selectedFolder);
-                }
-
                 previousWindowFrame.setVisible(true);
                 window.setVisible(false);
             }
@@ -92,6 +74,7 @@ public class ProductFolderView {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode()==KeyEvent.VK_ENTER){
                     folders.setElementAt(productName.getText(), selectedFolder);
+                    ((product)productsList.get(selectedFolder)).setProductName(productName.getText());
                 }
             }
             @Override
@@ -104,6 +87,7 @@ public class ProductFolderView {
 
         JTextField productPriceField = new JTextField(10);
         productPriceField.setBounds(510, 163, 150, 27);
+        productPriceField.setText(""+((product)productsList.get(selectedFolder)).getProductPrice());
 
         JLabel productDetailsLabel = new JLabel("Product Details : ");
         productDetailsLabel.setBounds(400, 200, 150, 20);
@@ -111,12 +95,38 @@ public class ProductFolderView {
         JTextArea productDetailsTextArea = new JTextArea();
         productDetailsTextArea.setBounds(515, 200, 250, 85);
         productDetailsTextArea.setLineWrap(true);
+        productDetailsTextArea.setWrapStyleWord(true);
+        productDetailsTextArea.setText(((product)productsList.get(selectedFolder)).getProductDescription());
 
         JLabel stockAvailableLabel = new JLabel("Stock Available : ");
         stockAvailableLabel.setBounds(400, 300, 150, 24);
 
         JTextField stockAvailableField = new JTextField(10);
         stockAvailableField.setBounds(510, 300, 150, 27);
+        stockAvailableField.setText(""+((product)productsList.get(selectedFolder)).getProductQty());
+
+        JButton saveProductButton = new JButton("Save");
+        saveProductButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                folders.setElementAt(productName.getText(), selectedFolder);
+                ((product)productsList.get(selectedFolder)).setProductName(productName.getText());
+                ((product)productsList.get(selectedFolder)).setProductQty(Integer.parseInt(stockAvailableField.getText()));
+                ((product)productsList.get(selectedFolder)).setProductPrice(Double.parseDouble(productPriceField.getText()));
+                ((product)productsList.get(selectedFolder)).setProductDescription(productDetailsTextArea.getText());
+                if(hide.getState()){
+                    hiddenFolders.addElement(folders.getElementAt(selectedFolder));
+                    System.out.println(hiddenFolders.size());
+                    /*hiddenFolders is going to be used in
+                    the database in order to know what to hide from the user.*/
+
+//                    folders.removeElementAt(selectedFolder);
+                }
+
+                previousWindowFrame.setVisible(true);
+                window.setVisible(false);
+            }
+        });
 
         topButtonLayout.add(backButton);
         topButtonLayout.add(Box.createHorizontalGlue());

@@ -143,7 +143,7 @@ public class LoginView {
         DatabaseAccess db = new DatabaseAccess();
         int seller_buyer = db.IsBuyerOrSeller(email);
         db.CloseConnection();
-        return seller_buyer;	
+        return seller_buyer;
     }
 
 }

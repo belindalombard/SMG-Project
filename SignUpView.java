@@ -42,7 +42,7 @@ public class SignUpView {
 
         idLabel = new JLabel("ID Number : ");
         idLabel.setBounds(270, 130, 150, 27);
-        idField = new JTextField(10);
+        idField = new JTextField(13); //ID Number is max 13 chars
         idField.setBounds(420, 130, 150, 27);
 
         locationLabel = new JLabel("Location : ");
@@ -122,7 +122,7 @@ public class SignUpView {
             public void actionPerformed(ActionEvent e) {
                 if(seller.getState() == true){
                     disable();
-                    seller sellerObj = new seller(nameField.getText()+phoneNumberField.getText(),locationField.getSelectedItem().toString(),nameField.getText(),encrypt(passwordField.getText()),emailAddressField.getText(),phoneNumberField.getText());
+                    seller sellerObj = new seller(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), emailAddressField.getText(), phoneNumberField.getText());
                     ShopSignUpView shopSignUpView = new ShopSignUpView(window, backToLoginButton, createAccountButton, buyer, seller,sellerObj);
 //                    window.setVisible(false);
                 }

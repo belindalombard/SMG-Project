@@ -148,7 +148,7 @@ public class DatabaseAccess {
 				db.setAutoCommit(false); //default is true. 
 
 				//First insert the Seller.  			
-				String sql_statement_seller = "INSERT INTO smg.seller (name, email_address, phone_numebr, password, national_id, area) VALUES (?,?,?,?,?,SELECT district_id FROM smg.district WHERE name=?) RETURNING code";
+				String sql_statement_seller = "INSERT INTO smg.seller (name, email_address, phone_numebr, password, national_id, area) VALUES (?,?,?,?,?,(SELECT district_id FROM smg.district WHERE name=?)) RETURNING code";
 
 				PreparedStatement insert_seller = db.prepareStatement(sql_statement_seller);
 
@@ -168,7 +168,7 @@ public class DatabaseAccess {
 				insert_seller.close();
 				
 				//Add the shop, linked to the seller. 
-				String insert_shop_sql = "INSERT INTO smg.shop(shop_name, bank_account_number, bank_name, bank_branch_code, delivery_method, description, seller) VALUES(?,?,?,?,?,?,?)";
+				String insert_shop_sql = "INSERT INTO smg.shop(shop_name, bank_account_number, bank_name, bank_banch_code, delivery_method, description, seller) VALUES(?,?,?,?,?,?,?)";
 				PreparedStatement insert_shop  = db.prepareStatement(insert_shop_sql);
 				insert_shop.setString(1,shop_name);
 				insert_shop.setString(2,acc_number);
@@ -177,6 +177,7 @@ public class DatabaseAccess {
 				insert_shop.setString(5,delivery);
 				insert_shop.setString(6,description);
 				insert_shop.setInt(7,new_seller_code);
+				insert_shop.execute();
 				insert_shop.close();
 				db.commit();
 				db.setAutoCommit(true); 	

@@ -72,7 +72,7 @@ public class ShopSignUpView {
         registerShopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                store shop = new store(shopNameField.getText()+sellerObj.getContactNumber(),shopNameField.getText(), sellerObj.getResidentialAdr(),shopDescriptionField.getText(), null, bankAccNumberField.getText(),bankNameField.getText(),bankBranchCodeField.getText());
+                store shop = new store(shopNameField.getText()+sellerObj.getContactNumber(),shopNameField.getText(), sellerObj.getResidentialAdr(),shopDescriptionField.getText(), null, bankAccNumberField.getText(),bankNameField.getText(),bankBranchCodeField.getText(),deliveryMethodField.getSelectedItem().toString());
                 addSeller(sellerObj, shop);
                 JOptionPane.showMessageDialog(null, "Shop successfully registered!");
                 window.dispose();
@@ -100,6 +100,12 @@ public class ShopSignUpView {
     }
     private void addSeller(seller sellerObj, store shop)
     {
-        //database method to add both the shop and the seller to the database :Belinda
+	//Set connection to database
+	DatabaseAccess db = new DatabaseAccess();
+	db.AddSellerAndShop(sellerObj.getName(), sellerObj.getEmail(), sellerObj.getContactNumber(), sellerObj.getPassword(), sellerObj.getSellerID(), sellerObj.getResidentialAdr(), shop.getStoreName(), shop.getAccountNumber(), shop.getBankName(), shop.getBranch(), shop.getDelivery(), shop.getStoreDescription());
+	db.CloseConnection();
+
+
+
     }
 }

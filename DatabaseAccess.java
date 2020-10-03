@@ -2,8 +2,12 @@ import java.sql.*;
 import java.math.BigDecimal;
 
 /** Notes to self - make changes to DB: 
- * Change 'Email Address' field in Buyer table to email_address to simplify. 
- * Add ShopName field in the Seller table. 
+
+
+- When recreating db, run this functions
+* INSERT INTO smg.buyer(name,email_address,phone_number,password,area,national_id) VALUES ('hi','belindalombard@gmail.com','0663041010','hello1234',54,'9810270065082');
+* INSERT INTO smg.seller(name,email_address,phone_number,password,national_id,area) VALUES ('belindal','belindalombard2@gmail.com','0663041010','hello12345',63,'9810270065083');
+* \COPY smg.district(name,province) FROM '/home/belinda/Desktop/CSC3003S/SMG_Project/Stage4/data/districts.csv' DELIMITER ',' CSV HEADER;
 */ 
 
 public class DatabaseAccess {
@@ -29,47 +33,25 @@ public class DatabaseAccess {
 
 	
 	//Method to test that connection is open. If the connection is open, the buyer can be added. If not, try to set the connection and then add a buyer. 	
-	public boolean AddBuyer(String name, String surname, String email, String cellno, String street_name, String street_number, String district, String password){
+	public boolean AddBuyer(String name, String email, String cellno, String password, String district, String national_id){
 		try{
 			if(checkAndResetConnection()){
-                                PreparedStatement insert_location = null;
                                 PreparedStatement insert_buyer = null;
 
-				db.setAutoCommit(false); //default is true. 
-
-				//insert location first.
-                                String sql_statement_location = "INSERT INTO smg.location(street_number, street_name, district) VALUES (?,?,(SELECT district_id FROM smg.district WHERE name=?)) RETURNING location_id";
-                                insert_location = db.prepareStatement(sql_statement_location);
-                                insert_location.setString(1, street_number);
-                                insert_location.setString(2, street_name);
-                                insert_location.setString(3, district);
-                                insert_location.execute();
-
-				//Then insert the buyer linked to the location. 
-				ResultSet new_location = insert_location.getResultSet();
-				new_location.next();
-                                int id_new_location = new_location.getInt(1);
-										
 	
-				String sql_statement_buyer = "INSERT INTO smg.buyer (name, surname, \"EmailAddress\", phone_number, address, password) VALUES (?,?,?,?,?,?)";
+				String sql_statement_buyer = "INSERT INTO smg.buyer (name, email_address, phone_number, password, area, national_id) VALUES (?,?,?,?,SELECT district_id FROM smg.district WHERE name=?,?)";
 
 				insert_buyer = db.prepareStatement(sql_statement_buyer);
 
 				insert_buyer.setString(1,name);
-				insert_buyer.setString(2,surname);
-				insert_buyer.setString(3,email);
-				insert_buyer.setString(4,cellno);
-				insert_buyer.setInt(5,id_new_location);
-				insert_buyer.setString(6,password);
+				insert_buyer.setString(2,email);
+				insert_buyer.setString(3,cellno);
+				insert_buyer.setString(4,password);
+				insert_buyer.setString(5,district);
+				insert_buyer.setString(6,national_id);
 				
 				//set the data for newbuyer
-                                System.out.println("");
-
-
 				insert_buyer.execute();
-				db.commit();
-				db.setAutoCommit(true); 	
-				insert_location.close();
 				insert_buyer.close(); 
 				return true;
 			}
@@ -81,7 +63,7 @@ public class DatabaseAccess {
 		return false;
 	}
 			
-                
+       //test if connection is set - if it is set, return true. If it is not set, establish a new connection and return true :)           
 	public boolean checkAndResetConnection(){
 		try {
 			if (!db.isClosed()){
@@ -131,7 +113,7 @@ public class DatabaseAccess {
 
 				//First check if the email is in the Database. 
                                 PreparedStatement find_buyer_email = null;                              
-				String sql_statement_find_email = "SELECT * FROM smg.buyer WHERE \"EmailAddress\"=?";
+				String sql_statement_find_email = "SELECT * FROM smg.buyer WHERE email_address=?";
                                 find_buyer_email = db.prepareStatement(sql_statement_find_email);
                                 find_buyer_email.setString(1, email);
                                 ResultSet rs = find_buyer_email.executeQuery();
@@ -142,7 +124,7 @@ public class DatabaseAccess {
 					return false; //Login failed. 
 				}
 				//Next, check if the password of the buyer matches with the email. 
-				String password_from_db = rs.getString(7);				
+				String password_from_db = rs.getString(5);				
 				if (password_from_db.equals(password)){
 					find_buyer_email.close();
 					return true;		
@@ -160,44 +142,44 @@ public class DatabaseAccess {
 		}
 
 
-	public boolean AddSeller(String name, String surname, String email, String cellno, String street_name, String street_number, String district, String password, String ID_Number){
+	public boolean AddSellerAndShop(String name, String email, String cellno,String password, String ID_Number, String district, String shop_name, String acc_number, String bank, String branch, String delivery, String description){
 		try{
 			if(checkAndResetConnection()){
-                                PreparedStatement insert_location = null;
-                                PreparedStatement insert_seller = null;
-
 				db.setAutoCommit(false); //default is true. 
 
-				//insert location first.
-                                String sql_statement_location = "INSERT INTO smg.location(street_number, street_name, district) VALUES (?,?,(SELECT district_id FROM smg.district WHERE name=?)) RETURNING location_id";
-                                insert_location = db.prepareStatement(sql_statement_location);
-                                insert_location.setString(1, street_number);
-                                insert_location.setString(2, street_name);
-                                insert_location.setString(3, district);
-                                insert_location.execute();
+				//First insert the Seller.  			
+				String sql_statement_seller = "INSERT INTO smg.seller (name, email_address, phone_numebr, password, national_id, area) VALUES (?,?,?,?,?,SELECT district_id FROM smg.district WHERE name=?) RETURNING code";
 
-				//Then insert the seller linked to the location. 
-				ResultSet new_location = insert_location.getResultSet();
-				new_location.next();
-                                int id_new_location = new_location.getInt(1);
-									
-				String sql_statement_seller = "INSERT INTO smg.seller (name, surname, email_address, phone_numebr, password, national_id, address) VALUES (?,?,?,?,?,?,?)";
-
-				insert_seller = db.prepareStatement(sql_statement_seller);
+				PreparedStatement insert_seller = db.prepareStatement(sql_statement_seller);
 
 				insert_seller.setString(1,name);
-				insert_seller.setString(2,surname);
-				insert_seller.setString(3,email);
-				insert_seller.setString(4,cellno);
-				insert_seller.setString(5,password);
-				insert_seller.setString(6,ID_Number);
-				insert_seller.setInt(7,id_new_location);
+				insert_seller.setString(2,email);
+				insert_seller.setString(3,cellno);
+				insert_seller.setString(4,password);
+				insert_seller.setString(5,ID_Number);
+				insert_seller.setString(6,district);
 								
+				//Get Resultset to know what the new Seller's code is. 
 				insert_seller.execute();
+				ResultSet rs = insert_seller.getResultSet();
+				
+				rs.next();
+				int new_seller_code = rs.getInt(1); 
+				insert_seller.close();
+				
+				//Add the shop, linked to the seller. 
+				String insert_shop_sql = "INSERT INTO smg.shop(shop_name, bank_account_number, bank_name, bank_branch_code, delivery_method, description, seller) VALUES(?,?,?,?,?,?,?)";
+				PreparedStatement insert_shop  = db.prepareStatement(insert_shop_sql);
+				insert_shop.setString(1,shop_name);
+				insert_shop.setString(2,acc_number);
+				insert_shop.setString(3,bank);
+				insert_shop.setString(4,branch);
+				insert_shop.setString(5,delivery);
+				insert_shop.setString(6,description);
+				insert_shop.setInt(7,new_seller_code);
+				insert_shop.close();
 				db.commit();
 				db.setAutoCommit(true); 	
-				insert_location.close();
-				insert_seller.close(); 
 				return true;
 			}
 		}
@@ -228,7 +210,7 @@ public class DatabaseAccess {
 					return false; //Login failed. 
 				}
 				//Next, check if the password of the buyer matches with the email. 
-				String password_from_db = rs.getString(6);				
+				String password_from_db = rs.getString(5);				
 				if (password_from_db.equals(password)){
 					find_seller_email.close();
 					return true;		
@@ -343,7 +325,7 @@ public class DatabaseAccess {
 	public boolean BuyerExists(String email) {
 		try {
 			if (checkAndResetConnection()){
-				String check_ex_sql = "SELECT code FROM smg.buyer WHERE \'Email Address\'=?";
+				String check_ex_sql = "SELECT code FROM smg.buyer WHERE email_address=?";
 				PreparedStatement check_existence = db.prepareStatement(check_ex_sql);
 				check_existence.setString(1,email);
 				ResultSet rs = check_existence.executeQuery();

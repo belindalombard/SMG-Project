@@ -21,10 +21,10 @@ public class LoginView {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //
         // Fields
-        JLabel nameLabel = new JLabel("Username : ");
+        JLabel nameLabel = new JLabel("Email : ");
         nameLabel.setBounds(150, 60, 150, 27);
-        JTextField nameField = new JTextField(10);
-        nameField.setBounds(230, 60, 150, 27);
+        JTextField emailField = new JTextField(10);
+        emailField.setBounds(230, 60, 150, 27);
         JLabel passwordLabel = new JLabel("Password : ");
         passwordLabel.setBounds(150, 100, 150, 27);
         JPasswordField passwordField = new JPasswordField(10);
@@ -49,14 +49,14 @@ public class LoginView {
                 //System.out.println(new String(passwordField.getPassword()));
                 // Verify Login credentials
 		
-		   FoldersView folderView;
-		   HomeView homeView; 
-		   if (verify(nameField.getText(),new String(passwordField.getPassword()))) {
-                   int sb = SellerOrBuyer(nameField.getText());   
-		   if (sb==1) //Person loggin in is a Seller. 
-		   	   folderView = new FoldersView();	   
-		   else //Person login in is a buyer. 
-		  	   homeView = new HomeView(window); 
+               FoldersView folderView;
+               HomeView homeView;
+               if (verify(emailField.getText(),new String(passwordField.getPassword()))) {
+                       int sb = SellerOrBuyer(emailField.getText());
+               if (sb==1) //Person loggin in is a Seller.
+                   folderView = new FoldersView();
+               else //Person login in is a buyer.
+                   homeView = new HomeView(window);
                    window.setVisible(false);
                }
                else
@@ -64,7 +64,7 @@ public class LoginView {
                    unknownAccountFlow.setVisible(true);
                    accountDoesNotExistLabel.setForeground(Color.RED);
 
-                   nameField.setBorder(new LineBorder(Color.red,1));
+                   emailField.setBorder(new LineBorder(Color.red,1));
                    passwordField.setBorder(new LineBorder(Color.red,1));
                }
             }
@@ -84,7 +84,7 @@ public class LoginView {
 
 
         window.add(nameLabel);
-        window.add(nameField);
+        window.add(emailField);
         window.add(passwordLabel);
         window.add(passwordField);
         window.add(new JLabel());
@@ -111,10 +111,10 @@ public class LoginView {
     {
         boolean exists = false;
         String encPassword = encrypt(password);
-	DatabaseAccess db = new DatabaseAccess();
-	exists = db.Login(username, password);
- 	db.CloseConnection();		
-	return exists;
+        DatabaseAccess db = new DatabaseAccess();
+        exists = db.Login(username, password);
+        db.CloseConnection();
+        return exists;
     }
     //Method for encrypting user password
     private String encrypt(String pass)
@@ -140,10 +140,10 @@ public class LoginView {
     //Method to determine whether person signing in is a seller or a buyer.
     private int SellerOrBuyer(String email) 
     {
-	DatabaseAccess db = new DatabaseAccess(); 	
-	int seller_buyer = db.IsBuyerOrSeller(email); 	
-	db.CloseConnection();
-	return seller_buyer;	
+        DatabaseAccess db = new DatabaseAccess();
+        int seller_buyer = db.IsBuyerOrSeller(email);
+        db.CloseConnection();
+        return seller_buyer;	
     }
 
 }

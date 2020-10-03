@@ -48,9 +48,9 @@ public class SignUpView {
         locationLabel = new JLabel("Location : ");
         locationLabel.setBounds(270, 160, 150, 27);
 	
-	//Get list of districts from the db.
-	String[] choiceList = db.GetAllDistricts();	
-	db.CloseConnection();
+        //Get list of districts from the db.
+        String[] choiceList = db.GetAllDistricts();
+        db.CloseConnection();
         locationField = new JComboBox<String>(choiceList);
         locationField.setBounds(420, 160, 150, 27);
 
@@ -58,8 +58,6 @@ public class SignUpView {
         phoneNumberLabel.setBounds(270, 190, 150, 27);
         phoneNumberField = new JTextField(10);
         phoneNumberField.setBounds(420, 190, 150, 27);
-
-
 
         emailAddressLabel = new JLabel("Email Address : ");
         emailAddressLabel.setBounds(270, 220, 150, 27);
@@ -120,20 +118,28 @@ public class SignUpView {
         createAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(seller.getState() == true){
-                    disable();
-                    seller sellerObj = new seller(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), emailAddressField.getText(), phoneNumberField.getText());
-                    ShopSignUpView shopSignUpView = new ShopSignUpView(window, backToLoginButton, createAccountButton, buyer, seller,sellerObj);
+                if(!nameField.getText().equals("") && !idField.getText().equals("")
+                        && !phoneNumberField.getText().equals("") && !emailAddressField.getText().equals("")
+                        && !passwordField.getText().equals("") && !confirmPasswordField.getText().equals("")){
+                    if(seller.getState() == true){
+                        disable();
+                        seller sellerObj = new seller(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), emailAddressField.getText(), phoneNumberField.getText());
+                        ShopSignUpView shopSignUpView = new ShopSignUpView(window, backToLoginButton, createAccountButton, buyer, seller,sellerObj);
 //                    window.setVisible(false);
+                    }
+                    else{
+//                    HomeView homeView = new HomeView(window);
+                        try{
+                            ConfirmCustomerSignUpView confirmCustomerSignUpView = new ConfirmCustomerSignUpView(window);
+                            window.setVisible(false);
+                        }
+                        catch (Exception k){}
+                    }
                 }
                 else{
-//                    HomeView homeView = new HomeView(window);
-                    try{
-                        ConfirmCustomerSignUpView confirmCustomerSignUpView = new ConfirmCustomerSignUpView(window);
-                        window.setVisible(false);
-                    }
-                    catch (Exception k){}
-
+                    JOptionPane x = new JOptionPane();
+                    x.showMessageDialog(null, "Please fill in the whole form");
+                    x.setFocusable(true);
                 }
             }
         });

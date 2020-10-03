@@ -138,7 +138,7 @@ public class SignUpView {
                 }
                 else{
                     JOptionPane x = new JOptionPane();
-                    x.showMessageDialog(null, "Please fill in the whole form");
+                    x.showMessageDialog(null, "Please fill in the whole form", "Warning", JOptionPane.WARNING_MESSAGE);
                     x.setFocusable(true);
                 }
             }

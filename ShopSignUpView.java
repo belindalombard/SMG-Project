@@ -72,12 +72,26 @@ public class ShopSignUpView {
         registerShopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                store shop = new store(shopNameField.getText()+sellerObj.getContactNumber(),shopNameField.getText(), sellerObj.getResidentialAdr(),shopDescriptionField.getText(), null, bankAccNumberField.getText(),bankNameField.getText(),bankBranchCodeField.getText(),deliveryMethodField.getSelectedItem().toString());
-                addSeller(sellerObj, shop);
-                JOptionPane.showMessageDialog(null, "Shop successfully registered!");
-                window.dispose();
-                previousWindowFrame.dispose();
-                FoldersView foldersView = new FoldersView();
+                if(!shopNameField.getText().equals("") && !bankNameField.getText().equals("")
+                        && !bankAccNumberField.getText().equals("") && !bankBranchCodeField.getText().equals("")
+                        && !shopDescriptionField.getText().equals("")){
+                    if(deliveryMethodField.getSelectedIndex() != 0){
+                        store shop = new store(shopNameField.getText()+sellerObj.getContactNumber(),shopNameField.getText(), sellerObj.getResidentialAdr(),shopDescriptionField.getText(), null, bankAccNumberField.getText(),bankNameField.getText(),bankBranchCodeField.getText(),deliveryMethodField.getSelectedItem().toString());
+                        addSeller(sellerObj, shop);
+                        JOptionPane.showMessageDialog(null, "Shop successfully registered!");
+                        window.dispose();
+                        previousWindowFrame.dispose();
+                        FoldersView foldersView = new FoldersView();
+                    }
+                    else{
+                        JOptionPane x = new JOptionPane();
+                        x.showMessageDialog(null, "Choose a method of delivery", "Caution", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+                else{
+                    JOptionPane x = new JOptionPane();
+                    x.showMessageDialog(null, "Fill in all fields", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 

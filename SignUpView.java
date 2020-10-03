@@ -9,6 +9,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher; 
+import java.util.regex.Pattern;
+
 
 public class SignUpView {
     DatabaseAccess db;
@@ -100,7 +103,6 @@ public class SignUpView {
                     seller.setState(false);
                 }
                 else{
-                    seller.setState(true);
                 }
             }
         });
@@ -118,15 +120,13 @@ public class SignUpView {
         createAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!nameField.getText().equals("") && !idField.getText().equals("")
-                        && !phoneNumberField.getText().equals("") && !emailAddressField.getText().equals("")
-                        && !passwordField.getText().equals("") && !confirmPasswordField.getText().equals("")){
+                if((Validate(nameField.getText(), idField.getText(), phoneNumberField.getText(), emailAddressField.getText(), passwordField.getText()).equals("yes"))){
                     if(seller.getState() == true){
                         disable();
                         seller sellerObj = new seller(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), emailAddressField.getText(), phoneNumberField.getText());
                         ShopSignUpView shopSignUpView = new ShopSignUpView(window, backToLoginButton, createAccountButton, buyer, seller,sellerObj);
 //                    window.setVisible(false);
-                    }
+                      }
                     else{
 //                    HomeView homeView = new HomeView(window);
                         try{
@@ -135,10 +135,10 @@ public class SignUpView {
                         }
                         catch (Exception k){}
                     }
-                }
+		}
                 else{
                     JOptionPane x = new JOptionPane();
-                    x.showMessageDialog(null, "Please fill in the whole form", "Warning", JOptionPane.WARNING_MESSAGE);
+                    x.showMessageDialog(null, Validate(nameField.getText(), idField.getText(), phoneNumberField.getText(), emailAddressField.getText(), passwordField.getText()), "Warning", JOptionPane.WARNING_MESSAGE);
                     x.setFocusable(true);
                 }
             }
@@ -193,10 +193,32 @@ public class SignUpView {
                 encPassword.append(Integer.toHexString(0xff & digested[i]));
             }
             return encPassword.toString();
-        } catch (NoSuchAlgorithmException ex) {
+        } catch (NoSuchAlgorithmException ex){} 
 
-        }
         return null;
+
+    }
+
+    //Returns either 1. a message indicating what needs to change or 2. "yes" 
+    private String Validate(String name, String id, String cellno, String email, String Password) {
+ 	String vname = validateName(name);
+    	if (!vname.equals("yes"))
+	    return vname;
+	return "yes";
+    }
+
+
+    //Returns either 1. a message indicating what needs to change or 2. "yes" 
+    private String validateName(String name) {
+	if (name.equals(""))
+	    return "Please enter your name";
+	Pattern p = Pattern.compile( "[0-9]" );
+    	Matcher m = p.matcher(name);
+
+    	if  (m.find())
+		return "Name can not contain numbers";
+
+	return "yes";
 
     }
 }

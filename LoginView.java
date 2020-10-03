@@ -48,13 +48,15 @@ public class LoginView {
             public void actionPerformed(ActionEvent e) {
                 //System.out.println(new String(passwordField.getPassword()));
                 // Verify Login credentials
-               if (verify(nameField.getText(),new String(passwordField.getPassword()))) {
+		
+		   FoldersView folderView;
+		   HomeView homeView; 
+		   if (verify(nameField.getText(),new String(passwordField.getPassword()))) {
                    int sb = SellerOrBuyer(nameField.getText());   
-		   //TO DO: Still need to create page coming after login of Seller****
-		   //if (sb==1)
-			//Code to open Seller homeview. 	
-		   //else
-		  	   HomeView homeView = new HomeView(window);
+		   if (sb==1) //Person loggin in is a Seller. 
+		   	   folderView = new FoldersView();	   
+		   else //Person login in is a buyer. 
+		  	   homeView = new HomeView(window); 
                    window.setVisible(false);
                }
                else

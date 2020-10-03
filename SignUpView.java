@@ -11,7 +11,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class SignUpView {
-
+    DatabaseAccess db;
     JFrame window;
     JLabel nameLabel, idLabel, locationLabel, phoneNumberLabel, emailAddressLabel, passwordLabel, confirmPasswordLabel;
     JTextField nameField, idField, phoneNumberField, emailAddressField, passwordField, confirmPasswordField;
@@ -22,6 +22,8 @@ public class SignUpView {
 
     public SignUpView(){}
     public SignUpView(JFrame previousWindowFrame){
+       	db = new DatabaseAccess(); 
+	   
         //Frame
         window = new JFrame("Sell My Goods: Sign Up");
         window.setMinimumSize(new Dimension(800, 500));
@@ -45,7 +47,10 @@ public class SignUpView {
 
         locationLabel = new JLabel("Location : ");
         locationLabel.setBounds(270, 160, 150, 27);
-        String choiceList [] = {"Choose", "Location1", "Location2"};
+	
+	//Get list of districts from the db.
+	String[] choiceList = db.GetAllDistricts();	
+	db.CloseConnection();
         locationField = new JComboBox<String>(choiceList);
         locationField.setBounds(420, 160, 150, 27);
 

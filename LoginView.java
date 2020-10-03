@@ -111,10 +111,10 @@ public class LoginView {
     {
         boolean exists = false;
         String encPassword = encrypt(password);
-	DatabaseAccess db = new DatabaseAccess();
-	exists = db.Login(username, password);
- 	db.CloseConnection();		
-	return exists;
+        DatabaseAccess db = new DatabaseAccess();
+        exists = db.Login(username, password);
+        db.CloseConnection();
+        return exists;
     }
     //Method for encrypting user password
     private String encrypt(String pass)
@@ -140,10 +140,10 @@ public class LoginView {
     //Method to determine whether person signing in is a seller or a buyer.
     private int SellerOrBuyer(String email) 
     {
-	DatabaseAccess db = new DatabaseAccess(); 	
-	int seller_buyer = db.IsBuyerOrSeller(email); 	
-	db.CloseConnection();
-	return seller_buyer;	
+        DatabaseAccess db = new DatabaseAccess();
+        int seller_buyer = db.IsBuyerOrSeller(email);
+        db.CloseConnection();
+        return seller_buyer;	
     }
 
 }

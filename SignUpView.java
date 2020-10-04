@@ -90,7 +90,7 @@ public class SignUpView {
                     buyer.setState(false);
                 }
                 else{
-                    buyer.setState(true);
+                    seller.setState(true);
                 }
             }
         });
@@ -102,6 +102,7 @@ public class SignUpView {
                     seller.setState(false);
                 }
                 else{
+                    buyer.setState(true);
                 }
             }
         });

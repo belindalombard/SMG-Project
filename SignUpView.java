@@ -88,8 +88,8 @@ public class SignUpView {
                     buyer.setState(false);
                 }
                 else{
-                    buyer.setState(true);
-                }
+                    seller.setState(true);
+               	}
             }
         });
 
@@ -100,6 +100,7 @@ public class SignUpView {
                     seller.setState(false);
                 }
                 else{
+	  	    buyer.setState(true);
                 }
             }
         });
@@ -283,6 +284,15 @@ public class SignUpView {
 	if (email.equals("")) 
 		return "Please fill in a valid Email Address";
 		
+	
+	//Check pattern of email.
+        Pattern patternCheck = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
+        Matcher emailMatcher = patternCheck.matcher(email);
+
+        if(!emailMatcher.matches()){
+        	return("The email provided is invalid");
+        } 
+
 	//Check uniqueness of email. 
 	int a = db.IsBuyerOrSeller(email);
 	if ((a==0)||(a==1)) //The Email is already in the seller or buyer table.

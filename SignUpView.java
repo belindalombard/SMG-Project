@@ -282,7 +282,6 @@ public class SignUpView {
             }
         }
     }
-
     
      private String validatePassword(String password){
         if (password.length()<6)

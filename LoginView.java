@@ -113,6 +113,7 @@ public class LoginView {
         boolean exists = false;
         String encPassword = encrypt(password);
         exists = db.Login(username, password);
+        db.CloseConnection();
         return exists;
     }
     //Method for encrypting user password

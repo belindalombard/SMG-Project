@@ -72,9 +72,12 @@ public class ShopSignUpView {
         registerShopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!shopNameField.getText().equals("") && !bankNameField.getText().equals("")
+//                if(validate(bankAccNumberField.getText()).equals("yes")){
+//
+//                }
+                if(validate(bankAccNumberField.getText()).equals("yes")/*!shopNameField.getText().equals("") && !bankNameField.getText().equals("")
                         && !bankAccNumberField.getText().equals("") && !bankBranchCodeField.getText().equals("")
-                        && !shopDescriptionField.getText().equals("")){
+                        && !shopDescriptionField.getText().equals("")*/){
                     if(deliveryMethodField.getSelectedIndex() != 0){
                         store shop = new store(shopNameField.getText()+sellerObj.getContactNumber(),shopNameField.getText(), sellerObj.getResidentialAdr(),shopDescriptionField.getText(), null, bankAccNumberField.getText(),bankNameField.getText(),bankBranchCodeField.getText(),deliveryMethodField.getSelectedItem().toString());
                         addSeller(sellerObj, shop);
@@ -90,7 +93,7 @@ public class ShopSignUpView {
                 }
                 else{
                     JOptionPane x = new JOptionPane();
-                    x.showMessageDialog(null, "Fill in all fields", "Error", JOptionPane.ERROR_MESSAGE);
+                    x.showMessageDialog(null, /*"Fill in all fields"*/ validate(bankAccNumberField.getText()), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -114,12 +117,32 @@ public class ShopSignUpView {
     }
     private void addSeller(seller sellerObj, store shop)
     {
-	//Set connection to database
-	DatabaseAccess db = new DatabaseAccess();
-	db.AddSellerAndShop(sellerObj.getName(), sellerObj.getEmail(), sellerObj.getContactNumber(), sellerObj.getPassword(), sellerObj.getSellerID(), sellerObj.getResidentialAdr(), shop.getStoreName(), shop.getAccountNumber(), shop.getBankName(), shop.getBranch(), shop.getDelivery(), shop.getStoreDescription());
-	db.CloseConnection();
+	    //Set connection to database
+        DatabaseAccess db = new DatabaseAccess();
+        db.AddSellerAndShop(sellerObj.getName(), sellerObj.getEmail(), sellerObj.getContactNumber(), sellerObj.getPassword(), sellerObj.getSellerID(), sellerObj.getResidentialAdr(), shop.getStoreName(), shop.getAccountNumber(), shop.getBankName(), shop.getBranch(), shop.getDelivery(), shop.getStoreDescription());
+        db.CloseConnection();
+    }
 
+    private String validate(String bankAccNum){
+        String vbankAccNum = validateBankAccountNum(bankAccNum);
+        if(!vbankAccNum.equals("yes")){
+            return vbankAccNum;
+        }
+        return("yes");
+    }
 
-
+    private String validateBankAccountNum(String bankAccNum){
+        if(bankAccNum.length() < 10 || bankAccNum.length() > 11){
+            return("Your bank account number is not the correct length");
+        }
+        else{
+            try{
+                int bankAccountNumber = Integer.parseInt(bankAccNum);
+            }
+            catch (Exception e){
+                return("Invalid bank account number. Digits required.");
+            }
+            return("yes");
+        }
     }
 }

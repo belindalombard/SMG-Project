@@ -1,5 +1,7 @@
 public class buyer {
     private String buyerID, residentialAdr, name,surname, email ,contactNumber, password;
+
+
     public buyer(String buyerID, String residentialAdr, String name, String password, String email, String contactNumber)
     {
         this.buyerID=buyerID;

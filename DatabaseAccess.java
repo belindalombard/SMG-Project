@@ -39,7 +39,7 @@ public class DatabaseAccess {
                                 PreparedStatement insert_buyer = null;
 
 	
-				String sql_statement_buyer = "INSERT INTO smg.buyer (name, email_address, phone_number, password, area, national_id) VALUES (?,?,?,?,SELECT district_id FROM smg.district WHERE name=?,?)";
+				String sql_statement_buyer = "INSERT INTO smg.buyer (name, email_address, phone_number, password, area, national_id) VALUES (?,?,?,?,(SELECT district_id FROM smg.district WHERE name=?),?)";
 
 				insert_buyer = db.prepareStatement(sql_statement_buyer);
 
@@ -148,7 +148,7 @@ public class DatabaseAccess {
 				db.setAutoCommit(false); //default is true. 
 
 				//First insert the Seller.  			
-				String sql_statement_seller = "INSERT INTO smg.seller (name, email_address, phone_numebr, password, national_id, area) VALUES (?,?,?,?,?,SELECT district_id FROM smg.district WHERE name=?) RETURNING code";
+				String sql_statement_seller = "INSERT INTO smg.seller (name, email_address, phone_numebr, password, national_id, area) VALUES (?,?,?,?,?,(SELECT district_id FROM smg.district WHERE name=?)) RETURNING code";
 
 				PreparedStatement insert_seller = db.prepareStatement(sql_statement_seller);
 
@@ -168,7 +168,7 @@ public class DatabaseAccess {
 				insert_seller.close();
 				
 				//Add the shop, linked to the seller. 
-				String insert_shop_sql = "INSERT INTO smg.shop(shop_name, bank_account_number, bank_name, bank_branch_code, delivery_method, description, seller) VALUES(?,?,?,?,?,?,?)";
+				String insert_shop_sql = "INSERT INTO smg.shop(shop_name, bank_account_number, bank_name, bank_banch_code, delivery_method, description, seller) VALUES(?,?,?,?,?,?,?)";
 				PreparedStatement insert_shop  = db.prepareStatement(insert_shop_sql);
 				insert_shop.setString(1,shop_name);
 				insert_shop.setString(2,acc_number);
@@ -177,6 +177,7 @@ public class DatabaseAccess {
 				insert_shop.setString(5,delivery);
 				insert_shop.setString(6,description);
 				insert_shop.setInt(7,new_seller_code);
+				insert_shop.execute();
 				insert_shop.close();
 				db.commit();
 				db.setAutoCommit(true); 	
@@ -368,8 +369,83 @@ public class DatabaseAccess {
 		return false;
 	}
 
-
-
-
+	//Check if an ID number exists in either the seller or buyer table. Return 1 if it is in the seller table, 0 if it is in the buyer table and -1 if it is in neither. If it returns -2, there is a connection error. 
+	public int IDExists(String id) {
+		try {
+			if (checkAndResetConnection()){
+				//check if id number is in buyer table.
+				PreparedStatement id_in_buyer=db.prepareStatement("SELECT code FROM smg.buyer WHERE national_id=?");
+				id_in_buyer.setString(1,id);
+				ResultSet rs = id_in_buyer.executeQuery();
+				id_in_buyer.close();
+				if (rs.next())
+		         		return 1; //id number belongs to buyer table     
+				//check if id number is in seller table. 
+				PreparedStatement id_in_seller=db.prepareStatement("SELECT code FROM smg.seller WHERE national_id=?");
+				id_in_seller.setString(1,id);
+				rs = id_in_seller.executeQuery();
+				id_in_seller.close();
+				if (rs.next())
+					return 0; //id number belongs to seller table. 	
+				return -1;
+			}
+			return -2;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return -2;		
+			}
 	}
+
+	//Check if an cell number exists in either the seller or buyer table. Return 1 if it is in the seller table, 0 if it is in the buyer table and -1 if it is in neither. If it returns -2, there is a connection error. 
+	public int cellExists(String cellno){
+		try {
+			if (checkAndResetConnection()){
+				//check if cell number is in buyer table.
+				PreparedStatement cell_in_buyer=db.prepareStatement("SELECT code FROM smg.buyer WHERE phone_number=?");
+				cell_in_buyer.setString(1,cellno);
+				ResultSet rs = cell_in_buyer.executeQuery();
+		                cell_in_buyer.close(); 
+				if (rs.next()){
+					return 1; //cell number belongs to buyer table.
+				}
+		              
+				//check if id number is in seller table. 
+				PreparedStatement cell_in_seller=db.prepareStatement("SELECT code FROM smg.seller WHERE phone_numebr=?");
+				cell_in_seller.setString(1,cellno);
+				rs = cell_in_seller.executeQuery();
+				cell_in_seller.close();
+				if (rs.next())
+					return 0; //cell number belongs to seller table. 	
+				return -1;
+			}
+			return -2;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return -2;		
+			}
+	}
+	
+	//Check if a shop name exists in either the shop table. Returns boolean. 
+	public boolean shopExists(String shopName){
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement shopexists=db.prepareStatement("SELECT shop_id FROM smg.shop WHERE shop_name=?");
+				shopexists.setString(1,shopName);
+				ResultSet rs = shopexists.executeQuery();
+		                shopexists.close(); 
+				if (rs.next()){
+					return true;
+				}
+			}
+			return false;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return false;		
+			}
+	}
+
+}
 

@@ -6,9 +6,10 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 public class ShopSignUpView {
-
+    DatabaseAccess db; 
     public ShopSignUpView(JFrame previousWindowFrame, JButton backButton, JButton createAccountButton, Checkbox buyer, Checkbox seller, seller sellerObj){
         //Frame
+	db = new DatabaseAccess(); 
         JFrame window = new JFrame("Sell My Goods: Shop Registration");
         window.setMinimumSize(new Dimension(500, 480));
         window.setLocation(450, 250);
@@ -72,12 +73,28 @@ public class ShopSignUpView {
         registerShopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                store shop = new store(shopNameField.getText()+sellerObj.getContactNumber(),shopNameField.getText(), sellerObj.getResidentialAdr(),shopDescriptionField.getText(), null, bankAccNumberField.getText(),bankNameField.getText(),bankBranchCodeField.getText());
-                addSeller(sellerObj, shop);
-                JOptionPane.showMessageDialog(null, "Shop successfully registered!");
-                window.dispose();
-                previousWindowFrame.dispose();
-                FoldersView foldersView = new FoldersView();
+                String val = validate(bankAccNumberField.getText(), bankBranchCodeField.getText(), shopNameField.getText(), shopDescriptionField.getText(), bankNameField.getText());
+		if(val.equals("yes")/*!shopNameField.getText().equals("") && !bankNameField.getText().equals("")
+                        && !bankAccNumberField.getText().equals("") && !bankBranchCodeField.getText().equals("")
+                        && !shopDescriptionField.getText().equals("")*/){
+                    if(deliveryMethodField.getSelectedIndex() != 0){
+                        store shop = new store(shopNameField.getText()+sellerObj.getContactNumber(),shopNameField.getText(), sellerObj.getResidentialAdr(),shopDescriptionField.getText(), null, bankAccNumberField.getText(),bankNameField.getText(),bankBranchCodeField.getText(),deliveryMethodField.getSelectedItem().toString());
+                        addSeller(sellerObj, shop);
+			db.CloseConnection(); 
+                        JOptionPane.showMessageDialog(null, "Shop successfully registered!");
+                        window.dispose();
+                        previousWindowFrame.dispose();
+                        FoldersView foldersView = new FoldersView();
+                    }
+                    else{
+                        JOptionPane x = new JOptionPane();
+                        x.showMessageDialog(null, "Choose a method of delivery", "Caution", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+                else{
+                    JOptionPane x = new JOptionPane();
+                    x.showMessageDialog(null, /*"Fill in all fields"*/ val, "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
@@ -100,6 +117,54 @@ public class ShopSignUpView {
     }
     private void addSeller(seller sellerObj, store shop)
     {
-        //database method to add both the shop and the seller to the database :Belinda
+        db.AddSellerAndShop(sellerObj.getName(), sellerObj.getEmail(), sellerObj.getContactNumber(), sellerObj.getPassword(), sellerObj.getSellerID(), sellerObj.getResidentialAdr(), shop.getStoreName(), shop.getAccountNumber(), shop.getBankName(), shop.getBranch(), shop.getDelivery(), shop.getStoreDescription());
     }
+
+    private String validate(String bankAccNum, String bankBranchCode, String shopName, String description, String bankName){
+        String vbankAccNum = validateBankAccountNum(bankAccNum);
+        if(!vbankAccNum.equals("yes")){
+            return vbankAccNum;
+        }
+
+        String vbankBranchCode = validateBankBranchCode(bankBranchCode);
+        if(!vbankBranchCode.equals("yes")){
+            return vbankBranchCode;
+        }
+
+        return("yes");
+    }
+
+    private String validateBankAccountNum(String bankAccNum){
+        if(bankAccNum.length() != 11){
+            return("Your bank account number is not the correct length");
+        }
+        else if (!bankAccNum.matches("[0-9]+")) {
+            return "Invalid bank account number. Digits required.";
+        }
+        return("yes");
+    }
+
+    private String validateBankBranchCode(String bankBranchCode){
+        if(bankBranchCode.length() != 6){
+            return("Your BANK BRANCH CODE number is not the correct length");
+        }
+        else if(!bankBranchCode.matches("[0-9]+")){
+            return("Invalid BANK BRANCH CODE number. Digits required.");
+        }
+        return("yes");
+    }
+
+    //Validates shopName. Returns either message or "yes". 
+    private String validateShopName(String shopName){
+        if(shopName.equals("")){
+            return("Please enter a shop name");
+        }
+
+	//Check for uniqueness.
+        
+        return("yes");
+    }
+
+
+
 }

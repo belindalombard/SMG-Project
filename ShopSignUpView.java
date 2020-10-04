@@ -6,9 +6,10 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 public class ShopSignUpView {
-
+    DatabaseAccess db; 
     public ShopSignUpView(JFrame previousWindowFrame, JButton backButton, JButton createAccountButton, Checkbox buyer, Checkbox seller, seller sellerObj){
         //Frame
+	db = new DatabaseAccess(); 
         JFrame window = new JFrame("Sell My Goods: Shop Registration");
         window.setMinimumSize(new Dimension(500, 480));
         window.setLocation(450, 250);
@@ -72,15 +73,14 @@ public class ShopSignUpView {
         registerShopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                if(validate(bankAccNumberField.getText()).equals("yes")){
-//
-//                }
-                if(validate(bankAccNumberField.getText(), bankBranchCodeField.getText()).equals("yes")/*!shopNameField.getText().equals("") && !bankNameField.getText().equals("")
+                String val = validate(bankAccNumberField.getText(), bankBranchCodeField.getText(), shopNameField.getText(), shopDescriptionField.getText(), bankNameField.getText());
+		if(val.equals("yes")/*!shopNameField.getText().equals("") && !bankNameField.getText().equals("")
                         && !bankAccNumberField.getText().equals("") && !bankBranchCodeField.getText().equals("")
                         && !shopDescriptionField.getText().equals("")*/){
                     if(deliveryMethodField.getSelectedIndex() != 0){
                         store shop = new store(shopNameField.getText()+sellerObj.getContactNumber(),shopNameField.getText(), sellerObj.getResidentialAdr(),shopDescriptionField.getText(), null, bankAccNumberField.getText(),bankNameField.getText(),bankBranchCodeField.getText(),deliveryMethodField.getSelectedItem().toString());
                         addSeller(sellerObj, shop);
+			db.CloseConnection(); 
                         JOptionPane.showMessageDialog(null, "Shop successfully registered!");
                         window.dispose();
                         previousWindowFrame.dispose();
@@ -93,7 +93,7 @@ public class ShopSignUpView {
                 }
                 else{
                     JOptionPane x = new JOptionPane();
-                    x.showMessageDialog(null, /*"Fill in all fields"*/ validate(bankAccNumberField.getText(), bankBranchCodeField.getText()), "Error", JOptionPane.ERROR_MESSAGE);
+                    x.showMessageDialog(null, /*"Fill in all fields"*/ val, "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -117,13 +117,10 @@ public class ShopSignUpView {
     }
     private void addSeller(seller sellerObj, store shop)
     {
-	    //Set connection to database
-        DatabaseAccess db = new DatabaseAccess();
         db.AddSellerAndShop(sellerObj.getName(), sellerObj.getEmail(), sellerObj.getContactNumber(), sellerObj.getPassword(), sellerObj.getSellerID(), sellerObj.getResidentialAdr(), shop.getStoreName(), shop.getAccountNumber(), shop.getBankName(), shop.getBranch(), shop.getDelivery(), shop.getStoreDescription());
-        db.CloseConnection();
     }
 
-    private String validate(String bankAccNum, String bankBranchCode){
+    private String validate(String bankAccNum, String bankBranchCode, String shopName, String description, String bankName){
         String vbankAccNum = validateBankAccountNum(bankAccNum);
         if(!vbankAccNum.equals("yes")){
             return vbankAccNum;
@@ -156,4 +153,18 @@ public class ShopSignUpView {
         }
         return("yes");
     }
+
+    //Validates shopName. Returns either message or "yes". 
+    private String validateShopName(String shopName){
+        if(shopName.equals("")){
+            return("Please enter a shop name");
+        }
+
+	//Check for uniqueness.
+        
+        return("yes");
+    }
+
+
+
 }

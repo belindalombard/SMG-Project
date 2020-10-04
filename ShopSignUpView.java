@@ -75,7 +75,7 @@ public class ShopSignUpView {
 //                if(validate(bankAccNumberField.getText()).equals("yes")){
 //
 //                }
-                if(validate(bankAccNumberField.getText()).equals("yes")/*!shopNameField.getText().equals("") && !bankNameField.getText().equals("")
+                if(validate(bankAccNumberField.getText(), bankBranchCodeField.getText()).equals("yes")/*!shopNameField.getText().equals("") && !bankNameField.getText().equals("")
                         && !bankAccNumberField.getText().equals("") && !bankBranchCodeField.getText().equals("")
                         && !shopDescriptionField.getText().equals("")*/){
                     if(deliveryMethodField.getSelectedIndex() != 0){
@@ -93,7 +93,7 @@ public class ShopSignUpView {
                 }
                 else{
                     JOptionPane x = new JOptionPane();
-                    x.showMessageDialog(null, /*"Fill in all fields"*/ validate(bankAccNumberField.getText()), "Error", JOptionPane.ERROR_MESSAGE);
+                    x.showMessageDialog(null, /*"Fill in all fields"*/ validate(bankAccNumberField.getText(), bankBranchCodeField.getText()), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -123,26 +123,37 @@ public class ShopSignUpView {
         db.CloseConnection();
     }
 
-    private String validate(String bankAccNum){
+    private String validate(String bankAccNum, String bankBranchCode){
         String vbankAccNum = validateBankAccountNum(bankAccNum);
         if(!vbankAccNum.equals("yes")){
             return vbankAccNum;
         }
+
+        String vbankBranchCode = validateBankBranchCode(bankBranchCode);
+        if(!vbankBranchCode.equals("yes")){
+            return vbankBranchCode;
+        }
+
         return("yes");
     }
 
     private String validateBankAccountNum(String bankAccNum){
-        if(bankAccNum.length() < 10 || bankAccNum.length() > 11){
+        if(bankAccNum.length() != 11){
             return("Your bank account number is not the correct length");
         }
-        else{
-            try{
-                int bankAccountNumber = Integer.parseInt(bankAccNum);
-            }
-            catch (Exception e){
-                return("Invalid bank account number. Digits required.");
-            }
-            return("yes");
+        else if (!bankAccNum.matches("[0-9]+")) {
+            return "Invalid bank account number. Digits required.";
         }
+        return("yes");
+    }
+
+    private String validateBankBranchCode(String bankBranchCode){
+        if(bankBranchCode.length() != 6){
+            return("Your BANK BRANCH CODE number is not the correct length");
+        }
+        else if(!bankBranchCode.matches("[0-9]+")){
+            return("Invalid BANK BRANCH CODE number. Digits required.");
+        }
+        return("yes");
     }
 }

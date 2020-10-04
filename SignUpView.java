@@ -201,84 +201,91 @@ public class SignUpView {
 
     //Returns either 1. a message indicating what needs to change or 2. "yes" 
     private String Validate(String name, String id, String cellno, String email, String Password){ 
-	String vname = validateName(name);
-	if (!vname.equals("yes"))
-		return vname;
+        String vname = validateName(name);
+        if (!vname.equals("yes"))
+            return vname;
 
-	String vid = validateID(id);	
-	if (!vid.equals("yes"))
-		return vid;
-	
-	String vcell = validateCellNo(cellno);
-	if (!vcell.equals("yes"))
-		return vcell;	
-	
-	String vemail = validateEmailAddress(email);
-	if (!vemail.equals("yes"))
-		return vemail;	
+        String vid = validateID(id);
+        if (!vid.equals("yes"))
+            return vid;
 
+        String vcell = validateCellNo(cellno);
+        if (!vcell.equals("yes"))
+            return vcell;
 
-	String vpass = validatePassword(Password);
-	if (!vpass.equals("yes"))
-		return vpass;
+        String vemail = validateEmailAddress(email);
+        if (!vemail.equals("yes"))
+            return vemail;
 
+        String vpass = validatePassword(Password);
+        if (!vpass.equals("yes"))
+            return vpass;
 
-	return "yes";
+        return "yes";
     }
 
 
     //Validates the Name field. Returns either 1. a message indicating what needs to change or 2. "yes" 
     private String validateName(String name) {
-	if (name.equals(""))
-	    return "Please enter your name";
-	Pattern p = Pattern.compile( "[0-9]" );
-    	Matcher m = p.matcher(name);
+        if (name.equals(""))
+            return "Please enter your name";
 
-    	if  (m.find())
-		return "Name can not contain numbers";
+        Pattern p = Pattern.compile( "[0-9]" );
+        Matcher m = p.matcher(name);
 
-	return "yes";
+        if  (m.find())
+            return "Name can not contain numbers";
 
+        return "yes";
     }
     
     //Validates the ID field. Returns either 1. a message indicating what needs to change or 2. "yes" 
     private String validateID(String id){
-	if (id.equals("")) 
-		return "Please fill in your national ID number";
-	if (!(id.length()==13))
-		return "Your ID is not the correct length";
-	if (!id.matches("[0-9]+"))
-		return "Your ID can only contain numbers";
-	return "yes";
+        if (id.equals(""))
+            return "Please fill in your national ID number";
+        if (!(id.length()==13))
+            return "Your ID is not the correct length";
+        if (!id.matches("[0-9]+"))
+            return "Your ID can only contain numbers";
+        return "yes";
     }
  
     //Validates the Phone Number field. Returns either 1. a message indicating what needs to change or 2. "yes" 
     private String validateCellNo(String cell){
-	if (cell.equals("")) 
-		return "Please fill in a valid South African Cell Phone Number";
-	if (!(cell.length()==10))
-		return "Your Cell Phone number is not the correct length";
-	if (!cell.matches("[0-9]+"))
-		return "Your Cell Phone number can only contain numbers";
-	return "yes";
+        if (cell.equals(""))
+            return "Please fill in a valid South African Cell Phone Number";
+        if (!(cell.length()==10))
+            return "Your Cell Phone number is not the correct length";
+        if (!cell.matches("[0-9]+"))
+            return "Your Cell Phone number can only contain numbers";
+        return "yes";
     }
 
  
     //Validates the Email Address field. Returns either 1. a message indicating what needs to change or 2. "yes" 
     private String validateEmailAddress(String email){
-	//get more validation methods or something to check that email address is valid!!!!
-	if (email.equals("")) 
-		return "Please fill in a valid Email Address";
-		
-  	return "yes";
+        if (email.equals("")){
+            return "Please fill in a valid Email Address";
+        }
+        else{
+            Pattern patternCheck = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
+            Matcher emailMatcher = patternCheck.matcher(email);
+
+            if(!emailMatcher.matches()){
+                return("The email provided is invalid");
+            }
+            else{
+                return("yes");
+            }
+        }
     }
 
 
      private String validatePassword(String password){
-	if (password.length()<6)
-		return "Your password must be at least 6 characters long";
-	
-    	return "yes";
+        if (password.length()<6)
+		    return "Your password must be at least 6 characters long";
+
+        return "yes";
      }
 }
 

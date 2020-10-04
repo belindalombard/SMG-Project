@@ -112,8 +112,10 @@ public class LoginView {
     {
         boolean exists = false;
         String encPassword = encrypt(password);
-        exists = db.Login(username, password);
-        return exists;
+        exists = db.Login(username, encPassword);
+	//System.out.println(encPassword); //Trace statement
+	
+	return exists;
     }
     //Method for encrypting user password
     private String encrypt(String pass)

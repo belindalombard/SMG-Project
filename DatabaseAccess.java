@@ -426,5 +426,26 @@ public class DatabaseAccess {
 			return -2;		
 			}
 	}
+	
+	//Check if a shop name exists in either the shop table. Returns boolean. 
+	public boolean shopExists(String shopName){
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement shopexists=db.prepareStatement("SELECT shop_id FROM smg.shop WHERE shop_name=?");
+				shopexists.setString(1,shopName);
+				ResultSet rs = shopexists.executeQuery();
+		                shopexists.close(); 
+				if (rs.next()){
+					return true;
+				}
+			}
+			return false;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return false;		
+			}
+	}
+
 }
 

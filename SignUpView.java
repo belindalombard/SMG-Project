@@ -120,15 +120,13 @@ public class SignUpView {
         createAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if((Validate(nameField.getText(), idField.getText(), phoneNumberField.getText(), emailAddressField.getText(), passwordField.getText()).equals("yes"))){
+                if((Validate(nameField.getText(), idField.getText(), phoneNumberField.getText(), emailAddressField.getText(), passwordField.getText(), confirmPasswordField.getText()).equals("yes"))){
                     if(seller.getState() == true){
                         disable();
                         seller sellerObj = new seller(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), emailAddressField.getText(), phoneNumberField.getText());
                         ShopSignUpView shopSignUpView = new ShopSignUpView(window, backToLoginButton, createAccountButton, buyer, seller,sellerObj);
-//                    window.setVisible(false);
                       }
                     else{
-//                    HomeView homeView = new HomeView(window);
                         try{
                             ConfirmCustomerSignUpView confirmCustomerSignUpView = new ConfirmCustomerSignUpView(window);
                             window.setVisible(false);
@@ -138,7 +136,7 @@ public class SignUpView {
 		}
                 else{
                     JOptionPane x = new JOptionPane();
-                    x.showMessageDialog(null, Validate(nameField.getText(), idField.getText(), phoneNumberField.getText(), emailAddressField.getText(), passwordField.getText()), "Warning", JOptionPane.WARNING_MESSAGE);
+                    x.showMessageDialog(null, Validate(nameField.getText(), idField.getText(), phoneNumberField.getText(), emailAddressField.getText(), passwordField.getText(), confirmPasswordField.getText()), "Warning", JOptionPane.WARNING_MESSAGE);
                     x.setFocusable(true);
                 }
             }
@@ -200,7 +198,7 @@ public class SignUpView {
     }
 
     //Returns either 1. a message indicating what needs to change or 2. "yes" 
-    private String Validate(String name, String id, String cellno, String email, String Password){ 
+    private String Validate(String name, String id, String cellno, String email, String Password, String confirmPassword){
         String vname = validateName(name);
         if (!vname.equals("yes"))
             return vname;
@@ -220,6 +218,11 @@ public class SignUpView {
         String vpass = validatePassword(Password);
         if (!vpass.equals("yes"))
             return vpass;
+
+        String vConfirmPass = validatePasswordUsingConfirmPassword(confirmPassword);
+        if(!vConfirmPass.equals("yes")){
+            return vConfirmPass;
+        }
 
         return "yes";
     }
@@ -272,7 +275,7 @@ public class SignUpView {
             Matcher emailMatcher = patternCheck.matcher(email);
 
             if(!emailMatcher.matches()){
-                return("The email provided is invalid");
+                return("The email address provided is invalid");
             }
             else{
                 return("yes");
@@ -280,12 +283,22 @@ public class SignUpView {
         }
     }
 
-
+    
      private String validatePassword(String password){
         if (password.length()<6)
 		    return "Your password must be at least 6 characters long";
 
         return "yes";
+     }
+
+     //confirm password needs to be the same as password
+     private String validatePasswordUsingConfirmPassword(String confirmPassword){
+        if(confirmPassword.equals(passwordField.getText())){
+            return("yes");
+        }
+        else{
+            return("Password does not match with confirm password");
+        }
      }
 }
 

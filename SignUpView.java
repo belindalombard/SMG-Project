@@ -24,8 +24,7 @@ public class SignUpView {
 
     public SignUpView(){}
     public SignUpView(JFrame previousWindowFrame){
-       	db = new DatabaseAccess(); 
-	   
+	db=new DatabaseAccess();
         //Frame
         window = new JFrame("Sell My Goods: Sign Up");
         window.setMinimumSize(new Dimension(800, 500));
@@ -52,7 +51,6 @@ public class SignUpView {
 	
         //Get list of districts from the db.
         String[] choiceList = db.GetAllDistricts();
-        db.CloseConnection();
         locationField = new JComboBox<String>(choiceList);
         locationField.setBounds(420, 160, 150, 27);
 
@@ -119,7 +117,9 @@ public class SignUpView {
         createAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if((Validate(nameField.getText(), idField.getText(), phoneNumberField.getText(), emailAddressField.getText(), passwordField.getText()).equals("yes"))){
+                String val = Validate(nameField.getText(), idField.getText(), phoneNumberField.getText(), emailAddressField.getText(), passwordField.getText(), confirmPasswordField.getText()); //validate entered fields.
+		if (val.equals("yes")){
+		    db.CloseConnection();
                     if(seller.getState() == true){
                         disable();
                         seller sellerObj = new seller(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), emailAddressField.getText(), phoneNumberField.getText());
@@ -129,15 +129,17 @@ public class SignUpView {
                     else{
 //                    HomeView homeView = new HomeView(window);
                         try{
-                            ConfirmCustomerSignUpView confirmCustomerSignUpView = new ConfirmCustomerSignUpView(window);
+			    buyer buyerobj = new buyer(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), emailAddressField.getText(), phoneNumberField.getText());
+                            ConfirmCustomerSignUpView confirmCustomerSignUpView = new ConfirmCustomerSignUpView(window, buyerobj);
                             window.setVisible(false);
-                        }
+                       	    db.CloseConnection();
+		       	}
                         catch (Exception k){}
                     }
 		}
                 else{
                     JOptionPane x = new JOptionPane();
-                    x.showMessageDialog(null, Validate(nameField.getText(), idField.getText(), phoneNumberField.getText(), emailAddressField.getText(), passwordField.getText()), "Warning", JOptionPane.WARNING_MESSAGE);
+                    x.showMessageDialog(null, val, "Warning", JOptionPane.WARNING_MESSAGE);
                     x.setFocusable(true);
                 }
             }
@@ -199,7 +201,7 @@ public class SignUpView {
     }
 
     //Returns either 1. a message indicating what needs to change or 2. "yes" 
-    private String Validate(String name, String id, String cellno, String email, String Password){ 
+    private String Validate(String name, String id, String cellno, String email, String Password, String cPassword){ 
 	String vname = validateName(name);
 	if (!vname.equals("yes"))
 		return vname;
@@ -217,7 +219,7 @@ public class SignUpView {
 		return vemail;	
 
 
-	String vpass = validatePassword(Password);
+	String vpass = validatePassword(Password, cPassword);
 	if (!vpass.equals("yes"))
 		return vpass;
 
@@ -248,6 +250,13 @@ public class SignUpView {
 		return "Your ID is not the correct length";
 	if (!id.matches("[0-9]+"))
 		return "Your ID can only contain numbers";
+
+	//Check uniqueness of ID Number. 
+	int a = db.IDExists(id);
+	if ((a==0)||(a==1)) //The ID Number is already in the seller or buyer table.
+		return "There is an account already linked to your ID number.";
+	if (a==-2) //The connection failed
+		return "There was a connection error - please check your connection before attempting to Sign up.";
 	return "yes";
     }
  
@@ -259,6 +268,11 @@ public class SignUpView {
 		return "Your Cell Phone number is not the correct length";
 	if (!cell.matches("[0-9]+"))
 		return "Your Cell Phone number can only contain numbers";
+
+	//Check uniqueness of cell 
+	int a = db.cellExists(cell);
+	if ((a==0)||(a==1)) //The number is already in the seller or buyer table.
+		return "There is an account already linked to this Phone Number.";
 	return "yes";
     }
 
@@ -269,11 +283,18 @@ public class SignUpView {
 	if (email.equals("")) 
 		return "Please fill in a valid Email Address";
 		
-  	return "yes";
+	//Check uniqueness of email. 
+	int a = db.IsBuyerOrSeller(email);
+	if ((a==0)||(a==1)) //The Email is already in the seller or buyer table.
+		return "There is an account already linked to this Email Address.";
+	return "yes";
     }
 
+     //Validates password. Returns a message indicating what needs to change, or yes if everything is already correct. 
+     private String validatePassword(String password, String cPassword){
+	if (!cPassword.equals(password))
+		return "The passwords must match.";
 
-     private String validatePassword(String password){
 	if (password.length()<6)
 		return "Your password must be at least 6 characters long";
 	

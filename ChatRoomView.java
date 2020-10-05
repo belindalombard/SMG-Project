@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,6 +67,7 @@ public class ChatRoomView {
         messageBoard.setWrapStyleWord(true);
         scrollPane = new JScrollPane();
         scrollPane.setViewportView(messageBoard);
+        scrollPane.setBorder(new EmptyBorder(0,0,0,0));
 
 
         topLabelLayout.add(userInstruction);

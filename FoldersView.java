@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,11 +27,10 @@ public class FoldersView {
         hiddenFolders = new DefaultListModel();
         DefaultListModel folders = new DefaultListModel();
         ArrayList<product> productsList = db.getProductsFromSeller(sellercode);//to store all the products of the shop	
-	JList foldersList = new JList(folders);
-        
-	
-	JScrollPane scrollPane = new JScrollPane();
+	    JList foldersList = new JList(folders);
+	    JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(foldersList);
+        scrollPane.setBorder(new EmptyBorder(0,0,0,0));
         foldersList.setLayoutOrientation(JList.VERTICAL);
         foldersList.setFixedCellHeight(60);
 
@@ -52,12 +52,12 @@ public class FoldersView {
             public void mouseExited(MouseEvent e) { }
         });
 	
-	//Add products already existing to the list. 
-	Iterator i = productsList.iterator();
-	while (i.hasNext()){
-		product next = (product)i.next();
-		folders.addElement((next.getProductName()));
-	}
+        //Add products already existing to the list.
+        Iterator i = productsList.iterator();
+        while (i.hasNext()){
+            product next = (product)i.next();
+            folders.addElement((next.getProductName()));
+        }
 
 
         JPanel topLayout = new JPanel();
@@ -78,8 +78,9 @@ public class FoldersView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(foldersList.isSelectedIndex(foldersList.getSelectedIndex())){
-		    int product_id_to_remove = productsList.get(foldersList.getSelectedIndex()).getProductID();
-		    db.removeProduct(product_id_to_remove);
+                    int product_id_to_remove = productsList.get(foldersList.getSelectedIndex()).getProductID();
+                    db.removeProduct(product_id_to_remove);
+
                     productsList.remove(foldersList.getSelectedIndex());
                     folders.remove(foldersList.getSelectedIndex());
                 }
@@ -90,7 +91,7 @@ public class FoldersView {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-		AddProductsToDatabase(sellercode, productsList);
+		        AddProductsToDatabase(sellercode, productsList);
                 LoginView loginView = new LoginView();
                 window.dispose();
             }
@@ -116,22 +117,22 @@ public class FoldersView {
 
 //Add products to the database that is contained in the productList arraylist
     public boolean AddProductsToDatabase(int sellerCode, ArrayList<product> productsList){
- 	Iterator i = productsList.iterator();
+        Iterator i = productsList.iterator();
 
-	while (i.hasNext()){ //There is another procuct to check or add. 
-		//Get the next product. 
-		product add = (product)i.next();
+        while (i.hasNext()){ //There is another procuct to check or add.
+            //Get the next product.
+            product add = (product)i.next();
 
-		if (add.getProductID()==-1) {//product not yet added to the database. 
-       			BigDecimal price = new BigDecimal(add.getProductPrice(), MathContext.DECIMAL64); //Convert double to big decimal.
-	     		if (!db.AddProductToShop(sellerCode, add.getProductName(), add.getProductDescription(), price, add.getProductQty(), add.getHide())); 
-			return false; //Error - product could not be added to the database.
-		}
-		else { //product is already in the databse - just update the product info in the db. 
-			db.updateProduct(add);
-		}
-	}
-	db.CloseConnection();
-	return true;
+            if (add.getProductID()==-1) {//product not yet added to the database.
+                BigDecimal price = new BigDecimal(add.getProductPrice(), MathContext.DECIMAL64); //Convert double to big decimal.
+                if (!db.AddProductToShop(sellerCode, add.getProductName(), add.getProductDescription(), price, add.getProductQty(), add.getHide()));
+                return false; //Error - product could not be added to the database.
+            }
+            else { //product is already in the databse - just update the product info in the db.
+                db.updateProduct(add);
+            }
+	    }
+        db.CloseConnection();
+        return true;
     }
 }

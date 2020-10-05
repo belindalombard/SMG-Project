@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class HomeView extends SignUpView{
         shopList = new JList(shops);
         scrollPane = new JScrollPane();
         scrollPane.setViewportView(shopList);
+        scrollPane.setBorder(new EmptyBorder(0,0,0,0));
         shopList.setLayoutOrientation(JList.VERTICAL);
         shopList.setFixedCellHeight(60);
         shopList.addMouseListener(new MouseListener() {

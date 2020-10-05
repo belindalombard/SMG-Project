@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +40,7 @@ public class ShopView {
         JList productList = new JList(products);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(productList);
+        scrollPane.setBorder(new EmptyBorder(0,0,0,0));
         productList.setLayoutOrientation(JList.VERTICAL);
         productList.setFixedCellHeight(60);
 
@@ -48,26 +50,14 @@ public class ShopView {
                 ProductView productView = new ProductView(window, productList.getSelectedIndex(), products);
                 window.setVisible(false);
             }
-
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
+            public void mousePressed(MouseEvent e) { }
             @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
+            public void mouseReleased(MouseEvent e) { }
             @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
+            public void mouseEntered(MouseEvent e) { }
             @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
+            public void mouseExited(MouseEvent e) { }
         });
 
         topButtonLayout.add(backButton);

@@ -123,10 +123,6 @@ public class AccountDetailsView {
         JLabel actualDeliveryMethod = new JLabel("Delivery & Collection");
         actualDeliveryMethod.setBounds(320, 360, 150, 50);
 
-//        JLabel shopDescriptionLabel = new JLabel("Shop Description: ");
-//        shopDescriptionLabel.setBounds(150, 390, 150, 50);
-//        JLabel actualShopDescr = new JLabel("Cool shop!!");
-//        actualShopDescr.setBounds(320, 402, 150, 27);
 
         window.add(shopNameLabel);
         window.add(actualShopName);
@@ -142,9 +138,6 @@ public class AccountDetailsView {
 
         window.add(deliveryMethodLabel);
         window.add(actualDeliveryMethod);
-
-//        window.add(shopDescriptionLabel);
-//        window.add(actualShopDescr);
         window.add(new JLabel());
     }
 

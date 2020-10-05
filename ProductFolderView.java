@@ -20,8 +20,8 @@ public class ProductFolderView {
         JPanel topButtonLayout = new JPanel();
         topButtonLayout.setLayout(new BoxLayout(topButtonLayout, BoxLayout.LINE_AXIS));
 
-        JButton backButton = new JButton("Back");
-        backButton.addActionListener(new ActionListener() {
+	JButton backButton = new JButton("Back");
+	backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 previousWindowFrame.setVisible(true);
@@ -29,9 +29,12 @@ public class ProductFolderView {
             }
         });
 
-        show = new Checkbox("Show", true);
-        show.setBounds(340, 50, 100, 20);
-        show.addItemListener(new ItemListener() {
+	boolean product_hide = ((product)productsList.get(selectedFolder)).getHide();
+        show = new Checkbox("Show",!product_hide);
+        
+	show.setBounds(340, 50, 100, 20);
+        
+	show.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if(hide.getState()){
@@ -43,7 +46,7 @@ public class ProductFolderView {
             }
         });
 
-        hide = new Checkbox("Hide");
+        hide = new Checkbox("Hide", product_hide);
         hide.setBounds(440, 50, 100, 20);
         hide.addItemListener(new ItemListener() {
             @Override

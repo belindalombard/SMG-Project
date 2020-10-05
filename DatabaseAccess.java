@@ -262,22 +262,21 @@ public class DatabaseAccess {
 	}
 
 	//Used by a Seller to add a new product to their shop.
-	public boolean AddProductToShop(int seller_code, String name, String description, BigDecimal cost, int quantity_left, boolean visible, byte[] photo){
-/**		try{
+	public boolean AddProductToShop(int seller_code, String name, String description, BigDecimal cost, int quantity_left, boolean visible){
+		try{
 			if(checkAndResetConnection()){
                                 PreparedStatement insert_product = null;
- 	
-				db.setAutoCommit(false); //default is true. 
-	
-				//insert product into db.
-                                String sql_statement_product = "INSERT INTO smg.product(name, description, cost, quantity_left, visible, photo) VALUES (?,?,?,?,?,?)";
+ 
+			
+                                String sql_statement_product = "INSERT INTO smg.product(seller_code, name, description, cost, quantity_left, visible, photo) VALUES (?,?,?,?,?,?,null)";
                                 insert_product = db.prepareStatement(sql_statement_product);
-                                insert_product.setString(1, name);
-                                insert_product.setString(2, description);
-                                insert_product.setBigDecimal(3, cost);
-				insert_product.setInt(4, quantity_left);
-				insert_product.setBoolean(5,visible);
-				insert_product.setBytes(6,photo);
+                                insert_product.setInt(1, seller_code);
+				insert_product.setString(2, name);
+                                insert_product.setString(3, description);
+                                insert_product.setBigDecimal(4, cost);
+				insert_product.setInt(5, quantity_left);
+				insert_product.setBoolean(6,visible);
+				//insert_product.setBytes(7,photo);
 
 				insert_product.execute();
 				insert_product.close();
@@ -289,11 +288,8 @@ public class DatabaseAccess {
 			return false;	
 		}
 		return false;
-*/
 
-//	String productID, String productName, String productDescription, int productQty, double productPrice		
 
-	return false;
 	}
 
 	//Method to close the connection so that unnecessary resources aren't being taken up. 

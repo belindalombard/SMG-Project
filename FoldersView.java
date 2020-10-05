@@ -5,7 +5,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-
+import java.util.Iterator;
+import java.math.BigDecimal;
+import java.math.MathContext;
 public class FoldersView {
 
     JButton addFolderButton, removeFolderButton;
@@ -75,7 +77,7 @@ public class FoldersView {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-		AddProductsToDatabase(sellercode, productsList);  
+		AddProductsToDatabase(sellercode, productsList);
                 LoginView loginView = new LoginView();
                 window.dispose();
             }
@@ -98,8 +100,14 @@ public class FoldersView {
     }
 //Add products to the database that is contained in the productList arraylist
     public boolean AddProductsToDatabase(int sellerCode, ArrayList<product> productsList){
-	    return false;
-
-
+	DatabaseAccess db = new DatabaseAccess();
+ 	Iterator i = productsList.iterator();
+	while (i.hasNext()){
+		product add = (product)i.next();
+       		BigDecimal price = new BigDecimal(add.getProductPrice(), MathContext.DECIMAL64); //Convert double to big decimal.
+	     	if (!db.AddProductToShop(sellerCode, add.getProductName(), add.getProductDescription(), price, add.getProductQty(), add.getHide())); 
+			return false; //Error - product could not be added to the database.
+	}
+	return true;
     }
 }

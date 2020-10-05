@@ -456,9 +456,12 @@ public class DatabaseAccess {
 	public int getUserCode(String email, String table){
 		try {
 			if (checkAndResetConnection()){
-				PreparedStatement get_user_code=db.prepareStatement("SELECT code FROM smg.? WHERE email_address=?");
-				get_user_code.setString(1,table);
-				get_user_code.setString(2,email);
+				PreparedStatement get_user_code=null;
+				if (table.equals("seller"))					
+					get_user_code=db.prepareStatement("SELECT code FROM smg.seller WHERE email_address=?");
+				else 
+					get_user_code=db.prepareStatement("SELECT code FROM smg.buyer WHERE email_address=?");	
+				get_user_code.setString(1,email);
 				ResultSet rs = get_user_code.executeQuery();
 		                get_user_code.close(); 
 				rs.next();

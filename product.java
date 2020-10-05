@@ -1,6 +1,6 @@
 public class product {
-    private String productID, productName, productDescription;
-    private int productQty;
+    private String productName, productDescription;
+    private int productQty, productID;
     private double productPrice;
     private boolean hide; 
 
@@ -8,12 +8,28 @@ public class product {
     //product table in db has: entries product_id | seller_code | name | description | cost | quantity_left | visible | photo
     public product(String productName, String productDescription, int productQty, double productPrice, boolean hide)
     {
-     // this.productID=productID;
         this.productName=productName;
         this.productDescription=productDescription;
         this.productQty=productQty;
         this.productPrice=productPrice;
 	this.hide=hide;
+  	this.productID = -1; //product not in DB yet.   
+    }
+    
+
+    public product(String productName, String productDescription, int productQty, double productPrice, boolean hide, int productID)
+    {
+     	this.productID=productID;
+        this.productName=productName;
+        this.productDescription=productDescription;
+        this.productQty=productQty;
+        this.productPrice=productPrice;
+	this.hide=hide;
+    }
+    
+    public void setProductId(int productID) {
+	this.productID = productID;	
+
     }
 
     public void setProductName(String productName){
@@ -37,7 +53,7 @@ public class product {
 	this.hide = hide;
     }	
 
-    public String getProductID(){
+    public int getProductID(){
         return productID;
     }
 

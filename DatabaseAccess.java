@@ -1,6 +1,6 @@
 import java.sql.*;
 import java.math.BigDecimal;
-
+import java.util.ArrayList;
 /** Notes to self - make changes to DB: 
 
 
@@ -470,6 +470,31 @@ public class DatabaseAccess {
 			return 0;		
 			}
 	}
-		
+
+	//Return arraylist of products containing all the products of a specific seller. 
+	public ArrayList<product> getProductsFromSeller(int seller_id) {
+		ArrayList<product> products = new ArrayList<product>();
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement get_products = db.prepareStatement("SELECT * FROM smg.product WHERE seller_code=?");
+				get_products.setInt(1,seller_id);		
+				ResultSet rs = get_products.executeQuery();
+		                get_products.close(); 
+				while (rs.next()){
+					product add_to_list = new product(rs.getString(3), rs.getString(4), rs.getInt(6), rs.getBigDecimal(5).doubleValue(), rs.getBoolean(7), rs.getInt(1));
+					products.add(add_to_list);
+				}
+			return products;	
+				 	
+			}
+			return products;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return products;		
+			}
+	}
+			
+
 }
 

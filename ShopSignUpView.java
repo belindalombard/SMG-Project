@@ -132,6 +132,17 @@ public class ShopSignUpView {
             return vbankBranchCode;
         }
 
+	String vShopName = validateShopName(shopName);
+	if (!vShopName.equals("yes")){
+	    return vShopName;
+	}
+
+	if (description.length()<0)
+	    return "Please enter a shop description of at least ten characters";
+
+	if (bankName.equals(""))
+	    return "Please enter a bank name";
+
         return("yes");
     }
 
@@ -162,7 +173,9 @@ public class ShopSignUpView {
         }
 
 	//Check for uniqueness.
-        
+	if (db.shopExists(shopName)){
+	    return("That shop's name already exists. Please enter a new name");
+    	}	
         return("yes");
     }
 

@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 /** Notes to self - make changes to DB: 
 
@@ -495,6 +496,29 @@ public class DatabaseAccess {
 			}
 	}
 			
-
+	//Method to update already existing product to new values (if changed). 
+	public boolean updateProduct(product P){
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement updateProduct = db.prepareStatement("UPDATE smg.product SET name=?, description=?, cost=?, quantity_left=?, visible=? WHERE product_id=?");
+				updateProduct.setString(1, P.getProductName());
+				updateProduct.setString(2,P.getProductDescription());
+				BigDecimal price = new BigDecimal(P.getProductPrice(),MathContext.DECIMAL64);
+				updateProduct.setBigDecimal(3,price);
+				updateProduct.setInt(4,P.getProductQty());
+				updateProduct.setBoolean(5, P.getHide());
+				updateProduct.setInt(6,P.getProductID());
+				updateProduct.executeUpdate();
+				updateProduct.close();		
+				return true;
+			}
+			return false;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return false;		
+			}
+	}
+	
 }
 

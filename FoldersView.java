@@ -102,11 +102,19 @@ public class FoldersView {
     public boolean AddProductsToDatabase(int sellerCode, ArrayList<product> productsList){
 	DatabaseAccess db = new DatabaseAccess();
  	Iterator i = productsList.iterator();
-	while (i.hasNext()){
+
+	while (i.hasNext()){ //There is another procuct to check or add. 
+		//Get the next product. 
 		product add = (product)i.next();
-       		BigDecimal price = new BigDecimal(add.getProductPrice(), MathContext.DECIMAL64); //Convert double to big decimal.
-	     	if (!db.AddProductToShop(sellerCode, add.getProductName(), add.getProductDescription(), price, add.getProductQty(), add.getHide())); 
+
+		if (add.getProductID()==-1) {//product not yet added to the database. 
+       			BigDecimal price = new BigDecimal(add.getProductPrice(), MathContext.DECIMAL64); //Convert double to big decimal.
+	     		if (!db.AddProductToShop(sellerCode, add.getProductName(), add.getProductDescription(), price, add.getProductQty(), add.getHide())); 
 			return false; //Error - product could not be added to the database.
+		}
+		else { //product is already in the databse - just update the product info in the db. 
+			db.updateProduct(add);
+		}
 	}
 	return true;
     }

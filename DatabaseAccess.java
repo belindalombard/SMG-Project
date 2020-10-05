@@ -519,6 +519,22 @@ public class DatabaseAccess {
 			return false;		
 			}
 	}
-	
-}
 
+	public boolean removeProduct(int product_id){
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement remove_product = db.prepareStatement("DELETE FROM smg.product WHERE product_id=?");
+				remove_product.setInt(1,product_id);		
+				remove_product.execute();
+				remove_product.close();		
+				return true;
+			}
+			return false;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return false;		
+			}
+	}
+
+}

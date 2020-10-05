@@ -78,6 +78,8 @@ public class FoldersView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(foldersList.isSelectedIndex(foldersList.getSelectedIndex())){
+		    int product_id_to_remove = productsList.get(foldersList.getSelectedIndex()).getProductID();
+		    db.removeProduct(product_id_to_remove);
                     productsList.remove(foldersList.getSelectedIndex());
                     folders.remove(foldersList.getSelectedIndex());
                 }
@@ -109,6 +111,9 @@ public class FoldersView {
         addFolderButton.setEnabled(false);
         removeFolderButton.setEnabled(false);
     }
+
+
+
 //Add products to the database that is contained in the productList arraylist
     public boolean AddProductsToDatabase(int sellerCode, ArrayList<product> productsList){
  	Iterator i = productsList.iterator();

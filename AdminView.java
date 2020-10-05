@@ -16,6 +16,16 @@ public class AdminView {
         JPanel buttonsBoxLayout = new JPanel();
         buttonsBoxLayout.setLayout(new BoxLayout(buttonsBoxLayout, BoxLayout.LINE_AXIS));
 
+        DefaultListModel userAccounts = new DefaultListModel();
+        for(int i = 0; i < 20; i++){
+            userAccounts.addElement("Account " + i);
+        }
+        JList userAccountsList = new JList(userAccounts);
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(userAccountsList);
+        userAccountsList.setLayoutOrientation(JList.VERTICAL);
+        userAccountsList.setFixedCellHeight(60);
+
         JButton addAccountButton = new JButton("Add");
         addAccountButton.addActionListener(new ActionListener() {
             @Override
@@ -46,6 +56,7 @@ public class AdminView {
         buttonsBoxLayout.add(Box.createHorizontalGlue());
         buttonsBoxLayout.add(removeAccountButton);
 
+        window.add(scrollPane);
         window.add(buttonsBoxLayout, BorderLayout.SOUTH);
         window.setVisible(true);
     }

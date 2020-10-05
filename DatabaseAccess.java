@@ -452,5 +452,25 @@ public class DatabaseAccess {
 			}
 	}
 
+	//Get code of user either in the seller or buyer table (specified in parameter).
+	public int getUserCode(String email, String table){
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement get_user_code=db.prepareStatement("SELECT code FROM smg.? WHERE email_address=?");
+				get_user_code.setString(1,table);
+				get_user_code.setString(2,email);
+				ResultSet rs = get_user_code.executeQuery();
+		                get_user_code.close(); 
+				rs.next();
+				return rs.getInt(1); 	
+			}
+			return 0;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return 0;		
+			}
+	}
+		
 }
 

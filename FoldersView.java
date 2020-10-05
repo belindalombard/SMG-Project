@@ -11,7 +11,7 @@ public class FoldersView {
     JButton addFolderButton, removeFolderButton;
     DefaultListModel hiddenFolders;
 
-    public FoldersView(){
+    public FoldersView(int sellercode){
         //Frame
         JFrame window = new JFrame("Sell My Goods: Folders");
         window.setMinimumSize(new Dimension(800, 500));
@@ -75,6 +75,7 @@ public class FoldersView {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+		AddProductsToDatabase(sellercode, productsList);  
                 LoginView loginView = new LoginView();
                 window.dispose();
             }
@@ -94,5 +95,11 @@ public class FoldersView {
     public void disable(){
         addFolderButton.setEnabled(false);
         removeFolderButton.setEnabled(false);
+    }
+//Add products to the database that is contained in the productList arraylist
+    public boolean AddProductsToDatabase(int sellerCode, ArrayList<product> productsList){
+	    return false;
+
+
     }
 }

@@ -54,9 +54,11 @@ public class LoginView {
                HomeView homeView;
                if (verify(emailField.getText(),new String(passwordField.getPassword()))) {
                        int sb = SellerOrBuyer(emailField.getText());
-               if (sb==1) //Person loggin in is a Seller.
-                   folderView = new FoldersView();
-               else //Person login in is a buyer.
+               	       if (sb==1) { //Person loggin in is a Seller.
+                 		int sellerID = db.getUserCode(emailField.getText(), "seller"); //get the seller's code so that the correct paramaters can be sent through to the next view.  
+		   		folderView = new FoldersView(sellerID);
+	       	       }	   
+	       else //Person login in is a buyer.
                    homeView = new HomeView(window);
                    window.setVisible(false);
                }

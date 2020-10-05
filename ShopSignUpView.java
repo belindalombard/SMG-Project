@@ -80,11 +80,12 @@ public class ShopSignUpView {
                     if(deliveryMethodField.getSelectedIndex() != 0){
                         store shop = new store(shopNameField.getText()+sellerObj.getContactNumber(),shopNameField.getText(), sellerObj.getResidentialAdr(),shopDescriptionField.getText(), null, bankAccNumberField.getText(),bankNameField.getText(),bankBranchCodeField.getText(),deliveryMethodField.getSelectedItem().toString());
                         addSeller(sellerObj, shop);
+			int sellerID = db.getUserCode(sellerObj.getEmail(),"seller");
 			db.CloseConnection(); 
                         JOptionPane.showMessageDialog(null, "Shop successfully registered!");
                         window.dispose();
                         previousWindowFrame.dispose();
-                        FoldersView foldersView = new FoldersView();
+                        FoldersView foldersView = new FoldersView(sellerID);
                     }
                     else{
                         JOptionPane x = new JOptionPane();

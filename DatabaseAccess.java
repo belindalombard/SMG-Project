@@ -263,7 +263,7 @@ public class DatabaseAccess {
 
 	//Used by a Seller to add a new product to their shop.
 	public boolean AddProductToShop(int seller_code, String name, String description, BigDecimal cost, int quantity_left, boolean visible, byte[] photo){
-		try{
+/**		try{
 			if(checkAndResetConnection()){
                                 PreparedStatement insert_product = null;
  	
@@ -289,6 +289,11 @@ public class DatabaseAccess {
 			return false;	
 		}
 		return false;
+*/
+
+//	String productID, String productName, String productDescription, int productQty, double productPrice		
+
+	return false;
 	}
 
 	//Method to close the connection so that unnecessary resources aren't being taken up. 

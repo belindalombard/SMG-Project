@@ -108,13 +108,17 @@ public class ProductFolderView {
         JButton saveProductButton = new JButton("Save");
         saveProductButton.addActionListener(new ActionListener() {
             @Override
+
+	    //String productName, String productDescription, int productQty, double productPrice, boolean visible
             public void actionPerformed(ActionEvent e) {
                 folders.setElementAt(productName.getText(), selectedFolder);
                 ((product)productsList.get(selectedFolder)).setProductName(productName.getText());
                 ((product)productsList.get(selectedFolder)).setProductQty(Integer.parseInt(stockAvailableField.getText()));
                 ((product)productsList.get(selectedFolder)).setProductPrice(Double.parseDouble(productPriceField.getText()));
                 ((product)productsList.get(selectedFolder)).setProductDescription(productDetailsTextArea.getText());
-                if(hide.getState()){
+                ((product)productsList.get(selectedFolder)).setHide(hide.getState());
+		
+		if(hide.getState()){
                     hiddenFolders.addElement(folders.getElementAt(selectedFolder));
                     System.out.println(hiddenFolders.size());
                     /*hiddenFolders is going to be used in

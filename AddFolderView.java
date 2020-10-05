@@ -49,8 +49,8 @@ public class AddFolderView {
             public void actionPerformed(ActionEvent e) {
                 addFolderButton.setEnabled(true);
                 removeFolderButton.setEnabled(true);
-
-                product newProduct = new product("someValue", folderNameField.getText(), "", 0, 0);
+		//String productName, String productDescription, int productQty, double productPrice, boolean visible
+                product newProduct = new product(folderNameField.getText(),"",0,0,false);
                 folders.addElement(newProduct.getProductName());
                 productsList.add(newProduct);
 

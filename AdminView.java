@@ -1,7 +1,10 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class AdminView {
     public AdminView(){
@@ -23,8 +26,29 @@ public class AdminView {
         JList userAccountsList = new JList(userAccounts);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(userAccountsList);
+        scrollPane.setBorder(new EmptyBorder(0,0,0,0));
         userAccountsList.setLayoutOrientation(JList.VERTICAL);
         userAccountsList.setFixedCellHeight(60);
+
+
+        userAccountsList.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(!userAccounts.isEmpty()){
+                    AccountDetailsView accountDetailsView = new AccountDetailsView(window, userAccountsList.getSelectedIndex(), userAccounts);
+                    window.setVisible(false);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) { }
+            @Override
+            public void mouseReleased(MouseEvent e) { }
+            @Override
+            public void mouseEntered(MouseEvent e) { }
+            @Override
+            public void mouseExited(MouseEvent e) { }
+        });
 
         JButton addAccountButton = new JButton("Add");
         addAccountButton.addActionListener(new ActionListener() {

@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.math.BigDecimal;
 import java.math.MathContext;
-public class FoldersView {
 
+public class FoldersView {
+    DatabaseAccess db = new DatabaseAccess();
     JButton addFolderButton, removeFolderButton;
     DefaultListModel hiddenFolders;
 
@@ -24,9 +25,11 @@ public class FoldersView {
 
         hiddenFolders = new DefaultListModel();
         DefaultListModel folders = new DefaultListModel();
-        ArrayList<product> productsList = new ArrayList<>();//to store all the products of the shop
-        JList foldersList = new JList(folders);
-        JScrollPane scrollPane = new JScrollPane();
+        ArrayList<product> productsList = db.getProductsFromSeller(sellercode);//to store all the products of the shop	
+	JList foldersList = new JList(folders);
+        
+	
+	JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(foldersList);
         foldersList.setLayoutOrientation(JList.VERTICAL);
         foldersList.setFixedCellHeight(60);
@@ -48,6 +51,14 @@ public class FoldersView {
             @Override
             public void mouseExited(MouseEvent e) { }
         });
+	
+	//Add products already existing to the list. 
+	Iterator i = productsList.iterator();
+	while (i.hasNext()){
+		product next = (product)i.next();
+		folders.addElement((next.getProductName()));
+	}
+
 
         JPanel topLayout = new JPanel();
         topLayout.setLayout(new BoxLayout(topLayout, BoxLayout.LINE_AXIS));
@@ -100,7 +111,6 @@ public class FoldersView {
     }
 //Add products to the database that is contained in the productList arraylist
     public boolean AddProductsToDatabase(int sellerCode, ArrayList<product> productsList){
-	DatabaseAccess db = new DatabaseAccess();
  	Iterator i = productsList.iterator();
 
 	while (i.hasNext()){ //There is another procuct to check or add. 
@@ -116,6 +126,7 @@ public class FoldersView {
 			db.updateProduct(add);
 		}
 	}
+	db.CloseConnection();
 	return true;
     }
 }

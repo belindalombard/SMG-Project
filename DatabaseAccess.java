@@ -1,8 +1,9 @@
+import javax.swing.*;
 import java.sql.*;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
-/** Notes to self - make changes to DB: 
+/** Notes to self - make changes to DB:
 
 
 - When recreating db, run this functions
@@ -535,6 +536,65 @@ public class DatabaseAccess {
 			e.printStackTrace();
 			return false;		
 			}
+	}
+
+	public DefaultListModel getBuyerAccountsList(){
+		String userName;
+		String userEmail;
+		DefaultListModel userAccounts = new DefaultListModel();
+		try{
+			if(checkAndResetConnection()){
+				PreparedStatement get_buyer_name = db.prepareStatement("select * from smg.buyer");
+
+				ResultSet rs = get_buyer_name.executeQuery();
+				while(rs.next()){
+					userName = rs.getString(2);
+					userEmail = rs.getString(3);
+					userAccounts.addElement("Buyer: "+userName+" : "+userEmail);
+				}
+				get_buyer_name.close();
+				return userAccounts;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+
+		}
+		return userAccounts;
+	}
+
+	public DefaultListModel getSellerAccountslist(){
+		String userName;
+		String userEmail;
+		DefaultListModel userAccounts = new DefaultListModel();
+		try{
+			if(checkAndResetConnection()){
+				PreparedStatement get_seller_name = db.prepareStatement("select * from smg.seller");
+
+				ResultSet rs = get_seller_name.executeQuery();
+				while(rs.next()){
+					userName = rs.getString(2);
+					userEmail = rs.getString(3);
+					userAccounts.addElement("Seller: "+userName+" : "+userEmail);
+				}
+				get_seller_name.close();
+				return userAccounts;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+
+		}
+		return userAccounts;
+	}
+
+	public DefaultListModel getAccountList(){
+		DefaultListModel combine = getBuyerAccountsList();
+		for(int i = 0; i < getSellerAccountslist().getSize(); i++){
+			combine.addElement(getSellerAccountslist().getElementAt(i));
+		}
+		return combine;
+
 	}
 
 }

@@ -39,10 +39,10 @@ public class AdminView {
 //                sellers.put(i, allUsers.get(i));
             }
         }
-        for(int i = 0; i < buyers.size(); i++){
-            System.out.println(buyers.get(i));
-            System.out.println(buyers.get(i).getName());
-        }
+//        for(int i = 0; i < buyers.size(); i++){
+//            System.out.println(buyers.get(i));
+//            System.out.println(buyers.get(i).getName());
+//        }
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(userAccountsList);
         scrollPane.setBorder(new EmptyBorder(0,0,0,0));

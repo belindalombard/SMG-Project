@@ -165,7 +165,7 @@ public class DatabaseAccess {
 				ResultSet rs = insert_seller.getResultSet();
 				
 				rs.next();
-				int new_seller_code = rs.getInt(1); 
+				int new_seller_code = rs.getInt(1);
 				insert_seller.close();
 				
 				//Add the shop, linked to the seller. 
@@ -543,7 +543,7 @@ public class DatabaseAccess {
 				while(rs.next()){
 					userName = rs.getString(2);
 					userEmail = rs.getString(3);
-					userAccounts.addElement("Buyer: "+userName+" : "+userEmail);
+					userAccounts.addElement("Buyer : "+userName);
 				}
 				get_buyer_name.close();
 				return userAccounts;
@@ -569,7 +569,7 @@ public class DatabaseAccess {
 				while(rs.next()){
 					userName = rs.getString(2);
 					userEmail = rs.getString(3);
-					userAccounts.addElement("Seller: "+userName+" : "+userEmail);
+					userAccounts.addElement("Seller : "+userName);
 				}
 //
 //				for(int i = 1; i <= rrs.getColumnCount(); i++){
@@ -616,7 +616,7 @@ public class DatabaseAccess {
 					seller seller = new seller(rs.getString(6), rs.getString(7),
 							rs.getString(2), rs.getString(5),
 							rs.getString(3), rs.getString(4));
-					System.out.println(rs.getString(7));
+//					System.out.println(rs.getString(7));
 					users.add(seller);
 				}
 

@@ -73,7 +73,7 @@ public class AccountDetailsView {
         JLabel userEmailAddress = new JLabel(user.getEmail());
         userEmailAddress.setBounds(320, 180, 150, 27);
 
-        JLabel passwordLabel = new JLabel("Password : ");
+        JLabel passwordLabel = new JLabel("Encrypted Password : ");
         passwordLabel.setBounds(150, 210, 150, 27);
         JLabel userPassword = new JLabel(user.getPassword());
         userPassword.setBounds(320, 210, 150, 27);
@@ -168,7 +168,7 @@ public class AccountDetailsView {
         JLabel userEmailAddress = new JLabel(user.getEmail());
         userEmailAddress.setBounds(320, 180, 150, 27);
 
-        JLabel passwordLabel = new JLabel("Password : ");
+        JLabel passwordLabel = new JLabel("Encrypted Password : ");
         passwordLabel.setBounds(150, 210, 150, 27);
         JLabel userPassword = new JLabel(user.getPassword());
         userPassword.setBounds(320, 210, 150, 27);

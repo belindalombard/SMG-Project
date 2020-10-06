@@ -12,7 +12,7 @@ public class AdminView {
         JFrame window = new JFrame("Sell My Goods: Admin");
         window.setMinimumSize(new Dimension(600, 500));
         window.setLocation(450, 250);
-        window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         //
 

@@ -5,8 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class AdminView {
+    DatabaseAccess db = new DatabaseAccess();
+
     public AdminView(){
         //Frame
         JFrame window = new JFrame("Sell My Goods: Admin");
@@ -19,10 +22,7 @@ public class AdminView {
         JPanel buttonsBoxLayout = new JPanel();
         buttonsBoxLayout.setLayout(new BoxLayout(buttonsBoxLayout, BoxLayout.LINE_AXIS));
 
-        DefaultListModel userAccounts = new DefaultListModel();
-        for(int i = 0; i < 20; i++){
-            userAccounts.addElement("Account " + i);
-        }
+        DefaultListModel userAccounts = db.getAccountList();
         JList userAccountsList = new JList(userAccounts);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(userAccountsList);
@@ -83,6 +83,7 @@ public class AdminView {
         window.add(scrollPane);
         window.add(buttonsBoxLayout, BorderLayout.SOUTH);
         window.setVisible(true);
+        db.CloseConnection();
     }
 
     public static void main(String [] args){

@@ -6,12 +6,13 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class AccountDetailsView {
 
     JFrame window;
     
-    public AccountDetailsView(JFrame previousWindowFrame, int selectedAccount, DefaultListModel userAccounts){
+    public AccountDetailsView(JFrame previousWindowFrame, int selectedAccount, DefaultListModel userAccounts, ArrayList sellers, ArrayList buyers, String nameOfClass, int selectedFromSellers){
         //Frame
         window = new JFrame(""+userAccounts.getElementAt(selectedAccount));
         window.setMinimumSize(new Dimension(600, 500));
@@ -32,13 +33,13 @@ public class AccountDetailsView {
             }
         });
 
-//      if(buyer){
-//          showBuyerDetails();
-//      }
-//      else{
-//          showSellerDetails()
-//      }
-        showSellerDetails(); //Remove after working with the above
+      if(nameOfClass.equals("buyer")){
+          showBuyerDetails((buyer) buyers.get(selectedAccount));
+      }
+      else{
+          showSellerDetails((seller)sellers.get(selectedFromSellers));
+      }
+//        showSellerDetails(); //Remove after working with the above
 
         backBoxLayout.add(backButton);
 
@@ -46,15 +47,15 @@ public class AccountDetailsView {
         window.setVisible(true);
     }
 
-    private void showBuyerDetails(){
+    private void showBuyerDetails(buyer user){
         JLabel nameLabel = new JLabel("Name : ");
         nameLabel.setBounds(150, 60, 50, 27);
-        JLabel userName = new JLabel("Linda");
+        JLabel userName = new JLabel(user.getName());
         userName.setBounds(320, 60, 150, 27);
 
         JLabel idLabel = new JLabel("ID Number : ");
         idLabel.setBounds(150, 90, 150, 27);
-        JLabel userID = new JLabel("1234567890123");
+        JLabel userID = new JLabel(user.getBuyerID());
         userID.setBounds(320, 90, 150, 27);
 
         JLabel locationLabel = new JLabel("Location : ");
@@ -64,17 +65,17 @@ public class AccountDetailsView {
 
         JLabel phoneNumberLabel = new JLabel("Cellphone Number : ");
         phoneNumberLabel.setBounds(150, 150, 150, 27);
-        JLabel userPhoneNumber = new JLabel("1234567890");
+        JLabel userPhoneNumber = new JLabel(user.getContactNumber());
         userPhoneNumber.setBounds(320, 150, 150, 27);
 
         JLabel emailAddressLabel = new JLabel("Email Address : ");
         emailAddressLabel.setBounds(150, 180, 150, 27);
-        JLabel userEmailAddress = new JLabel("a@a.com");
+        JLabel userEmailAddress = new JLabel(user.getEmail());
         userEmailAddress.setBounds(320, 180, 150, 27);
 
         JLabel passwordLabel = new JLabel("Password : ");
         passwordLabel.setBounds(150, 210, 150, 27);
-        JLabel userPassword = new JLabel("123456");
+        JLabel userPassword = new JLabel(user.getPassword());
         userPassword.setBounds(320, 210, 150, 27);
 
         window.add(nameLabel);
@@ -141,8 +142,56 @@ public class AccountDetailsView {
         window.add(new JLabel());
     }
 
-    private void showSellerDetails(){
-        showBuyerDetails();
+    private void showSellerDetails(seller user){
+        JLabel nameLabel = new JLabel("Name : ");
+        nameLabel.setBounds(150, 60, 50, 27);
+        JLabel userName = new JLabel(user.getName());
+        userName.setBounds(320, 60, 150, 27);
+
+        JLabel idLabel = new JLabel("ID Number : ");
+        idLabel.setBounds(150, 90, 150, 27);
+        JLabel userID = new JLabel(user.getSellerID());
+        userID.setBounds(320, 90, 150, 27);
+
+        JLabel locationLabel = new JLabel("Location : ");
+        locationLabel.setBounds(150, 120, 150, 27);
+        JLabel userLocation = new JLabel("Johannesburg");
+        userLocation.setBounds(320, 120, 150, 27);
+
+        JLabel phoneNumberLabel = new JLabel("Cellphone Number : ");
+        phoneNumberLabel.setBounds(150, 150, 150, 27);
+        JLabel userPhoneNumber = new JLabel(user.getContactNumber());
+        userPhoneNumber.setBounds(320, 150, 150, 27);
+
+        JLabel emailAddressLabel = new JLabel("Email Address : ");
+        emailAddressLabel.setBounds(150, 180, 150, 27);
+        JLabel userEmailAddress = new JLabel(user.getEmail());
+        userEmailAddress.setBounds(320, 180, 150, 27);
+
+        JLabel passwordLabel = new JLabel("Password : ");
+        passwordLabel.setBounds(150, 210, 150, 27);
+        JLabel userPassword = new JLabel(user.getPassword());
+        userPassword.setBounds(320, 210, 150, 27);
+
+        window.add(nameLabel);
+        window.add(userName);
+
+        window.add(idLabel);
+        window.add(userID);
+
+        window.add(locationLabel);
+        window.add(userLocation);
+
+        window.add(phoneNumberLabel);
+        window.add(userPhoneNumber);
+
+        window.add(emailAddressLabel);
+        window.add(userEmailAddress);
+
+        window.add(passwordLabel);
+        window.add(userPassword);
+        window.add(new JLabel());
+
         showShopDetails();
     }
 }

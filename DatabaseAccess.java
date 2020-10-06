@@ -17,20 +17,20 @@ public class DatabaseAccess {
 
 	//Constructer - it sets the connection to the database
 	public DatabaseAccess() {
-                String url = "jdbc:postgresql://witblitz.zapto.org:20977/smgapp";
-                String username = "smgapp";
-                String password = "Bi_h0Iu8ie";
+		String url = "jdbc:postgresql://witblitz.zapto.org:20977/smgapp";
+		String username = "smgapp";
+		String password = "Bi_h0Iu8ie";
 
-                try {
-                        Class.forName("org.postgresql.Driver");
-                        db = DriverManager.getConnection(url, username, password);
-                }
-                catch (SQLException e){
-                        e.printStackTrace();
-                }
-                catch (ClassNotFoundException f){
-                        f.printStackTrace();
-                }
+		try {
+			Class.forName("org.postgresql.Driver");
+			db = DriverManager.getConnection(url, username, password);
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException f){
+			f.printStackTrace();
+		}
 	}
 
 	
@@ -38,8 +38,7 @@ public class DatabaseAccess {
 	public boolean AddBuyer(String name, String email, String cellno, String password, String district, String national_id){
 		try{
 			if(checkAndResetConnection()){
-                                PreparedStatement insert_buyer = null;
-
+				PreparedStatement insert_buyer = null;
 	
 				String sql_statement_buyer = "INSERT INTO smg.buyer (name, email_address, phone_number, password, area, national_id) VALUES (?,?,?,?,(SELECT district_id FROM smg.district WHERE name=?),?)";
 
@@ -87,61 +86,61 @@ public class DatabaseAccess {
 	//Reset connection if connection failed for some reason.
 	//Returns true if connection successfuly established. 
 	public boolean resetConnection() {
-                String url = "jdbc:postgresql://witblitz.zapto.org:20977/smgapp";
-                String username = "smgapp";
-                String password = "Bi_h0Iu8ie";
+		String url = "jdbc:postgresql://witblitz.zapto.org:20977/smgapp";
+		String username = "smgapp";
+		String password = "Bi_h0Iu8ie";
 
-                try {
-                        Class.forName("org.postgresql.Driver");
-                        db = DriverManager.getConnection(url, username, password);
-                }
-                catch (SQLException e){
-                        e.printStackTrace();
+		try {
+			Class.forName("org.postgresql.Driver");
+			db = DriverManager.getConnection(url, username, password);
+		}
+		catch (SQLException e){
+			e.printStackTrace();
 			return false;
-                }
-                catch (ClassNotFoundException f){
-                        f.printStackTrace();
+		}
+		catch (ClassNotFoundException f){
+			f.printStackTrace();
 			return false;
-                }
+		}
 		return true;
-        }
+	}
 
 
 	//Method for loggin in of buyer - confirm if the Username and Password exists and matches. 
 	public boolean BuyerLogin(String email, String password){
- 			try {
-				//Declare variable 
-				int email_id = 0;
+		try {
+			//Declare variable
+			int email_id = 0;
 
-				//First check if the email is in the Database. 
-                                PreparedStatement find_buyer_email = null;                              
-				String sql_statement_find_email = "SELECT * FROM smg.buyer WHERE email_address=?";
-                                find_buyer_email = db.prepareStatement(sql_statement_find_email);
-                                find_buyer_email.setString(1, email);
-                                ResultSet rs = find_buyer_email.executeQuery();
-				if (rs.next()) //Meaning the email address exists in the buyer database.
-					email_id = rs.getInt(1); 
-				else{ //Meaning the email address is not in the database.
-					find_buyer_email.close();	
-					return false; //Login failed. 
-				}
-				//Next, check if the password of the buyer matches with the email. 
-				String password_from_db = rs.getString(5);				
-				if (password_from_db.equals(password)){
-					find_buyer_email.close();
-					return true;		
-				}			
-				
+			//First check if the email is in the Database.
+			PreparedStatement find_buyer_email = null;
+			String sql_statement_find_email = "SELECT * FROM smg.buyer WHERE email_address=?";
+			find_buyer_email = db.prepareStatement(sql_statement_find_email);
+			find_buyer_email.setString(1, email);
+			ResultSet rs = find_buyer_email.executeQuery();
+			if (rs.next()) //Meaning the email address exists in the buyer database.
+				email_id = rs.getInt(1);
+			else{ //Meaning the email address is not in the database.
 				find_buyer_email.close();
-				return false;
-
-                        }
-			catch (Exception e){
-				e.printStackTrace();
-				return false;
+				return false; //Login failed.
 			}
-                
+			//Next, check if the password of the buyer matches with the email.
+			String password_from_db = rs.getString(5);
+			if (password_from_db.equals(password)){
+				find_buyer_email.close();
+				return true;
+			}
+				
+			find_buyer_email.close();
+			return false;
+
 		}
+		catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+                
+	}
 
 
 	public boolean AddSellerAndShop(String name, String email, String cellno,String password, String ID_Number, String district, String shop_name, String acc_number, String bank, String branch, String delivery, String description){
@@ -196,39 +195,39 @@ public class DatabaseAccess {
 
 	//Method for loggin in of seller- confirm if the Username and Password exists and matches. 
 	public boolean SellerLogin(String email, String password){
- 			try {
-				//Declare variable 
-				int email_id = 0;
+		try {
+			//Declare variable
+			int email_id = 0;
 
-				//First check if the email is in the Database. 
-                                PreparedStatement find_seller_email = null;                              
-				String sql_statement_find_email = "SELECT * FROM smg.seller WHERE email_address=?";
-                                find_seller_email = db.prepareStatement(sql_statement_find_email);
-                                find_seller_email.setString(1, email);
-                                ResultSet rs = find_seller_email.executeQuery();
-				if (rs.next()) //Meaning the email address exists in the seller database.
-					email_id = rs.getInt(1); 
-				else{ //Meaning the email address is not in the database.
-					find_seller_email.close();	
-					return false; //Login failed. 
-				}
-				//Next, check if the password of the buyer matches with the email. 
-				String password_from_db = rs.getString(5);				
-				if (password_from_db.equals(password)){
-					find_seller_email.close();
-					return true;		
-				}			
-				
+			//First check if the email is in the Database.
+			PreparedStatement find_seller_email = null;
+			String sql_statement_find_email = "SELECT * FROM smg.seller WHERE email_address=?";
+			find_seller_email = db.prepareStatement(sql_statement_find_email);
+			find_seller_email.setString(1, email);
+			ResultSet rs = find_seller_email.executeQuery();
+			if (rs.next()) //Meaning the email address exists in the seller database.
+				email_id = rs.getInt(1);
+			else{ //Meaning the email address is not in the database.
 				find_seller_email.close();
-				return false;
-
-                        }
-			catch (Exception e){
-				e.printStackTrace();
-				return false;
+				return false; //Login failed.
 			}
-                
+			//Next, check if the password of the buyer matches with the email.
+			String password_from_db = rs.getString(5);
+			if (password_from_db.equals(password)){
+				find_seller_email.close();
+				return true;
+			}
+
+			find_seller_email.close();
+			return false;
+
 		}
+		catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+                
+	}
 
 
 	public String[] GetAllDistricts(){
@@ -267,15 +266,14 @@ public class DatabaseAccess {
 	public boolean AddProductToShop(int seller_code, String name, String description, BigDecimal cost, int quantity_left, boolean visible){
 		try{
 			if(checkAndResetConnection()){
-                                PreparedStatement insert_product = null;
- 
-			
-                                String sql_statement_product = "INSERT INTO smg.product(seller_code, name, description, cost, quantity_left, visible, photo) VALUES (?,?,?,?,?,?,null)";
-                                insert_product = db.prepareStatement(sql_statement_product);
-                                insert_product.setInt(1, seller_code);
+				PreparedStatement insert_product = null;
+
+				String sql_statement_product = "INSERT INTO smg.product(seller_code, name, description, cost, quantity_left, visible, photo) VALUES (?,?,?,?,?,?,null)";
+				insert_product = db.prepareStatement(sql_statement_product);
+				insert_product.setInt(1, seller_code);
 				insert_product.setString(2, name);
-                                insert_product.setString(3, description);
-                                insert_product.setBigDecimal(4, cost);
+				insert_product.setString(3, description);
+				insert_product.setBigDecimal(4, cost);
 				insert_product.setInt(5, quantity_left);
 				insert_product.setBoolean(6,visible);
 				//insert_product.setBytes(7,photo);
@@ -290,8 +288,6 @@ public class DatabaseAccess {
 			return false;	
 		}
 		return false;
-
-
 	}
 
 	//Method to close the connection so that unnecessary resources aren't being taken up. 
@@ -301,7 +297,6 @@ public class DatabaseAccess {
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-
 	}
 
 	//Login when it is unknown whether a Seller or Buyer is signing in. 
@@ -311,8 +306,7 @@ public class DatabaseAccess {
 		if (BuyerLogin(email,password))
 			return true;
 		else
-			return false; 
-
+			return false;
 	}
 
 	//Returns: 1 if email belongs to seller, 0 if email belongs to buyer, -1 if email belongs to nether 
@@ -321,8 +315,7 @@ public class DatabaseAccess {
 			return 1;
 		if (BuyerExists(email))
 			return 0;
-		return -1;		
-
+		return -1;
 	}
 	
 	//Method to determine if buyer exists in Database, based on Email Address. 
@@ -382,7 +375,7 @@ public class DatabaseAccess {
 				ResultSet rs = id_in_buyer.executeQuery();
 				id_in_buyer.close();
 				if (rs.next())
-		         		return 1; //id number belongs to buyer table     
+					return 1; //id number belongs to buyer table
 				//check if id number is in seller table. 
 				PreparedStatement id_in_seller=db.prepareStatement("SELECT code FROM smg.seller WHERE national_id=?");
 				id_in_seller.setString(1,id);
@@ -397,7 +390,7 @@ public class DatabaseAccess {
 		catch (Exception e){
 			e.printStackTrace();
 			return -2;		
-			}
+		}
 	}
 
 	//Check if an cell number exists in either the seller or buyer table. Return 1 if it is in the seller table, 0 if it is in the buyer table and -1 if it is in neither. If it returns -2, there is a connection error. 
@@ -408,7 +401,7 @@ public class DatabaseAccess {
 				PreparedStatement cell_in_buyer=db.prepareStatement("SELECT code FROM smg.buyer WHERE phone_number=?");
 				cell_in_buyer.setString(1,cellno);
 				ResultSet rs = cell_in_buyer.executeQuery();
-		                cell_in_buyer.close(); 
+				cell_in_buyer.close();
 				if (rs.next()){
 					return 1; //cell number belongs to buyer table.
 				}
@@ -427,7 +420,7 @@ public class DatabaseAccess {
 		catch (Exception e){
 			e.printStackTrace();
 			return -2;		
-			}
+		}
 	}
 	
 	//Check if a shop name exists in either the shop table. Returns boolean. 
@@ -437,7 +430,7 @@ public class DatabaseAccess {
 				PreparedStatement shopexists=db.prepareStatement("SELECT shop_id FROM smg.shop WHERE shop_name=?");
 				shopexists.setString(1,shopName);
 				ResultSet rs = shopexists.executeQuery();
-		                shopexists.close(); 
+				shopexists.close();
 				if (rs.next()){
 					return true;
 				}
@@ -447,7 +440,7 @@ public class DatabaseAccess {
 		catch (Exception e){
 			e.printStackTrace();
 			return false;		
-			}
+		}
 	}
 
 	//Get code of user either in the seller or buyer table (specified in parameter).
@@ -461,7 +454,7 @@ public class DatabaseAccess {
 					get_user_code=db.prepareStatement("SELECT code FROM smg.buyer WHERE email_address=?");	
 				get_user_code.setString(1,email);
 				ResultSet rs = get_user_code.executeQuery();
-		                get_user_code.close(); 
+				get_user_code.close();
 				rs.next();
 				return rs.getInt(1); 	
 			}
@@ -481,7 +474,7 @@ public class DatabaseAccess {
 				PreparedStatement get_products = db.prepareStatement("SELECT * FROM smg.product WHERE seller_code=?");
 				get_products.setInt(1,seller_id);		
 				ResultSet rs = get_products.executeQuery();
-		                get_products.close(); 
+				get_products.close();
 				while (rs.next()){
 					product add_to_list = new product(rs.getString(3), rs.getString(4), rs.getInt(6), rs.getBigDecimal(5).doubleValue(), rs.getBoolean(7), rs.getInt(1));
 					products.add(add_to_list);
@@ -494,7 +487,7 @@ public class DatabaseAccess {
 		catch (Exception e){
 			e.printStackTrace();
 			return products;		
-			}
+		}
 	}
 			
 	//Method to update already existing product to new values (if changed). 
@@ -518,7 +511,7 @@ public class DatabaseAccess {
 		catch (Exception e){
 			e.printStackTrace();
 			return false;		
-			}
+		}
 	}
 
 	public boolean removeProduct(int product_id){
@@ -535,7 +528,7 @@ public class DatabaseAccess {
 		catch (Exception e){
 			e.printStackTrace();
 			return false;		
-			}
+		}
 	}
 
 	public DefaultListModel getBuyerAccountsList(){
@@ -544,7 +537,7 @@ public class DatabaseAccess {
 		DefaultListModel userAccounts = new DefaultListModel();
 		try{
 			if(checkAndResetConnection()){
-				PreparedStatement get_buyer_name = db.prepareStatement("select * from smg.buyer");
+				PreparedStatement get_buyer_name = db.prepareStatement("SELECT * FROM smg.buyer");
 
 				ResultSet rs = get_buyer_name.executeQuery();
 				while(rs.next()){
@@ -569,14 +562,19 @@ public class DatabaseAccess {
 		DefaultListModel userAccounts = new DefaultListModel();
 		try{
 			if(checkAndResetConnection()){
-				PreparedStatement get_seller_name = db.prepareStatement("select * from smg.seller");
+				PreparedStatement get_seller_name = db.prepareStatement("SELECT * FROM smg.seller");
 
 				ResultSet rs = get_seller_name.executeQuery();
+//				ResultSetMetaData rrs = get_seller_name.getMetaData();
 				while(rs.next()){
 					userName = rs.getString(2);
 					userEmail = rs.getString(3);
 					userAccounts.addElement("Seller: "+userName+" : "+userEmail);
 				}
+//
+//				for(int i = 1; i <= rrs.getColumnCount(); i++){
+//					System.out.println(rrs.getColumnLabel(i));
+//				}
 				get_seller_name.close();
 				return userAccounts;
 			}
@@ -595,6 +593,42 @@ public class DatabaseAccess {
 		}
 		return combine;
 
+	}
+
+	public ArrayList getAllUsers(){
+		ArrayList<Object> users = new ArrayList<>();
+		try{
+			if(checkAndResetConnection()){
+				PreparedStatement get_sellers = db.prepareStatement("SELECT * FROM smg.seller");
+				PreparedStatement get_buyers = db.prepareStatement("SELECT * FROM smg.buyer");
+
+				ResultSet rs2 = get_buyers.executeQuery();
+				while(rs2.next()){
+					buyer buyer = new buyer(rs2.getString(7), rs2.getString(6),
+							rs2.getString(2), rs2.getString(5),
+							rs2.getString(3), rs2.getString(4));
+					users.add(buyer);
+				}
+
+				ResultSet rs = get_sellers.executeQuery();
+				while(rs.next()){
+//					seller x = new se
+					seller seller = new seller(rs.getString(6), rs.getString(7),
+							rs.getString(2), rs.getString(5),
+							rs.getString(3), rs.getString(4));
+					System.out.println(rs.getString(7));
+					users.add(seller);
+				}
+
+				get_sellers.close();
+				return users;
+			}
+
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		return users;
 	}
 
 }

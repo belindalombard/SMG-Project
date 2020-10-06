@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 public class AccountDetailsView {
 
     JFrame window;
-//    DatabaseAccess db = new DatabaseAccess();
+    
     public AccountDetailsView(JFrame previousWindowFrame, int selectedAccount, DefaultListModel userAccounts){
         //Frame
         window = new JFrame(""+userAccounts.getElementAt(selectedAccount));

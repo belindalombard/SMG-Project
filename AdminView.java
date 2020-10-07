@@ -98,6 +98,20 @@ public class AdminView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //remove user account
+                for(int i = 0; i < buyers.size(); i++){
+                    if(buyers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
+                        buyers.remove(i);
+                    }
+                }
+
+                for(int i = 0; i < sellers.size(); i++){
+                    if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
+                        sellers.remove(i);
+                    }
+                }
+                userAccounts.remove(userAccountsList.getSelectedIndex());
+                
+                //Remove from database: Belinda
             }
         });
 

@@ -147,7 +147,7 @@ public class ShopSignUpView {
     }
 
     private String validateBankAccountNum(String bankAccNum){
-        if(bankAccNum.length() != 11){
+        if(bankAccNum.length()<8 &&  bankAccNum.length()>11){
             return("Your bank account number is not the correct length");
         }
         else if (!bankAccNum.matches("[0-9]+")) {

@@ -40,7 +40,7 @@ public class LoginView {
         JPanel flowSignUpLayout = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         //
 
-        JLabel accountDoesNotExistLabel = new JLabel("Account Does Not Exist");
+        JLabel accountDoesNotExistLabel = new JLabel("Invalid Login Details");
 
         JButton loginButton = new JButton("Login");
 

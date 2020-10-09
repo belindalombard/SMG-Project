@@ -82,6 +82,7 @@ public class AdminView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Add user account
+                SignUpView x = new SignUpView(window);
             }
         });
 
@@ -90,6 +91,7 @@ public class AdminView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Edit a user's account
+                
             }
         });
 
@@ -110,7 +112,7 @@ public class AdminView {
                     }
                 }
                 userAccounts.remove(userAccountsList.getSelectedIndex());
-                
+
                 //Remove from database: Belinda
             }
         });

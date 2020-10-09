@@ -91,7 +91,7 @@ public class AdminView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Edit a user's account
-                
+
             }
         });
 

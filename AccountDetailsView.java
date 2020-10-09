@@ -1,4 +1,4 @@
-import javafx.scene.text.Text;
+//import javafx.scene.text.Text;
 
 import javax.sound.sampled.Line;
 import javax.swing.*;

@@ -119,25 +119,23 @@ public class SignUpView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String val = Validate(nameField.getText(), idField.getText(), phoneNumberField.getText(), emailAddressField.getText(), passwordField.getText(), confirmPasswordField.getText()); //validate entered fields.
-		if (val.equals("yes")){
-		    db.CloseConnection();
+                if (val.equals("yes")){
+                    db.CloseConnection();
                     if(seller.getState() == true){
                         disable();
                         seller sellerObj = new seller(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), emailAddressField.getText(), phoneNumberField.getText());
-                        ShopSignUpView shopSignUpView = new ShopSignUpView(window, backToLoginButton, createAccountButton, buyer, seller,sellerObj);
-//                    window.setVisible(false);
-                      }
+                        ShopSignUpView shopSignUpView = new ShopSignUpView(window, previousWindowFrame, backToLoginButton, createAccountButton, buyer, seller,sellerObj);
+                    }
                     else{
-//                    HomeView homeView = new HomeView(window);
                         try{
-			    buyer buyerobj = new buyer(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), emailAddressField.getText(), phoneNumberField.getText());
-                            ConfirmCustomerSignUpView confirmCustomerSignUpView = new ConfirmCustomerSignUpView(window, buyerobj);
+                            buyer buyerobj = new buyer(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), emailAddressField.getText(), phoneNumberField.getText());
+                            ConfirmCustomerSignUpView confirmCustomerSignUpView = new ConfirmCustomerSignUpView(window, previousWindowFrame, buyerobj);
                             window.setVisible(false);
-                       	    db.CloseConnection();
-		       	}
+                            db.CloseConnection();
+                        }
                         catch (Exception k){}
                     }
-		}
+                }
                 else{
                     JOptionPane x = new JOptionPane();
                     x.showMessageDialog(null, val, "Warning", JOptionPane.WARNING_MESSAGE);

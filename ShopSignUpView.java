@@ -7,9 +7,10 @@ import java.awt.event.WindowListener;
 
 public class ShopSignUpView {
     DatabaseAccess db; 
-    public ShopSignUpView(JFrame previousWindowFrame, JButton backButton, JButton createAccountButton, Checkbox buyer, Checkbox seller, seller sellerObj){
+    public ShopSignUpView(JFrame previousWindowFrame, JFrame adminWindow, JButton backButton, JButton createAccountButton, Checkbox buyer, Checkbox seller, seller sellerObj){
         //Frame
-	db = new DatabaseAccess(); 
+        db = new DatabaseAccess();
+        System.out.println(adminWindow.getTitle());
         JFrame window = new JFrame("Sell My Goods: Shop Registration");
         window.setMinimumSize(new Dimension(500, 480));
         window.setLocation(450, 250);
@@ -74,7 +75,7 @@ public class ShopSignUpView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String val = validate(bankAccNumberField.getText(), bankBranchCodeField.getText(), shopNameField.getText(), shopDescriptionField.getText(), bankNameField.getText());
-		if(val.equals("yes")/*!shopNameField.getText().equals("") && !bankNameField.getText().equals("")
+                if(val.equals("yes")/*!shopNameField.getText().equals("") && !bankNameField.getText().equals("")
                         && !bankAccNumberField.getText().equals("") && !bankBranchCodeField.getText().equals("")
                         && !shopDescriptionField.getText().equals("")*/){
                     if(deliveryMethodField.getSelectedIndex() != 0){
@@ -87,7 +88,10 @@ public class ShopSignUpView {
                         JOptionPane.showMessageDialog(null, "Shop successfully registered!");
                         window.dispose();
                         previousWindowFrame.dispose();
-                        FoldersView foldersView = new FoldersView(sellerID);
+                        if(adminWindow.getTitle().equals("Sell My Goods: Admin")){ }
+                        else{
+                            FoldersView foldersView = new FoldersView(sellerID);
+                        }
                     }
                     else{
                         JOptionPane x = new JOptionPane();

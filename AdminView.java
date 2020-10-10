@@ -11,10 +11,12 @@ import java.util.Hashtable;
 
 public class AdminView {
     DatabaseAccess db = new DatabaseAccess();
-
+    DefaultListModel userAccounts;
+    JList userAccountsList;
+    JFrame window;
     public AdminView(){
         //Frame
-        JFrame window = new JFrame("Sell My Goods: Admin");
+        window = new JFrame("Sell My Goods: Admin");
         window.setMinimumSize(new Dimension(600, 500));
         window.setLocation(450, 250);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,8 +26,8 @@ public class AdminView {
         JPanel buttonsBoxLayout = new JPanel();
         buttonsBoxLayout.setLayout(new BoxLayout(buttonsBoxLayout, BoxLayout.LINE_AXIS));
 
-        DefaultListModel userAccounts = db.getAccountList();
-        JList userAccountsList = new JList(userAccounts);
+        userAccounts = db.getAccountList();
+        userAccountsList = new JList(userAccounts);
         ArrayList<Object> allUsers = db.getAllUsers();
         ArrayList<buyer> buyers = new ArrayList<>();
         ArrayList<seller> sellers = new ArrayList<>();
@@ -91,7 +93,7 @@ public class AdminView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Edit a user's account
-
+                refreshList();
             }
         });
 
@@ -131,5 +133,10 @@ public class AdminView {
 
     public static void main(String [] args){
         AdminView x = new AdminView();
+    }
+
+    public void refreshList(){
+        userAccounts = db.getAccountList();
+        userAccountsList.setModel(userAccounts);
     }
 }

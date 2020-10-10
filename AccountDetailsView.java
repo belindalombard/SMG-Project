@@ -116,7 +116,7 @@ public class AccountDetailsView {
 
         JLabel validateLabel = new JLabel("Validation : ");
         validateLabel.setBounds(150, 240, 150, 27);
-        JLabel validation = new JLabel(String.valueOf(user.getValidation()));
+        JLabel validation = new JLabel(user.getValidation() ? "Validated" : "Not Validated");
         validation.setBounds(320, 240, 150, 27);
 
         window.add(nameLabel);
@@ -219,7 +219,7 @@ public class AccountDetailsView {
 
         JLabel validateLabel = new JLabel("Validation : ");
         validateLabel.setBounds(150, 240, 150, 27);
-        JLabel validation = new JLabel("User Validated");
+        JLabel validation = new JLabel(user.getValidation() ? "Validated" : "Not Validated");
         validation.setBounds(320, 240, 150, 27);
 
         window.add(nameLabel);

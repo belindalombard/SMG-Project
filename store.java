@@ -1,10 +1,11 @@
 import java.sql.Array;
 
 public class store {
-    private String storeID, storeName, storeLocation, storeDescription, storeAccountNumber, storeBankName, storeBankBranch, deliveryOption;
-    private Array products;
+    private int storeID;
+    private String storeName, storeLocation, storeDescription, storeAccountNumber, storeBankName, storeBankBranch, deliveryOption;
+    private product[] products;
 
-    public store(String storeID,String storeName,String storeLocation,String storeDescription,Array products, String storeAccountNumber, String storeBankName, String storeBankBranch, String deliveryOption)
+    public store(int storeID,String storeName,String storeLocation,String storeDescription,product[] products, String storeAccountNumber, String storeBankName, String storeBankBranch, String deliveryOption)
     {
         this.storeID = storeID;
         this.storeName = storeName;
@@ -17,7 +18,7 @@ public class store {
 	this.deliveryOption = deliveryOption;
     }
     // GET methods
-    public Array getProducts() {
+    public product[] getProducts() {
         return products;
     }
 
@@ -25,7 +26,7 @@ public class store {
         return storeDescription;
     }
 
-    public String getStoreID() {
+    public int getStoreID() {
         return storeID;
     }
 
@@ -51,5 +52,9 @@ public class store {
 
     public String getDelivery(){
 	return deliveryOption;
+    }
+
+    public void setShopID(int id){
+	this.storeID=id; 
     }
 }

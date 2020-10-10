@@ -1,5 +1,6 @@
 public class seller {
-    private String sellerID, residentialAdr,  name, email ,contactNumber, password;
+    private String sellerID;
+    private String residentialAdr,  name, email ,contactNumber, password;
     public seller(String sellerID, String residentialAdr,  String name, String password, String email, String contactNumber)
     {
         this.sellerID=sellerID;

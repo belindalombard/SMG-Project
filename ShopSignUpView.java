@@ -78,9 +78,11 @@ public class ShopSignUpView {
                         && !bankAccNumberField.getText().equals("") && !bankBranchCodeField.getText().equals("")
                         && !shopDescriptionField.getText().equals("")*/){
                     if(deliveryMethodField.getSelectedIndex() != 0){
-                        store shop = new store(shopNameField.getText()+sellerObj.getContactNumber(),shopNameField.getText(), sellerObj.getResidentialAdr(),shopDescriptionField.getText(), null, bankAccNumberField.getText(),bankNameField.getText(),bankBranchCodeField.getText(),deliveryMethodField.getSelectedItem().toString());
+                        store shop = new store(0,shopNameField.getText(), sellerObj.getResidentialAdr(),shopDescriptionField.getText(), null, bankAccNumberField.getText(),bankNameField.getText(),bankBranchCodeField.getText(),deliveryMethodField.getSelectedItem().toString());
                         addSeller(sellerObj, shop);
 			int sellerID = db.getUserCode(sellerObj.getEmail(),"seller");
+			int shopID = db.getShopID(sellerID);
+			shop.setShopID(shopID);
 			db.CloseConnection(); 
                         JOptionPane.showMessageDialog(null, "Shop successfully registered!");
                         window.dispose();

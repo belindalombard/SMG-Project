@@ -11,10 +11,12 @@ import java.util.Hashtable;
 
 public class AdminView {
     DatabaseAccess db = new DatabaseAccess();
-
+    DefaultListModel userAccounts;
+    JList userAccountsList;
+    JFrame window;
     public AdminView(){
         //Frame
-        JFrame window = new JFrame("Sell My Goods: Admin");
+        window = new JFrame("Sell My Goods: Admin");
         window.setMinimumSize(new Dimension(600, 500));
         window.setLocation(450, 250);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,8 +26,8 @@ public class AdminView {
         JPanel buttonsBoxLayout = new JPanel();
         buttonsBoxLayout.setLayout(new BoxLayout(buttonsBoxLayout, BoxLayout.LINE_AXIS));
 
-        DefaultListModel userAccounts = db.getAccountList();
-        JList userAccountsList = new JList(userAccounts);
+        userAccounts = db.getAccountList();
+        userAccountsList = new JList(userAccounts);
         ArrayList<Object> allUsers = db.getAllUsers();
         ArrayList<buyer> buyers = new ArrayList<>();
         ArrayList<seller> sellers = new ArrayList<>();
@@ -62,7 +64,7 @@ public class AdminView {
                     }
                     String selectedClass = allUsers.get(userAccountsList.getSelectedIndex()).getClass().getName();
                     AccountDetailsView accountDetailsView = new AccountDetailsView(window, userAccountsList.getSelectedIndex(),
-                            userAccounts, sellers, buyers, selectedClass, selectedFromSellers);
+                            userAccounts, sellers, buyers, selectedClass, selectedFromSellers, userAccountsList, allUsers);
                     window.setVisible(false);
                 }
             }
@@ -91,37 +93,14 @@ public class AdminView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Edit a user's account
-
+//                refreshList();
             }
         });
 
-        JButton removeAccountButton = new JButton("Remove");
-        removeAccountButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //remove user account
-                for(int i = 0; i < buyers.size(); i++){
-                    if(buyers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
-                        buyers.remove(i);
-                    }
-                }
-
-                for(int i = 0; i < sellers.size(); i++){
-                    if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
-                        sellers.remove(i);
-                    }
-                }
-                userAccounts.remove(userAccountsList.getSelectedIndex());
-
-                //Remove from database: Belinda
-            }
-        });
 
         buttonsBoxLayout.add(addAccountButton);
         buttonsBoxLayout.add(Box.createHorizontalGlue());
         buttonsBoxLayout.add(editAccountButton);
-        buttonsBoxLayout.add(Box.createHorizontalGlue());
-        buttonsBoxLayout.add(removeAccountButton);
 
         window.add(scrollPane);
         window.add(buttonsBoxLayout, BorderLayout.SOUTH);
@@ -131,5 +110,10 @@ public class AdminView {
 
     public static void main(String [] args){
         AdminView x = new AdminView();
+    }
+
+    public void refreshList(){
+        userAccounts = db.getAccountList();
+        userAccountsList.setModel(userAccounts);
     }
 }

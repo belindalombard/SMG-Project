@@ -149,7 +149,7 @@ public class DatabaseAccess {
 				db.setAutoCommit(false); //default is true. 
 
 				//First insert the Seller.  			
-				String sql_statement_seller = "INSERT INTO smg.seller (name, email_address, phone_numebr, password, national_id, area) VALUES (?,?,?,?,?,(SELECT district_id FROM smg.district WHERE name=?),?) RETURNING code";
+				String sql_statement_seller = "INSERT INTO smg.seller (name, email_address, phone_numebr, password, national_id, area, validated) VALUES (?,?,?,?,?,(SELECT district_id FROM smg.district WHERE name=?),?) RETURNING code";
 
 				PreparedStatement insert_seller = db.prepareStatement(sql_statement_seller);
 
@@ -660,5 +660,78 @@ public class DatabaseAccess {
 		}
 		return sellers;
 	}
-		
+
+	//Function to get a shop based on seller
+	public store getShopFromSeller(seller sell){
+		try{
+			if(checkAndResetConnection()){
+				db.setAutoCommit(true);
+				PreparedStatement get_shop = db.prepareStatement("SELECT * FROM smg.shop WHERE seller=(SELECT code FROM smg.seller WHERE email_address=?)");
+				get_shop.setString(1, sell.getEmail());
+				ResultSet rs = get_shop.executeQuery();
+				get_shop.close();
+				//get Products in arraylist
+				ArrayList<product> productsList = getProductsFromSeller(getUserCode(sell.getEmail(),"seller")); 
+				
+				//convert arraylist to array
+				product[] products = new product[productsList.size()];
+				for (int i=0; i<productsList.size(); i++){
+					products[i]=productsList.get(i);
+				}
+
+				//create the shop object	
+				rs.next();
+					// shop_id |    shop_name    | bank_account_number |   bank_name   | bank_banch_code |    delivery_method    |        description        | seller  - db entries
+					//String storeID,String storeName,String storeLocation,String storeDescription,Array products, String storeAccountNumber, String storeBankName, String storeBankBranch, String deliveryOption - constructor of shop
+				store s = new store(rs.getInt(1), rs.getString(2), sell.getResidentialAdr(), rs.getString(7), products, rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)); 
+
+				get_shop.close();
+				return s;
+			}
+
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+/**
+	//return unique seller code saved in database, based on email address
+	public int getSellerCode(String email){
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement getcode = db.prepareStatement("SELECT seller_code FROM smg.seller WHERE email_address=?");
+				getcode.setString(1, email);
+				ResultSet rs = getcode.executeQuery();
+				rs.next();
+				int seller_code = rs.getInt(1);
+				return seller_code;
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		return -1;
+	}
+*/
+
+
+	//get the shop id stored in the db based on the seller id. 
+	public int getShopID(int seller_id){
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement getcode = db.prepareStatement("SELECT shop_id FROM smg.shop WHERE seller=?");
+				getcode.setInt(1, seller_id);
+				ResultSet rs = getcode.executeQuery();
+				rs.next();
+				int shop_code = rs.getInt(1);
+				return shop_code;
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
 }

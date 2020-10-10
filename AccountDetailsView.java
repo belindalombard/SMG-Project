@@ -24,6 +24,25 @@ public class AccountDetailsView {
         JPanel backBoxLayout = new JPanel();
         backBoxLayout.setLayout(new BoxLayout(backBoxLayout, BoxLayout.LINE_AXIS));
 
+        JPanel boxLayout = new JPanel();
+        boxLayout.setLayout(new BoxLayout(boxLayout, BoxLayout.LINE_AXIS));
+
+        JButton removeAccountButton = new JButton("Remove");
+        removeAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        JButton validateAccountButton = new JButton("Validate");
+        validateAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -33,17 +52,21 @@ public class AccountDetailsView {
             }
         });
 
-      if(nameOfClass.equals("buyer")){
-          showBuyerDetails((buyer) buyers.get(selectedAccount));
-      }
-      else{
-          showSellerDetails((seller)sellers.get(selectedFromSellers));
-      }
-//        showSellerDetails(); //Remove after working with the above
+        if(nameOfClass.equals("buyer")){
+            showBuyerDetails((buyer) buyers.get(selectedAccount));
+        }
+        else{
+            showSellerDetails((seller)sellers.get(selectedFromSellers));
+        }
 
         backBoxLayout.add(backButton);
 
+        boxLayout.add(validateAccountButton);
+        boxLayout.add(Box.createHorizontalGlue());
+        boxLayout.add(removeAccountButton);
+
         window.add(backBoxLayout, BorderLayout.NORTH);
+        window.add(boxLayout, BorderLayout.SOUTH);
         window.setVisible(true);
     }
 
@@ -78,6 +101,11 @@ public class AccountDetailsView {
         JLabel userPassword = new JLabel(user.getPassword());
         userPassword.setBounds(320, 210, 150, 27);
 
+        JLabel validateLabel = new JLabel("Validation : ");
+        validateLabel.setBounds(150, 240, 150, 27);
+        JLabel validation = new JLabel("User Validated");
+        validation.setBounds(320, 240, 150, 27);
+
         window.add(nameLabel);
         window.add(userName);
 
@@ -95,6 +123,9 @@ public class AccountDetailsView {
 
         window.add(passwordLabel);
         window.add(userPassword);
+
+        window.add(validateLabel);
+        window.add(validation);
         window.add(new JLabel());
     }
 
@@ -173,6 +204,11 @@ public class AccountDetailsView {
         JLabel userPassword = new JLabel(user.getPassword());
         userPassword.setBounds(320, 210, 150, 27);
 
+        JLabel validateLabel = new JLabel("Validation : ");
+        validateLabel.setBounds(150, 240, 150, 27);
+        JLabel validation = new JLabel("User Validated");
+        validation.setBounds(320, 240, 150, 27);
+
         window.add(nameLabel);
         window.add(userName);
 
@@ -190,6 +226,9 @@ public class AccountDetailsView {
 
         window.add(passwordLabel);
         window.add(userPassword);
+
+        window.add(validateLabel);
+        window.add(validation);
         window.add(new JLabel());
 
         showShopDetails();

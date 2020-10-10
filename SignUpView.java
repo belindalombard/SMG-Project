@@ -144,6 +144,15 @@ public class SignUpView {
             }
         });
 
+        JButton adminButton = new JButton("Admin");
+        adminButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AdminLoginView adminLoginView = new AdminLoginView();
+                window.setVisible(false);
+            }
+        });
+
         //Adding components in the window
         window.add(nameLabel);
         window.add(nameField);
@@ -166,7 +175,10 @@ public class SignUpView {
 
         topLayout.add(backToLoginButton);
         topLayout.add(Box.createHorizontalGlue());
+        topLayout.add(adminButton);
+        topLayout.add(Box.createHorizontalGlue());
         topLayout.add(createAccountButton);
+
         window.add(topLayout, BorderLayout.NORTH);
 
         window.setResizable(false);

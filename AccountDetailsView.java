@@ -148,29 +148,29 @@ public class AccountDetailsView {
 
     private void showShopDetails(){
         JLabel shopNameLabel = new JLabel("Shop Name : ");
-        shopNameLabel.setBounds(150, 240, 150, 50);
+        shopNameLabel.setBounds(150, 270, 150, 50);
         JLabel actualShopName = new JLabel("The Name");
-        actualShopName.setBounds(320, 240, 150, 50);
+        actualShopName.setBounds(320, 270, 150, 50);
 
         JLabel bankAccNumberLabel = new JLabel("Bank Account Number : ");
-        bankAccNumberLabel.setBounds(150, 270, 180, 50);
+        bankAccNumberLabel.setBounds(150, 300, 180, 50);
         JLabel actualBankAccNum = new JLabel("12345678901");
-        actualBankAccNum.setBounds(320, 270, 150, 50);
+        actualBankAccNum.setBounds(320, 300, 150, 50);
 
         JLabel bankNameLabel = new JLabel("Bank Name : ");
-        bankNameLabel.setBounds(150, 300, 150, 50);
+        bankNameLabel.setBounds(150, 330, 150, 50);
         JLabel actualBankName = new JLabel("Standard Bank");
-        actualBankName.setBounds(320, 300, 150, 50);
+        actualBankName.setBounds(320, 330, 150, 50);
 
         JLabel bankBranchCodeLabel = new JLabel("Bank Branch code : ");
-        bankBranchCodeLabel.setBounds(150, 330, 150, 50);
+        bankBranchCodeLabel.setBounds(150, 360, 150, 50);
         JLabel actualBankBranchCode = new JLabel("123123");
-        actualBankBranchCode.setBounds(320, 330, 150, 50);
+        actualBankBranchCode.setBounds(320, 360, 150, 50);
 
         JLabel deliveryMethodLabel = new JLabel("Delivery Method : ");
-        deliveryMethodLabel.setBounds(150, 360, 150, 50);
+        deliveryMethodLabel.setBounds(150, 390, 150, 50);
         JLabel actualDeliveryMethod = new JLabel("Delivery & Collection");
-        actualDeliveryMethod.setBounds(320, 360, 150, 50);
+        actualDeliveryMethod.setBounds(320, 390, 150, 50);
 
 
         window.add(shopNameLabel);

@@ -12,7 +12,7 @@ public class AccountDetailsView {
 
     JFrame window;
     
-    public AccountDetailsView(JFrame previousWindowFrame, int selectedAccount, DefaultListModel userAccounts, ArrayList sellers, ArrayList buyers, String nameOfClass, int selectedFromSellers){
+    public AccountDetailsView(JFrame previousWindowFrame, int selectedAccount, DefaultListModel userAccounts, ArrayList sellers, ArrayList buyers, String nameOfClass, int selectedFromSellers, JList userAccountsList, ArrayList allUsers){
         //Frame
         window = new JFrame(""+userAccounts.getElementAt(selectedAccount));
         window.setMinimumSize(new Dimension(600, 500));
@@ -31,7 +31,20 @@ public class AccountDetailsView {
         removeAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                for(int i = 0; i < buyers.size(); i++){
+                    if(buyers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
+                        buyers.remove(i);
+                    }
+                }
 
+                for(int i = 0; i < sellers.size(); i++){
+                    if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
+                        sellers.remove(i);
+                    }
+                }
+                userAccounts.remove(userAccountsList.getSelectedIndex());
+
+                //Remove from database: Belinda
             }
         });
 

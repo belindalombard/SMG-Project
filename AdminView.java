@@ -64,7 +64,7 @@ public class AdminView {
                     }
                     String selectedClass = allUsers.get(userAccountsList.getSelectedIndex()).getClass().getName();
                     AccountDetailsView accountDetailsView = new AccountDetailsView(window, userAccountsList.getSelectedIndex(),
-                            userAccounts, sellers, buyers, selectedClass, selectedFromSellers);
+                            userAccounts, sellers, buyers, selectedClass, selectedFromSellers, userAccountsList, allUsers);
                     window.setVisible(false);
                 }
             }
@@ -93,37 +93,14 @@ public class AdminView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Edit a user's account
-                refreshList();
+//                refreshList();
             }
         });
 
-        JButton removeAccountButton = new JButton("Remove");
-        removeAccountButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //remove user account
-                for(int i = 0; i < buyers.size(); i++){
-                    if(buyers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
-                        buyers.remove(i);
-                    }
-                }
-
-                for(int i = 0; i < sellers.size(); i++){
-                    if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
-                        sellers.remove(i);
-                    }
-                }
-                userAccounts.remove(userAccountsList.getSelectedIndex());
-
-                //Remove from database: Belinda
-            }
-        });
 
         buttonsBoxLayout.add(addAccountButton);
         buttonsBoxLayout.add(Box.createHorizontalGlue());
         buttonsBoxLayout.add(editAccountButton);
-        buttonsBoxLayout.add(Box.createHorizontalGlue());
-        buttonsBoxLayout.add(removeAccountButton);
 
         window.add(scrollPane);
         window.add(buttonsBoxLayout, BorderLayout.SOUTH);

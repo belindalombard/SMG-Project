@@ -606,7 +606,7 @@ public class DatabaseAccess {
 				while(rs2.next()){
 					buyer buyer = new buyer(rs2.getString(7), rs2.getString(6),
 							rs2.getString(2), rs2.getString(5),
-							rs2.getString(3), rs2.getString(4));
+							rs2.getString(3), rs2.getString(4),rs2.getBoolean(8));
 					users.add(buyer);
 				}
 
@@ -615,7 +615,7 @@ public class DatabaseAccess {
 //					seller x = new se
 					seller seller = new seller(rs.getString(6), rs.getString(7),
 							rs.getString(2), rs.getString(5),
-							rs.getString(3), rs.getString(4));
+							rs.getString(3), rs.getString(4), rs.getBoolean(8));
 //					System.out.println(rs.getString(7));
 					users.add(seller);
 				}
@@ -645,7 +645,7 @@ public class DatabaseAccess {
 				while(rs.next()){
 					seller seller = new seller(rs.getString(6), rs.getString(7),
 							rs.getString(2), rs.getString(5),
-							rs.getString(3), rs.getString(4));
+							rs.getString(3), rs.getString(4),rs.getBoolean(8));
 					sellers.add(seller);
 				}
 

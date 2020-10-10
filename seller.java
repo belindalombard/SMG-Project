@@ -1,7 +1,8 @@
 public class seller {
     private String sellerID;
     private String residentialAdr,  name, email ,contactNumber, password;
-    public seller(String sellerID, String residentialAdr,  String name, String password, String email, String contactNumber)
+    private boolean validation = false;
+    public seller(String sellerID, String residentialAdr,  String name, String password, String email, String contactNumber, boolean validation)
     {
         this.sellerID=sellerID;
         this.residentialAdr=residentialAdr;
@@ -9,6 +10,7 @@ public class seller {
         //this.surname=surname;
         this.password=password;
         this.email=email;
+        this.validation=validation;
         this.contactNumber=contactNumber;
 
     }
@@ -40,5 +42,9 @@ public class seller {
 
     public String getPassword() {
         return password;
+    }
+    public boolean getValidation()
+    {
+        return validation;
     }
 }

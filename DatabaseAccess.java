@@ -40,7 +40,7 @@ public class DatabaseAccess {
 			if(checkAndResetConnection()){
 				PreparedStatement insert_buyer = null;
 	
-				String sql_statement_buyer = "INSERT INTO smg.buyer (name, email_address, phone_number, password, area, national_id) VALUES (?,?,?,?,(SELECT district_id FROM smg.district WHERE name=?),?)";
+				String sql_statement_buyer = "INSERT INTO smg.buyer (name, email_address, phone_number, password, area, national_id, validated) VALUES (?,?,?,?,(SELECT district_id FROM smg.district WHERE name=?),?,?)";
 
 				insert_buyer = db.prepareStatement(sql_statement_buyer);
 
@@ -50,7 +50,7 @@ public class DatabaseAccess {
 				insert_buyer.setString(4,password);
 				insert_buyer.setString(5,district);
 				insert_buyer.setString(6,national_id);
-				
+				insert_buyer.setBoolean(7,false);
 				//set the data for newbuyer
 				insert_buyer.execute();
 				insert_buyer.close(); 
@@ -149,7 +149,7 @@ public class DatabaseAccess {
 				db.setAutoCommit(false); //default is true. 
 
 				//First insert the Seller.  			
-				String sql_statement_seller = "INSERT INTO smg.seller (name, email_address, phone_numebr, password, national_id, area) VALUES (?,?,?,?,?,(SELECT district_id FROM smg.district WHERE name=?)) RETURNING code";
+				String sql_statement_seller = "INSERT INTO smg.seller (name, email_address, phone_numebr, password, national_id, area) VALUES (?,?,?,?,?,(SELECT district_id FROM smg.district WHERE name=?),?) RETURNING code";
 
 				PreparedStatement insert_seller = db.prepareStatement(sql_statement_seller);
 
@@ -159,7 +159,7 @@ public class DatabaseAccess {
 				insert_seller.setString(4,password);
 				insert_seller.setString(5,ID_Number);
 				insert_seller.setString(6,district);
-								
+				insert_seller.setBoolean(7,false);				
 				//Get Resultset to know what the new Seller's code is. 
 				insert_seller.execute();
 				ResultSet rs = insert_seller.getResultSet();

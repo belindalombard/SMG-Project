@@ -69,7 +69,7 @@ public class ProductFolderView {
         productName = new JTextField();
         productName.setText((String) folders.getElementAt(selectedFolder));
         productName.setFont(new Font(null, Font.BOLD, 20));
-        productName.setBounds(510, 100, 260, 50);
+        productName.setBounds(525, 100, 260, 50);
         productName.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -89,14 +89,14 @@ public class ProductFolderView {
         productPrice.setBounds(400, 150, 150, 50);
 
         JTextField productPriceField = new JTextField(10);
-        productPriceField.setBounds(510, 163, 150, 27);
+        productPriceField.setBounds(525, 163, 150, 27);
         productPriceField.setText(""+((product)productsList.get(selectedFolder)).getProductPrice());
 
         JLabel productDetailsLabel = new JLabel("Product Details : ");
         productDetailsLabel.setBounds(400, 200, 150, 20);
 
         JTextArea productDetailsTextArea = new JTextArea();
-        productDetailsTextArea.setBounds(515, 200, 250, 85);
+        productDetailsTextArea.setBounds(525, 200, 250, 85);
         productDetailsTextArea.setLineWrap(true);
         productDetailsTextArea.setWrapStyleWord(true);
         productDetailsTextArea.setText(((product)productsList.get(selectedFolder)).getProductDescription());
@@ -105,7 +105,7 @@ public class ProductFolderView {
         stockAvailableLabel.setBounds(400, 300, 150, 24);
 
         JTextField stockAvailableField = new JTextField(10);
-        stockAvailableField.setBounds(510, 300, 150, 27);
+        stockAvailableField.setBounds(525, 300, 150, 27);
         stockAvailableField.setText(""+((product)productsList.get(selectedFolder)).getProductQty());
 
         JButton saveProductButton = new JButton("Save");

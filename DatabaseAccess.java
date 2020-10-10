@@ -601,7 +601,7 @@ public class DatabaseAccess {
 			if(checkAndResetConnection()){
 				PreparedStatement get_sellers = db.prepareStatement("SELECT * FROM smg.seller");
 				PreparedStatement get_buyers = db.prepareStatement("SELECT * FROM smg.buyer");
-
+				db.setAutoCommit(false);
 				ResultSet rs2 = get_buyers.executeQuery();
 				while(rs2.next()){
 					buyer buyer = new buyer(rs2.getString(7), rs2.getString(6),
@@ -619,7 +619,9 @@ public class DatabaseAccess {
 //					System.out.println(rs.getString(7));
 					users.add(seller);
 				}
-
+				db.commit();
+				db.setAutoCommit(true);
+				get_buyers.close();
 				get_sellers.close();
 				return users;
 			}
@@ -631,4 +633,32 @@ public class DatabaseAccess {
 		return users;
 	}
 
+
+	public ArrayList<seller> getSellersAtDistrict(String district) {
+		ArrayList<seller> sellers = new ArrayList<seller>();
+		try{
+			if(checkAndResetConnection()){
+				db.setAutoCommit(true);
+				PreparedStatement get_sellers = db.prepareStatement("SELECT * FROM smg.seller WHERE area=(SELECT district_id FROM smg.district WHERE name=?)");
+				get_sellers.setString(1, district);
+				ResultSet rs = get_sellers.executeQuery();
+				while(rs.next()){
+					seller seller = new seller(rs.getString(6), rs.getString(7),
+							rs.getString(2), rs.getString(5),
+							rs.getString(3), rs.getString(4));
+					sellers.add(seller);
+				}
+
+
+				get_sellers.close();
+				return sellers;
+			}
+
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		return sellers;
+	}
+		
 }

@@ -733,5 +733,19 @@ public class DatabaseAccess {
 		}
 		return -1;
 	}
+
+	public void removeBuyerAccount(String buyerID){
+		try {
+			if(checkAndResetConnection()){
+				PreparedStatement remove = db.prepareStatement("DELETE FROM smg.buyer WHERE national_id=?");
+				remove.setString(1, buyerID);
+				remove.executeUpdate();
+				remove.close();
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 	
 }

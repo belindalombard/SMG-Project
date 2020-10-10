@@ -3,6 +3,7 @@
 import javax.sound.sampled.Line;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,8 +12,8 @@ import java.util.ArrayList;
 public class AccountDetailsView {
 
     JFrame window;
-    
-    public AccountDetailsView(JFrame previousWindowFrame, int selectedAccount, DefaultListModel userAccounts, ArrayList sellers, ArrayList buyers, String nameOfClass, int selectedFromSellers, JList userAccountsList, ArrayList allUsers){
+    DatabaseAccess db = new DatabaseAccess();
+    public AccountDetailsView(JFrame previousWindowFrame, int selectedAccount, DefaultListModel userAccounts, ArrayList<seller> sellers, ArrayList<buyer> buyers, String nameOfClass, int selectedFromSellers, JList userAccountsList, ArrayList allUsers){
         //Frame
         window = new JFrame(""+userAccounts.getElementAt(selectedAccount));
         window.setMinimumSize(new Dimension(600, 500));
@@ -32,13 +33,16 @@ public class AccountDetailsView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(int i = 0; i < buyers.size(); i++){
-                    if(buyers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
+                    if(buyers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()-1))){
                         buyers.remove(i);
+                        db.removeBuyerAccount(buyers.get(i).getBuyerID());
+                        previousWindowFrame.setVisible(true);
+                        window.setVisible(false);
                     }
                 }
 
                 for(int i = 0; i < sellers.size(); i++){
-                    if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
+                    if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()-1))){
                         sellers.remove(i);
                     }
                 }

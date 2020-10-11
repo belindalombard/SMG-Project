@@ -44,11 +44,12 @@ public class AccountDetailsView {
                 for(int i = 0; i < sellers.size(); i++){
                     if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()-1))){
                         sellers.remove(i);
+                        db.removeSellerAccount(sellers.get(i).getSellerID());
+                        previousWindowFrame.setVisible(true);
+                        window.setVisible(false);
                     }
                 }
                 userAccounts.remove(userAccountsList.getSelectedIndex());
-
-                //Remove from database: Belinda
             }
         });
 

@@ -466,6 +466,30 @@ public class DatabaseAccess {
 			}
 	}
 
+	//Get code of user either in the seller or buyer table (specified in parameter) based on their national ID.
+	public int getUserCodeBasedOnID(String id, String table){
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement get_user_code=null;
+				if (table.equals("seller"))					
+					get_user_code=db.prepareStatement("SELECT code FROM smg.seller WHERE national_id=?");
+				else 
+					get_user_code=db.prepareStatement("SELECT code FROM smg.buyer WHERE national_id=?");	
+				get_user_code.setString(1,id);
+				ResultSet rs = get_user_code.executeQuery();
+				get_user_code.close();
+				rs.next();
+				return rs.getInt(1); 	
+			}
+			return 0;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return 0;		
+			}
+	}
+
+
 	//Return arraylist of products containing all the products of a specific seller. 
 	public ArrayList<product> getProductsFromSeller(int seller_id) {
 		ArrayList<product> products = new ArrayList<product>();
@@ -747,5 +771,34 @@ public class DatabaseAccess {
 			e.printStackTrace();
 		}
 	}
-	
+
+
+	public void removeSellerAccount(String sellerID){
+		try {
+			if(checkAndResetConnection()){
+				db.setAutoCommit(false);
+				
+				//Get code of seller who has to be removed so that the same query is only run once. 
+				int seller_code = getUserCodeBasedOnID(sellerID, "seller"); 	
+				PreparedStatement remove_shop = db.prepareStatement("DELETE FROM smg.shop WHERE seller=?");
+				remove_shop.setInt(1,seller_code);
+				remove_shop.executeUpdate();
+				remove_shop.close();
+
+				PreparedStatement remove_seller = db.prepareStatement("DELETE FROM smg.seller WHERE code=?");
+				remove_seller.setInt(1,seller_code);
+				remove_seller.executeUpdate();
+				remove_seller.executeUpdate();
+
+				db.commit();
+				db.setAutoCommit(true);
+
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+
+
+	}	
 }

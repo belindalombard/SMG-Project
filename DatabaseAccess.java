@@ -66,7 +66,9 @@ public class DatabaseAccess {
 			
        //test if connection is set - if it is set, return true. If it is not set, establish a new connection and return true :)           
 	public boolean checkAndResetConnection(){
-		try {
+		try 
+		{
+			db.setAutoCommit(true); //default.
 			if (!db.isClosed()){
 				return true;
 			}

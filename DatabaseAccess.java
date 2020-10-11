@@ -854,4 +854,30 @@ public class DatabaseAccess {
 		}
 	}
 
+	//get district of user 
+	public String getUserDistrict(String ID, String table){
+		try {
+			if(checkAndResetConnection()){
+				int code = getUserCodeBasedOnID(ID, table);
+				PreparedStatement get_district = null;
+				
+				if (table.equals("buyer"))
+					get_district = db.prepareStatement("SELECT name FROM smg.district WHERE district_id=(SELECT area FROM smg.buyer WHERE code=?)");
+				else 
+					get_district = db.prepareStatement("SELECT name FROM smg.district WHERE district_id=(SELECT area FROM smg.seller WHERE code=?)");
+						
+				get_district.setInt(1, code);
+				ResultSet rs = get_district.executeQuery();
+				
+				rs.next();
+				return rs.getString(1);
+
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return null; 
+	}
 }

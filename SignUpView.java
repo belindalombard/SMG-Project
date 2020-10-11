@@ -145,13 +145,18 @@ public class SignUpView {
         });
 
         JButton adminButton = new JButton("Admin");
-        adminButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                AdminLoginView adminLoginView = new AdminLoginView(window);
-                window.setVisible(false);
-            }
-        });
+        if(previousWindowFrame.getTitle().equals("Sell My Goods: Admin")){
+            adminButton.setVisible(false);
+        }
+        else{
+            adminButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    AdminLoginView adminLoginView = new AdminLoginView(window);
+                    window.setVisible(false);
+                }
+            });
+        }
 
         //Adding components in the window
         window.add(nameLabel);

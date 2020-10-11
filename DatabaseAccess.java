@@ -761,10 +761,10 @@ public class DatabaseAccess {
 	public void removeBuyerAccount(String buyerID){
 		try {
 			if(checkAndResetConnection()){
-				PreparedStatement remove = db.prepareStatement("DELETE FROM smg.buyer WHERE national_id=?");
-				remove.setString(1, buyerID);
-				remove.executeUpdate();
-				remove.close();
+				PreparedStatement remove_buyer = db.prepareStatement("DELETE FROM smg.buyer WHERE national_id=?");
+				remove_buyer.setString(1, buyerID);
+				remove_buyer.executeUpdate();
+				remove_buyer.close();
 			}
 		}
 		catch (Exception e){

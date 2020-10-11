@@ -148,7 +148,7 @@ public class SignUpView {
         adminButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AdminLoginView adminLoginView = new AdminLoginView();
+                AdminLoginView adminLoginView = new AdminLoginView(window);
                 window.setVisible(false);
             }
         });

@@ -14,7 +14,7 @@ public class AdminView {
     DefaultListModel userAccounts;
     JList userAccountsList;
     JFrame window;
-    public AdminView(){
+    public AdminView(JFrame previousWindowFrame){
         //Frame
         window = new JFrame("Sell My Goods: Admin");
         window.setMinimumSize(new Dimension(600, 500));
@@ -25,6 +25,9 @@ public class AdminView {
 
         JPanel buttonsBoxLayout = new JPanel();
         buttonsBoxLayout.setLayout(new BoxLayout(buttonsBoxLayout, BoxLayout.LINE_AXIS));
+
+        JPanel boxLayout = new JPanel();
+        boxLayout.setLayout(new BoxLayout(boxLayout, BoxLayout.LINE_AXIS));
 
         userAccounts = db.getAccountList();
         userAccountsList = new JList(userAccounts);
@@ -97,20 +100,32 @@ public class AdminView {
             }
         });
 
+        JButton backButton = new JButton("Logout");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoginView loginView = new LoginView();
+                window.dispose();
+            }
+        });
+
 
         buttonsBoxLayout.add(addAccountButton);
         buttonsBoxLayout.add(Box.createHorizontalGlue());
         buttonsBoxLayout.add(editAccountButton);
 
+        boxLayout.add(backButton);
+
         window.add(scrollPane);
+        window.add(boxLayout, BorderLayout.NORTH);
         window.add(buttonsBoxLayout, BorderLayout.SOUTH);
         window.setVisible(true);
         db.CloseConnection();
     }
 
-    public static void main(String [] args){
-        AdminView x = new AdminView();
-    }
+//    public static void main(String [] args){
+//        AdminView x = new AdminView();
+//    }
 
     public void refreshList(){
         userAccounts = db.getAccountList();

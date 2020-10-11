@@ -11,7 +11,7 @@ public class ConfirmCustomerSignUpView {
         if(dialog == JOptionPane.YES_OPTION){
             //Attempts to add buyer to database :) 
 		   	DatabaseAccess db = new DatabaseAccess();
-			x = new AdminView();
+			x = new AdminView(previousWindowFrame);
 			x.window.setVisible(false);
 
 		   	HomeView homeView;

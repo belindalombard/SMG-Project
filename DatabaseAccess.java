@@ -800,5 +800,56 @@ public class DatabaseAccess {
 		}
 
 
-	}	
+	}
+
+	//Returns if a account has been validated or not. Specify in the table field whether it is a seller or buyer that are being checked. 
+	public boolean checkValidated(String ID, String table) {
+		try {
+			if(checkAndResetConnection()){
+				int code = getUserCodeBasedOnID(ID, table);
+				PreparedStatement validated = null;
+				
+				if (table.equals("buyer"))
+					validated = db.prepareStatement("SELECT validated FROM smg.buyer WHERE code=?");
+				else 
+					validated = db.prepareStatement("SELECT validated FROM smg.seller WHERE code=?");
+						
+				validated.setInt(1,code);
+				ResultSet rs = validated.executeQuery();
+				validated.close();
+				if (rs.next())
+					return rs.getBoolean(1);
+				else 
+					return false;
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	//Set validation of a specific user the database. If table unknown, run the isSellerOrBuyer method to get an answer. 
+	public void setValidation(String ID, String table, Boolean validated) {
+		try {
+			if(checkAndResetConnection()){
+				int code = getUserCodeBasedOnID(ID, table);
+				PreparedStatement set_validated = null;
+				
+				if (table.equals("buyer"))
+					set_validated = db.prepareStatement("UPDATE smg.buyer SET validated=? WHERE code=?");
+				else 
+					set_validated = db.prepareStatement("UPDATE smg.seller SET validated=?  WHERE code=?");
+						
+				set_validated.setBoolean(1, validated);
+				set_validated.setInt(2, code);
+				set_validated.executeUpdate();
+				set_validated.close();
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
 }

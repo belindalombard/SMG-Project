@@ -101,7 +101,7 @@ public class AccountDetailsView {
 
         JLabel locationLabel = new JLabel("Location : ");
         locationLabel.setBounds(150, 120, 150, 27);
-        JLabel userLocation = new JLabel("Johannesburg");
+        JLabel userLocation = new JLabel(db.getUserDistrict(user.getBuyerID(), "buyer"));
         userLocation.setBounds(320, 120, 150, 27);
 
         JLabel phoneNumberLabel = new JLabel("Cellphone Number : ");
@@ -204,7 +204,7 @@ public class AccountDetailsView {
 
         JLabel locationLabel = new JLabel("Location : ");
         locationLabel.setBounds(150, 120, 150, 27);
-        JLabel userLocation = new JLabel("Johannesburg");
+        JLabel userLocation = new JLabel(db.getUserDistrict(user.getSellerID(), "seller"));
         userLocation.setBounds(320, 120, 150, 27);
 
         JLabel phoneNumberLabel = new JLabel("Cellphone Number : ");

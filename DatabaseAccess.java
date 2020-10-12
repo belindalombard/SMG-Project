@@ -961,6 +961,33 @@ public class DatabaseAccess {
 		}
 
 		return null; 
+	}
+
+	//Method returning all the messages send/received by a specific seller.
+	public ArrayList<message> getMessagesByBuyer(String email){
+		ArrayList<message> messages = new ArrayList<message>();
+		
+		try {
+			if(checkAndResetConnection()){
+				int code = getUserCode(email, "buyer");
+		
+				PreparedStatement get_messages = db.prepareStatement("SELECT * FROM smg.message WHERE buyer=?");
+				get_messages.setInt(1, code);
+				ResultSet rs = get_messages.executeQuery();
+
+				while (rs.next()){
+					//Params in message class constr: int message_id, String seller_email, String buyer_email, String message, String sender, String status, Timestamp date_and_time
+					message add = new message(rs.getInt(1), getSellerEmail(rs.getInt(2)), getBuyerEmail(code), rs.getString(4), rs.getString(6), rs.getString(5), rs.getTimestamp(7));
+					messages.add(add);      
+				}
+			return messages;		
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return null; 
 
 
 	}	

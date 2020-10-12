@@ -62,10 +62,10 @@ public class LoginView {
                	       }
 	                   else
 	                   { //Person login in is a buyer.
-	                       buyer buyer = new buyer();
-	                       // Get buyer details;
-	                       buyer.setUserEmail(emailField.getText());
-                           homeView = new HomeView(window, buyer);
+	                       
+	                       buyer buyerobj = db.getBuyer(emailField.getText()); 
+	                      // buyerobj.setUserEmail(emailField.getText());
+                           homeView = new HomeView(window, buyerobj);
                            window.setVisible(false);
                        }
                }

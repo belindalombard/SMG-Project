@@ -13,9 +13,10 @@ public class HomeView extends SignUpView{
     JScrollPane scrollPane;
     JFrame window;
     ArrayList<String> tempShops;
+    DatabaseAccess db = new DatabaseAccess();
 
-    public HomeView(JFrame previousWindowFrame, buyer buyer){
-        buyerobj = buyer;
+    public HomeView(JFrame previousWindowFrame, buyer buyerobj){
+        this.buyerobj = buyerobj;
 	
 	//Frame
         window = new JFrame("Sell My Goods: Home");
@@ -34,11 +35,18 @@ public class HomeView extends SignUpView{
                 window.dispose();
             }
         });
+	//get shops in area from the database. (NOT CURRENTLY WORKING - STILL FIXING IT)
+	ArrayList<seller> sellers = new ArrayList<seller>();
+	sellers = db.getSellersAtDistrict(buyerobj.getResidentialAdr());
 
-        shops = new String[100];
-        // Shops List
+        shops = new String[sellers.size()];
+        
+	System.out.println(sellers.size()); //trace statement
+	
+	// Shops List
         for(int i = 0; i < shops.length; i++){
-            shops[i] = "Shop Name "+i;
+            store shop = db.getShopFromSeller(sellers.get(i));
+	    shops[i]=shop.getStoreName();
         }
         shopList = new JList(shops);
         scrollPane = new JScrollPane();
@@ -49,7 +57,7 @@ public class HomeView extends SignUpView{
         shopList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyer);
+                ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj);
                 window.setVisible(false);
             }
 

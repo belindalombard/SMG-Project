@@ -1,10 +1,9 @@
 public class buyer {
 
     private String buyerID, residentialAdr, name,surname, email ,contactNumber, password;
-    private boolean validation =false;
+    boolean validation =false;
 
-    public buyer()
-    {}
+
     public buyer(String buyerID, String residentialAdr, String name, String password, String email, String contactNumber, boolean validation)
     {
         this.buyerID=buyerID;
@@ -16,11 +15,6 @@ public class buyer {
 
         this.email=email;
         this.contactNumber=contactNumber;
-    }
-    //SET Methods
-    public void setUserEmail(String email)
-    {
-        this.email = email;
     }
     //GET Methods
 

@@ -1032,7 +1032,7 @@ public class DatabaseAccess {
 				get_obj.setInt(1, code);
 				ResultSet rs = get_obj.executeQuery();
 				rs.next(); 		
-				s = new buyer(rs.getString(7), rs.getString(6), rs.getString(2), rs.getString(5), rs.getString(2), rs.getString(4), rs.getBoolean(8));
+				s = new buyer(rs.getString(7), getDistrictName(rs.getInt(6)), rs.getString(2), rs.getString(5), rs.getString(2), rs.getString(4), rs.getBoolean(8));
 				
 			return s;		
 			}
@@ -1060,6 +1060,24 @@ public class DatabaseAccess {
 			e.printStackTrace();
 		}
 	}
+
+	public String getDistrictName(int district_id){
+		try {
+			if(checkAndResetConnection()){
+				PreparedStatement get_district = db.prepareStatement("SELECT name FROM smg.district WHERE district_id=?");
+				get_district.setInt(1, district_id);
+				ResultSet rs = get_district.executeQuery();
+				get_district.close();
+				rs.next();
+				return rs.getString(1);
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+	return null;
+	}
+	
 }
 
 

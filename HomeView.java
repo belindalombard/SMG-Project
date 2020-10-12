@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class HomeView extends SignUpView{
-
+    buyer buyerobj;
     JList shopList;
     int clickedItemIndex;
     String [] shops;
@@ -15,7 +15,9 @@ public class HomeView extends SignUpView{
     ArrayList<String> tempShops;
 
     public HomeView(JFrame previousWindowFrame, buyer buyer){
-        //Frame
+        buyerobj = buyer;
+	
+	//Frame
         window = new JFrame("Sell My Goods: Home");
         window.setMinimumSize(new Dimension(800, 600));
         window.setLocation(300, 150);
@@ -47,7 +49,7 @@ public class HomeView extends SignUpView{
         shopList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops);
+                ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyer);
                 window.setVisible(false);
             }
 
@@ -104,7 +106,7 @@ public class HomeView extends SignUpView{
         shopList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops);
+                ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj);
                 window.setVisible(false);
             }
 
@@ -138,7 +140,7 @@ public class HomeView extends SignUpView{
                     }
                 }
                 if(refinedTempShops.length != 0){
-                    ShopView shopView = new ShopView(window, clickedItemIndex, shops);
+                    ShopView shopView = new ShopView(window, clickedItemIndex, shops, buyerobj);
                     window.setVisible(false);
                 }
             }

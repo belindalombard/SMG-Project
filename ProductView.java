@@ -14,7 +14,7 @@ public class ProductView {
     String shopLocation;
     JButton contactSellerButton;
 
-    public ProductView(JFrame previousWindowFrame, int selectedProduct, String [] products){
+    public ProductView(JFrame previousWindowFrame, int selectedProduct, String [] products, buyer buyerobj){
         //Frame
         JFrame window = new JFrame("Sell My Goods: "+products[selectedProduct]);
         window.setMinimumSize(new Dimension(800, 600));
@@ -157,7 +157,7 @@ public class ProductView {
                     else if(Integer.parseInt(quantityField.getText()) <= availableStockItems){
                         quantityOfItems = Integer.parseInt(quantityField.getText());
                         totalAmount.setText("Total : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
-                        PaymentView paymentView = new PaymentView(window, payButton, backButton, quantityField, addItemButton, subtractItemButton, contactSellerButton, products[selectedProduct], totalAmount);
+                        PaymentView paymentView = new PaymentView(window, payButton, backButton, quantityField, addItemButton, subtractItemButton, contactSellerButton, products[selectedProduct], totalAmount,buyerobj);
 //                        window.setVisible(false);
                         payButton.setEnabled(false);
                         backButton.setEnabled(false);

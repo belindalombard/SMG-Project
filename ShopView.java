@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class ShopView {
-    public ShopView(JFrame previousWindowFrame, int selectedShop, String [] shops){
+    public ShopView(JFrame previousWindowFrame, int selectedShop, String [] shops, buyer buyerobj){
         //Frame
         JFrame window = new JFrame("Sell My Goods: "+shops[selectedShop]);
         window.setMinimumSize(new Dimension(800, 600));
@@ -47,7 +47,7 @@ public class ShopView {
         productList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ProductView productView = new ProductView(window, productList.getSelectedIndex(), products);
+                ProductView productView = new ProductView(window, productList.getSelectedIndex(), products, buyerobj);
                 window.setVisible(false);
             }
             @Override

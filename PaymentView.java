@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PaymentView {
-    public PaymentView(JFrame previousWindowFrame, JButton payButton, JButton preBackButton, JTextField quantityField, JButton addButton, JButton subtractButton, JButton chatButton, String productName, JLabel totalAmount){
+    public PaymentView(JFrame previousWindowFrame, JButton payButton, JButton preBackButton, JTextField quantityField, JButton addButton, JButton subtractButton, JButton chatButton, String productName, JLabel totalAmount, buyer buyerobj){
         //Frame
         JFrame window = new JFrame("Sell My Goods: Payment");
         window.setMinimumSize(new Dimension(400, 400));
@@ -34,7 +34,7 @@ public class PaymentView {
         paymentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ConfirmationView confirmationView = new ConfirmationView();
+                ConfirmationView confirmationView = new ConfirmationView(buyerobj);
                 window.setVisible(false);
                 previousWindowFrame.setVisible(false);
             }

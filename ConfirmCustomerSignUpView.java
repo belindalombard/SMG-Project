@@ -21,7 +21,7 @@ public class ConfirmCustomerSignUpView {
 					adminWindow.dispose();
 		   		}
 		   		else{
-					homeView = new HomeView(previousWindowFrame);
+					homeView = new HomeView(previousWindowFrame, buyerobj);
 				}
 		   	else
 				goBack();

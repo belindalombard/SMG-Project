@@ -1046,5 +1046,20 @@ public class DatabaseAccess {
 
 	}	
 
+	public void updateMessageStatus(int messageID, String status){
+		try {
+			if(checkAndResetConnection()){
+				PreparedStatement update_status = db.prepareStatement("UPDATE smg.message SET status=? WHERE message_id=?");
+				update_status.setString(1, status);
+				update_status.setInt(2, messageID);
+				update_status.executeUpdate();
+				update_status.close();
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 }
+
 

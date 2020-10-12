@@ -14,7 +14,7 @@ public class HomeView extends SignUpView{
     JFrame window;
     ArrayList<String> tempShops;
 
-    public HomeView(JFrame previousWindowFrame){
+    public HomeView(JFrame previousWindowFrame, buyer buyer){
         //Frame
         window = new JFrame("Sell My Goods: Home");
         window.setMinimumSize(new Dimension(800, 600));
@@ -34,6 +34,7 @@ public class HomeView extends SignUpView{
         });
 
         shops = new String[100];
+        // Shops List
         for(int i = 0; i < shops.length; i++){
             shops[i] = "Shop Name "+i;
         }
@@ -154,5 +155,10 @@ public class HomeView extends SignUpView{
             @Override
             public void mouseExited(MouseEvent e) { }
         });
+    }
+    public ArrayList<store> getShops()
+    {
+        ArrayList<store> shops = new ArrayList<>();
+        return shops;
     }
 }

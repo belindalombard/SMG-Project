@@ -880,4 +880,38 @@ public class DatabaseAccess {
 
 		return null; 
 	}
+
+	//Fields in message table:   message_id | seller | buyer | message | status | sender | time
+	//Method to send message which will insert the message in the database. Returns unique db ID of newly inserted entry.  
+	public int sendMessage(String seller_email, String buyer_email, String message, String sender){
+		try {
+			if(checkAndResetConnection()){
+				int seller_code = getUserCode(seller_email, "seller");
+				int buyer_code = getUserCode(buyer_email, "buyer");
+		
+				PreparedStatement new_message = db.prepareStatement("INSERT INTO smg.message(seller,buyer,message,status,sender,time) VALUES(?,?,?,?,?,?) RETURNING message_id");
+				
+				new_message.setInt(1,seller_code);
+				new_message.setInt(2,buyer_code);
+				new_message.setString(3,message);
+				new_message.setString(4,"Sent");
+				new_message.setString(5,sender);
+				new_message.setTimestamp(6,new Timestamp(System.currentTimeMillis()));
+								
+				new_message.execute();
+
+				ResultSet rs = new_message.getResultSet();
+				rs.next();
+				
+				return rs.getInt(1);
+
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return -1; 
+	}
+			
 }

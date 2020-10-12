@@ -991,4 +991,60 @@ public class DatabaseAccess {
 
 
 	}	
+	
+	//Returns a seller object
+	//Seller constructor params: String sellerID, String residentialAdr,  String name, String password, String email, String contactNumber, boolean validation
+	public seller getSeller(String email){
+		seller s = null; 	
+		try {
+			if(checkAndResetConnection()){
+				int code = getUserCode(email, "seller");
+		
+				PreparedStatement get_obj = db.prepareStatement("SELECT * FROM smg.seller WHERE code=?");
+				get_obj.setInt(1, code);
+				ResultSet rs = get_obj.executeQuery();
+				rs.next(); 	
+				
+				//table fields  code |    name    | email_address  | phone_numebr |            password            |  national_id  | area | validated
+				s = new seller(rs.getString(6), rs.getString(7), rs.getString(2), rs.getString(5), rs.getString(2), rs.getString(4), rs.getBoolean(8));
+				
+			return s;		
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return null; 
+
+
+	}	
+		
+	//Returns a buyer objec
+	//Buyer constructor params: String buyerID, String residentialAdr, String name, String password, String email, String contactNumber, boolean validation
+	public buyer getBuyer(String email){
+		buyer s = null; 	
+		try {
+			if(checkAndResetConnection()){
+				int code = getUserCode(email, "buyer");
+		
+				PreparedStatement get_obj = db.prepareStatement("SELECT * FROM smg.buyer WHERE code=?");
+				get_obj.setInt(1, code);
+				ResultSet rs = get_obj.executeQuery();
+				rs.next(); 		
+				s = new buyer(rs.getString(7), rs.getString(6), rs.getString(2), rs.getString(5), rs.getString(2), rs.getString(4), rs.getBoolean(8));
+				
+			return s;		
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return null; 
+
+
+	}	
+
 }
+

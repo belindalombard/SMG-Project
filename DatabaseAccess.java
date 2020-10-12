@@ -491,6 +491,45 @@ public class DatabaseAccess {
 			}
 	}
 
+	//Return email of a buyer based on their unique db code. 
+	public String getBuyerEmail(int code){
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement get_email=null;
+				get_email=db.prepareStatement("SELECT email_address FROM smg.buyer WHERE code=?");	
+				get_email.setInt(1,code);
+				ResultSet rs = get_email.executeQuery();
+				get_email.close();
+				rs.next();
+				return rs.getString(1); 	
+			}
+			return null;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return null;		
+			}
+	}
+
+	//Return email of a seller based on their unique db code. 
+	public String getSellerEmail(int code){
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement get_email=null;
+				get_email=db.prepareStatement("SELECT email_address FROM smg.seller WHERE code=?");	
+				get_email.setInt(1,code);
+				ResultSet rs = get_email.executeQuery();
+				get_email.close();
+				rs.next();
+				return rs.getString(1); 	
+			}
+			return null;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return null;		
+			}
+	}
 
 	//Return arraylist of products containing all the products of a specific seller. 
 	public ArrayList<product> getProductsFromSeller(int seller_id) {
@@ -721,25 +760,7 @@ public class DatabaseAccess {
 		}
 		return null;
 	}
-/**
-	//return unique seller code saved in database, based on email address
-	public int getSellerCode(String email){
-		try {
-			if (checkAndResetConnection()){
-				PreparedStatement getcode = db.prepareStatement("SELECT seller_code FROM smg.seller WHERE email_address=?");
-				getcode.setString(1, email);
-				ResultSet rs = getcode.executeQuery();
-				rs.next();
-				int seller_code = rs.getInt(1);
-				return seller_code;
-			}
-		}
-		catch (Exception e){
-			e.printStackTrace();
-		}
-		return -1;
-	}
-*/
+
 
 
 	//get the shop id stored in the db based on the seller id. 
@@ -913,5 +934,34 @@ public class DatabaseAccess {
 
 		return -1; 
 	}
-			
+	
+	//Fields in message table:   message_id | seller | buyer | message | status | sender | time
+	//Method returning all the messages send/received by a specific seller.
+	public ArrayList<message> getMessagesBySeller(String email){
+		ArrayList<message> messages = new ArrayList<message>();
+		
+		try {
+			if(checkAndResetConnection()){
+				int code = getUserCode(email, "seller");
+		
+				PreparedStatement get_messages = db.prepareStatement("SELECT * FROM smg.message WHERE seller=?");
+				get_messages.setInt(1, code);
+				ResultSet rs = get_messages.executeQuery();
+
+				while (rs.next()){
+					//Params in message class constr: int message_id, String seller_email, String buyer_email, String message, String sender, String status, Timestamp date_and_time
+					message add = new message(rs.getInt(1), getSellerEmail(code), getBuyerEmail(rs.getInt(3)), rs.getString(4), rs.getString(6), rs.getString(5), rs.getTimestamp(7));
+					messages.add(add);      
+				}
+			return messages;		
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return null; 
+
+
+	}	
 }

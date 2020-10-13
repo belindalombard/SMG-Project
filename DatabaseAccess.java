@@ -347,7 +347,7 @@ public class DatabaseAccess {
 	public boolean SellerExists(String email) {
 		try {
 			if (checkAndResetConnection()){
-				String check_ex_sql = "SELECT code FROM smg.seller WHERE email_address=?";
+				String check_ex_sql = "select code from smg.seller where email_address=?";
 				PreparedStatement check_existence = db.prepareStatement(check_ex_sql);
 				check_existence.setString(1,email);
 				ResultSet rs = check_existence.executeQuery();
@@ -1075,7 +1075,7 @@ public class DatabaseAccess {
 
 	}	
 		
-	//Returns a buyer objec
+	//Returns a buyer object
 	//Buyer constructor params: String buyerID, String residentialAdr, String name, String password, String email, String contactNumber, boolean validation
 	public buyer getBuyer(String email){
 		buyer s = null; 	
@@ -1101,6 +1101,9 @@ public class DatabaseAccess {
 
 	}	
 
+	/*
+	 * Updates a message status to something else
+	 */
 	public void updateMessageStatus(int messageID, String status){
 		try {
 			if(checkAndResetConnection()){
@@ -1133,6 +1136,31 @@ public class DatabaseAccess {
 	return null;
 	}
 	
+
+	//Return arraylist of products containing all the products of a specific seller that are VISIBLE to the buyer.  
+	public ArrayList<product> getVisibleProductsFromSeller(int seller_id) {
+		ArrayList<product> products = new ArrayList<product>();
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement get_products = db.prepareStatement("SELECT * FROM smg.product WHERE seller_code=? AND visible=false");
+				get_products.setInt(1,seller_id);		
+				ResultSet rs = get_products.executeQuery();
+				get_products.close();
+				while (rs.next()){
+					product add_to_list = new product(rs.getString(3), rs.getString(4), rs.getInt(6), rs.getBigDecimal(5).doubleValue(), rs.getBoolean(7), rs.getInt(1));
+					products.add(add_to_list);
+				}
+			return products;	
+				 	
+			}
+			return products;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return products;		
+		}
+	}
+			
 }
 
 

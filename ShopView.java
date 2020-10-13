@@ -36,7 +36,7 @@ public class ShopView {
 
 	ArrayList<product> product_list = new ArrayList<product>();
 	int code = db.getUserCode(s.getEmail(), "seller"); //get seller code of the shop that wants to be visited now. 
-	product_list = db.getProductsFromSeller(code); //get list of products by a specific seller.
+	product_list = db.getVisibleProductsFromSeller(code); //get list of products by a specific seller.
 	
         String [] products = new String[product_list.size()];
         for(int i = 0; i < product_list.size(); i++){

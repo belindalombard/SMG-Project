@@ -34,20 +34,14 @@ public class AdminView {
         ArrayList<Object> allUsers = db.getAllUsers();
         ArrayList<buyer> buyers = new ArrayList<>();
         ArrayList<seller> sellers = new ArrayList<>();
-//        Dictionary sellers = new Hashtable();
         for(int i = 0; i < allUsers.size(); i++){
             if(allUsers.get(i).getClass().getName().equals("buyer")){
                 buyers.add((buyer) allUsers.get(i));
             }
             else{
                 sellers.add((seller)allUsers.get(i));
-//                sellers.put(i, allUsers.get(i));
             }
         }
-//        for(int i = 0; i < buyers.size(); i++){
-//            System.out.println(buyers.get(i));
-//            System.out.println(buyers.get(i).getName());
-//        }
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(userAccountsList);
         scrollPane.setBorder(new EmptyBorder(0,0,0,0));
@@ -58,17 +52,19 @@ public class AdminView {
         userAccountsList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int selectedFromSellers = 0;
-                if(!userAccounts.isEmpty()){
-                    for(int i = 0; i < sellers.size(); i++){
-                        if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
-                            selectedFromSellers = i;
+                if(e.getClickCount() == 2){
+                    int selectedFromSellers = 0;
+                    if(!userAccounts.isEmpty()){
+                        for(int i = 0; i < sellers.size(); i++){
+                            if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
+                                selectedFromSellers = i;
+                            }
                         }
+                        String selectedClass = allUsers.get(userAccountsList.getSelectedIndex()).getClass().getName();
+                        AccountDetailsView accountDetailsView = new AccountDetailsView(window, userAccountsList.getSelectedIndex(),
+                                userAccounts, sellers, buyers, selectedClass, selectedFromSellers, userAccountsList, allUsers);
+                        window.setVisible(false);
                     }
-                    String selectedClass = allUsers.get(userAccountsList.getSelectedIndex()).getClass().getName();
-                    AccountDetailsView accountDetailsView = new AccountDetailsView(window, userAccountsList.getSelectedIndex(),
-                            userAccounts, sellers, buyers, selectedClass, selectedFromSellers, userAccountsList, allUsers);
-                    window.setVisible(false);
                 }
             }
 
@@ -120,7 +116,7 @@ public class AdminView {
         window.add(boxLayout, BorderLayout.NORTH);
         window.add(buttonsBoxLayout, BorderLayout.SOUTH);
         window.setVisible(true);
-        db.CloseConnection();
+//        db.CloseConnection();
     }
 
 //    public static void main(String [] args){

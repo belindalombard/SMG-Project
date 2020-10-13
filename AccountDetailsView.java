@@ -13,7 +13,7 @@ public class AccountDetailsView {
 
     JFrame window;
     DatabaseAccess db = new DatabaseAccess();
-    public AccountDetailsView(JFrame previousWindowFrame, int selectedAccount, DefaultListModel userAccounts, ArrayList<seller> sellers, ArrayList<buyer> buyers, String nameOfClass, int selectedFromSellers, JList userAccountsList, ArrayList allUsers){
+    public AccountDetailsView(JFrame previousWindowFrame, int selectedAccount, DefaultListModel userAccounts, ArrayList<seller> sellers, ArrayList<buyer> buyers, String nameOfClass, int selectedFromSellers, JList userAccountsList, ArrayList allUsers, int selectedFromBuyers){
         //Frame
         window = new JFrame(""+userAccounts.getElementAt(selectedAccount));
         window.setMinimumSize(new Dimension(600, 500));
@@ -51,15 +51,26 @@ public class AccountDetailsView {
                 }*/
 		
 		if (nameOfClass.equals("seller")){
-			System.out.println(selectedFromSellers);
-			System.out.println(sellers.get(selectedFromSellers).getSellerID());
-			//sellers.remove(selectedFromSellers);
+			//System.out.println(selectedFromSellers);
+			//System.out.println(sellers.get(selectedFromSellers).getSellerID());
+			//System.out.println(sellers.get(selectedFromSellers).getName());
+	
 			db.removeSellerAccount(sellers.get(selectedFromSellers).getSellerID());
-                        previousWindowFrame.setVisible(true);
+			sellers.remove(selectedFromSellers);
+           	
+			userAccounts.remove(selectedAccount);
+		       	previousWindowFrame.setVisible(true);
                         window.setVisible(false);				
+		}
+		else {
+			db.removeBuyerAccount(buyers.get(selectedFromBuyers).getBuyerID());
+			buyers.remove(selectedFromBuyers);
+           	
+			userAccounts.remove(selectedAccount);
+		       	previousWindowFrame.setVisible(true);
+                        window.setVisible(false);	
 		}		
 		    
-                userAccounts.remove(selectedAccount);
             }
         });
 

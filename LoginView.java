@@ -52,18 +52,18 @@ public class LoginView {
 	 
                FoldersView folderView;
                HomeView homeView;
-               if (verify(emailField.getText(),new String(passwordField.getPassword()))) {
-                       int sb = SellerOrBuyer(emailField.getText());
+               if (verify((emailField.getText()).toLowerCase(),new String(passwordField.getPassword()))) {
+                       int sb = SellerOrBuyer(emailField.getText().toLowerCase());
                	       if (sb==1)
                	       { //Person loggin in is a Seller.
                	           // Get seller details
-                 		int sellerID = db.getUserCode(emailField.getText(), "seller"); //get the seller's code so that the correct paramaters can be sent through to the next view.  
+                 		int sellerID = db.getUserCode((emailField.getText()).toLowerCase(), "seller"); //get the seller's code so that the correct paramaters can be sent through to the next view.
 		   		        folderView = new FoldersView(sellerID);
                	       }
 	                   else
 	                   { //Person login in is a buyer.
 	                       
-	                       buyer buyerobj = db.getBuyer(emailField.getText()); 
+	                       buyer buyerobj = db.getBuyer((emailField.getText()).toLowerCase());
 	                      // buyerobj.setUserEmail(emailField.getText());
                            homeView = new HomeView(window, buyerobj);
                            window.setVisible(false);
@@ -150,7 +150,7 @@ public class LoginView {
     //Method to determine whether person signing in is a seller or a buyer.
     private int SellerOrBuyer(String email) 
     {
-        int seller_buyer = db.IsBuyerOrSeller(email);
+        int seller_buyer = db.IsBuyerOrSeller(email.toLowerCase());
         return seller_buyer;
     }
 

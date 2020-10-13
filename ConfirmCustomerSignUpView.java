@@ -15,7 +15,7 @@ public class ConfirmCustomerSignUpView {
 			x.window.setVisible(false);
 
 		   	HomeView homeView;
-		   	if (db.AddBuyer(buyerobj.getName(), buyerobj.getEmail(), buyerobj.getContactNumber(), buyerobj.getPassword(), buyerobj.getResidentialAdr(), buyerobj.getBuyerID()))
+		   	if (db.AddBuyer(buyerobj.getName(), (buyerobj.getEmail()).toLowerCase(), buyerobj.getContactNumber(), buyerobj.getPassword(), buyerobj.getResidentialAdr(), buyerobj.getBuyerID()))
 		   		if(adminWindow.getTitle().equals("Sell My Goods: Admin")){
 					x.refreshList();
 					adminWindow.dispose();

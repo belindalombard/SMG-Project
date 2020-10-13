@@ -118,17 +118,17 @@ public class SignUpView {
         createAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String val = Validate(nameField.getText(), idField.getText(), phoneNumberField.getText(), emailAddressField.getText(), passwordField.getText(), confirmPasswordField.getText()); //validate entered fields.
+                String val = Validate(nameField.getText(), idField.getText(), phoneNumberField.getText(), emailAddressField.getText().toLowerCase(), passwordField.getText(), confirmPasswordField.getText()); //validate entered fields.
                 if (val.equals("yes")){
                     db.CloseConnection();
                     if(seller.getState() == true){
                         disable();
-                        seller sellerObj = new seller(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), emailAddressField.getText(), phoneNumberField.getText(),false);
+                        seller sellerObj = new seller(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), (emailAddressField.getText()).toLowerCase(), phoneNumberField.getText(),false);
                         ShopSignUpView shopSignUpView = new ShopSignUpView(window, previousWindowFrame, backToLoginButton, createAccountButton, buyer, seller,sellerObj);
                     }
                     else{
                         try{
-                            buyer buyerobj = new buyer(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), emailAddressField.getText(), phoneNumberField.getText(), false);
+                            buyer buyerobj = new buyer(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), (emailAddressField.getText()).toLowerCase(), phoneNumberField.getText(), false);
                             ConfirmCustomerSignUpView confirmCustomerSignUpView = new ConfirmCustomerSignUpView(window, previousWindowFrame, buyerobj);
                             window.setVisible(false);
                             db.CloseConnection();
@@ -309,7 +309,7 @@ public class SignUpView {
         } 
 
 	//Check uniqueness of email. 
-	int a = db.IsBuyerOrSeller(email);
+	int a = db.IsBuyerOrSeller(email.toLowerCase());
 	if ((a==0)||(a==1)) //The Email is already in the seller or buyer table.
 		return "There is an account already linked to this Email Address.";
 	return "yes";

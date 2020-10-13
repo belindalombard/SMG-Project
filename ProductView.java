@@ -50,7 +50,7 @@ public class ProductView {
 
         JLabel productPrice = new JLabel();
         productPrice.setText("Product Price : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
-        productPrice.setBounds(400, 150, 150, 50);
+        productPrice.setBounds(400, 150, 350, 50);
 
         JTextArea productDetailsLabel = new JTextArea();
         productDetailsLabel.setText("Product Details :\n"+ current_product.getProductDescription());
@@ -94,7 +94,7 @@ public class ProductView {
             }
         });
 
-        totalAmount = new JLabel("Total : R"+ quantityTotalPrice);
+        totalAmount = new JLabel("Total : R"+ current_product.getProductPrice());
         totalAmount.setBounds(400, 395, 150, 25);
 
         JButton addItemButton = new JButton("+");

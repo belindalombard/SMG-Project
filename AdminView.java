@@ -53,31 +53,23 @@ public class AdminView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(e.getClickCount() == 2){
-                    int selectedFromSellers = 0;
-		    int selectedFromBuyers = 0;
-		    String selectedClass="buyer";
+                    int selectedFromSellers = -1;
+		    int selectedFromBuyers = -1;
+		    String selectedClass="buyer" ; //just sets default value.
                     if(!userAccounts.isEmpty()){
-                        //for(int i = 0; i < (sellers.size()+buyers.size()); i++){
-                            //if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
-                            //    selectedFromSellers = i;
-			    
-			    			
-                           // }
-			int index = userAccountsList.getSelectedIndex();
-			selectedClass = allUsers.get(index).getClass().getName();
-			if (selectedClass.equals("seller"))
-				selectedFromSellers=index-buyers.size();
-				
+			int index = userAccountsList.getSelectedIndex(); //Gets index of currently selected item in overall list.
+			selectedClass = allUsers.get(index).getClass().getName(); //Is current item a seller or a buyer?
+			if (selectedClass.equals("seller")) 
+				selectedFromSellers=index-buyers.size(); //Index of seller is the total number of items - the size of the buyers since buyers comes before sellers
+		    	else 
+				selectedFromBuyers=index;
 
-                        }
-			//System.out.println(sellers.get(0).getName());
-			//System.out.println(buyers.get(0).getName());
-
-                        //String selectedClass = allUsers.get(userAccountsList.getSelectedIndex()).getClass().getName();
-                        AccountDetailsView accountDetailsView = new AccountDetailsView(window, userAccountsList.getSelectedIndex(), userAccounts, sellers, buyers, selectedClass, selectedFromSellers, userAccountsList, allUsers);
+			//Shows detail of item selected at the moment.
+                        AccountDetailsView accountDetailsView = new AccountDetailsView(window, userAccountsList.getSelectedIndex(), userAccounts, sellers, buyers, selectedClass, selectedFromSellers, userAccountsList, allUsers, selectedFromBuyers);
                         window.setVisible(false);
                     }
                 }
+	    }
             
             @Override
             public void mousePressed(MouseEvent e) { }

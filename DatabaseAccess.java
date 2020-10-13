@@ -68,7 +68,6 @@ public class DatabaseAccess {
 	public boolean checkAndResetConnection(){
 		try 
 		{
-			db.setAutoCommit(true); //default.
 			if (!db.isClosed()){
 				return true;
 			}
@@ -784,10 +783,39 @@ public class DatabaseAccess {
 	public void removeBuyerAccount(String buyerID){
 		try {
 			if(checkAndResetConnection()){
+				
+				db.setAutoCommit(false);
+
+				//get code of buyer to be removed.
+				int code = getUserCodeBasedOnID(buyerID,"buyer");
+				
+				//remove related message entries.
+				PreparedStatement remove_messages = db.prepareStatement("DELETE from smg.message WHERE buyer=?");
+				remove_messages.setInt(1,code);
+				remove_messages.execute();	
+				remove_messages.close();
+
+				//remove related product_orders
+				PreparedStatement remove_product_orders = db.prepareStatement("DELETE FROM smg.productorder WHERE po_id=(SELECT order_number FROM smg.order WHERE buyer=?)");
+				remove_product_orders.setInt(1,code);
+				remove_product_orders.execute();
+				remove_product_orders.close();
+				
+				//remove related orders
+				PreparedStatement remove_orders = db.prepareStatement("DELETE FROM smg.order WHERE buyer=?");
+				remove_orders.setInt(1,code);
+				remove_orders.execute();
+				remove_orders.close();
+						
+					
+				//remove buyers.
 				PreparedStatement remove_buyer = db.prepareStatement("DELETE FROM smg.buyer WHERE national_id=?");
 				remove_buyer.setString(1, buyerID);
 				remove_buyer.executeUpdate();
 				remove_buyer.close();
+
+				db.commit();
+
 			}
 		}
 		catch (Exception e){

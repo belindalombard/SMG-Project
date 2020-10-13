@@ -15,7 +15,7 @@ public class ProductView {
     JButton contactSellerButton;
     product current_product;
 
-    public ProductView(JFrame previousWindowFrame, int selectedProduct, String [] products, buyer buyerobj, DatabaseAccess db){
+    public ProductView(JFrame previousWindowFrame, int selectedProduct, String [] products, buyer buyerobj, seller s,DatabaseAccess db){
         //Frame
         JFrame window = new JFrame("Sell My Goods: "+products[selectedProduct]);
         window.setMinimumSize(new Dimension(800, 600));
@@ -183,7 +183,7 @@ public class ProductView {
         contactSellerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChatRoomView chatRoomView = new ChatRoomView(window, backButton, payButton,contactSellerButton);
+                ChatRoomView chatRoomView = new ChatRoomView(window, backButton, payButton,contactSellerButton,s, buyerobj, current_product);
 //                window.setVisible(false);
                 contactSellerButton.setEnabled(false);
                 backButton.setEnabled(false);

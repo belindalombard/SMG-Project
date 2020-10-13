@@ -57,7 +57,7 @@ public class ShopView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(e.getClickCount() == 2){
-                    ProductView productView = new ProductView(window, productList.getSelectedIndex(), products, buyerobj,db); //getProductsFromSeller
+                    ProductView productView = new ProductView(window, productList.getSelectedIndex(), products, buyerobj,s,db); //getProductsFromSeller
                     window.setVisible(false);
                 }
             }

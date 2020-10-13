@@ -19,6 +19,7 @@ public class ConfirmCustomerSignUpView {
 		   		if(adminWindow.getTitle().equals("Sell My Goods: Admin")){
 					x.refreshList();
 					adminWindow.dispose();
+					x.window.setVisible(true);
 		   		}
 		   		else{
 					homeView = new HomeView(previousWindowFrame, buyerobj);
@@ -28,7 +29,6 @@ public class ConfirmCustomerSignUpView {
 			}
         else
 			goBack();
-		x.window.setVisible(true);
     }
 	
     public void goBack() {

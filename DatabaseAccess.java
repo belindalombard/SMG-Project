@@ -823,23 +823,50 @@ public class DatabaseAccess {
 		}
 	}
 
-
+	/** 
+	 * Remove the seller account by first removing any foreign key related entries in the database.
+	 */
 	public void removeSellerAccount(String sellerID){
 		try {
 			if(checkAndResetConnection()){
 				db.setAutoCommit(false);
+				//get code of buyer to be removed.
+				int code = getUserCodeBasedOnID(sellerID,"seller");
 				
-				//Get code of seller who has to be removed so that the same query is only run once. 
-				int seller_code = getUserCodeBasedOnID(sellerID, "seller"); 	
+				//remove related message entries.
+				PreparedStatement remove_messages = db.prepareStatement("DELETE from smg.message WHERE seller=?");
+				remove_messages.setInt(1,code);
+				remove_messages.execute();	
+				remove_messages.close();
+
+				//remove related product_orders
+				PreparedStatement remove_product_orders = db.prepareStatement("DELETE FROM smg.productorder WHERE po_id=(SELECT order_number FROM smg.order WHERE seller=?)");
+				remove_product_orders.setInt(1,code);
+				remove_product_orders.execute();
+				remove_product_orders.close();
+				
+				//remove related orders
+				PreparedStatement remove_orders = db.prepareStatement("DELETE FROM smg.order WHERE seller=?");
+				remove_orders.setInt(1,code);
+				remove_orders.execute();
+				remove_orders.close();
+			
+				//Remove shop of seller	
 				PreparedStatement remove_shop = db.prepareStatement("DELETE FROM smg.shop WHERE seller=?");
-				remove_shop.setInt(1,seller_code);
+				remove_shop.setInt(1,code);
 				remove_shop.executeUpdate();
 				remove_shop.close();
 
+				//Remove products of seller
+				PreparedStatement remove_products = db.prepareStatement("DELETE FROM smg.product WHERE seller_code=?");
+				remove_products.setInt(1,code);
+				remove_products.execute();
+				remove_products.close();
+
 				PreparedStatement remove_seller = db.prepareStatement("DELETE FROM smg.seller WHERE code=?");
-				remove_seller.setInt(1,seller_code);
+				remove_seller.setInt(1,code);
 				remove_seller.executeUpdate();
-				remove_seller.executeUpdate();
+				remove_seller.close();
 
 				db.commit();
 				db.setAutoCommit(true);

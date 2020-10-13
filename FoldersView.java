@@ -38,8 +38,10 @@ public class FoldersView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(folders.size() != 0){
-                    ProductFolderView productFolderView = new ProductFolderView(window, foldersList.getSelectedIndex(), folders, hiddenFolders, productsList);
-                    window.setVisible(false);
+                    if(e.getClickCount() == 2){
+                        ProductFolderView productFolderView = new ProductFolderView(window, foldersList.getSelectedIndex(), folders, hiddenFolders, productsList);
+                        window.setVisible(false);
+                    }
                 }
             }
             @Override

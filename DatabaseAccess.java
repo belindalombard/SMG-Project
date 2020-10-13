@@ -1189,6 +1189,7 @@ public class DatabaseAccess {
 		return p;
 	}	
 			
-}
 
+	public boolean AddOrder(){ return true; }
+}
 

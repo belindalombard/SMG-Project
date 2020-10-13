@@ -32,7 +32,7 @@ public class AccountDetailsView {
         removeAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(int i = 0; i < buyers.size(); i++){
+                /**for(int i = 0; i < buyers.size(); i++){
                     if(buyers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()-1))){
                         buyers.remove(i);
                         db.removeBuyerAccount(buyers.get(i).getBuyerID());
@@ -48,8 +48,18 @@ public class AccountDetailsView {
                         previousWindowFrame.setVisible(true);
                         window.setVisible(false);
                     }
-                }
-                userAccounts.remove(userAccountsList.getSelectedIndex());
+                }*/
+		
+		if (nameOfClass.equals("seller")){
+			System.out.println(selectedFromSellers);
+			System.out.println(sellers.get(selectedFromSellers).getSellerID());
+			//sellers.remove(selectedFromSellers);
+			db.removeSellerAccount(sellers.get(selectedFromSellers).getSellerID());
+                        previousWindowFrame.setVisible(true);
+                        window.setVisible(false);				
+		}		
+		    
+                userAccounts.remove(selectedAccount);
             }
         });
 

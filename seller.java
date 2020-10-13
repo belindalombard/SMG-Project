@@ -47,4 +47,9 @@ public class seller {
     {
         return validation;
     }
+
+    public void setValidation(boolean val){
+	    this.validation = val;
+    }
 }
+

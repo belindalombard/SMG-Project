@@ -49,4 +49,8 @@ public class buyer {
     {
         return validation;
     }
+
+    public void setValidation(boolean val) {
+	this.validation=val;
+    }
 }

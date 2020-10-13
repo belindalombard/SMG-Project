@@ -32,28 +32,8 @@ public class AccountDetailsView {
         removeAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /**for(int i = 0; i < buyers.size(); i++){
-                    if(buyers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()-1))){
-                        buyers.remove(i);
-                        db.removeBuyerAccount(buyers.get(i).getBuyerID());
-                        previousWindowFrame.setVisible(true);
-                        window.setVisible(false);
-                    }
-                }
-
-                for(int i = 0; i < sellers.size(); i++){
-                    if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()-1))){
-                        sellers.remove(i);
-                        db.removeSellerAccount(sellers.get(i).getSellerID());
-                        previousWindowFrame.setVisible(true);
-                        window.setVisible(false);
-                    }
-                }*/
 		
 		if (nameOfClass.equals("seller")){
-			//System.out.println(selectedFromSellers);
-			//System.out.println(sellers.get(selectedFromSellers).getSellerID());
-			//System.out.println(sellers.get(selectedFromSellers).getName());
 	
 			db.removeSellerAccount(sellers.get(selectedFromSellers).getSellerID());
 			sellers.remove(selectedFromSellers);
@@ -68,7 +48,7 @@ public class AccountDetailsView {
            	
 			userAccounts.remove(selectedAccount);
 		       	previousWindowFrame.setVisible(true);
-                        window.setVisible(false);	
+                        window.setVisible(false);
 		}		
 		    
             }
@@ -77,10 +57,27 @@ public class AccountDetailsView {
         JButton validateAccountButton = new JButton("Validate");
         validateAccountButton.addActionListener(new ActionListener() {
             @Override
+	    /*
+	     * Change validation in Database to true. 
+	     */
             public void actionPerformed(ActionEvent e) {
+		String _id;
+		if (nameOfClass.equals("seller")) {
+			_id = sellers.get(selectedFromSellers).getSellerID();
+			((seller)sellers.get(selectedFromSellers)).setValidation(true);
+		}
+		else { 
+			_id = buyers.get(selectedFromBuyers).getBuyerID();
+			((buyer)buyers.get(selectedFromBuyers)).setValidation(true);
+		}
+		db.setValidation(_id, nameOfClass, true);
+		
+		previousWindowFrame.setVisible(true);
+                window.setVisible(false);
 
-
-            }
+	    }		
+			
+	
         });
 
         JButton backButton = new JButton("Back");

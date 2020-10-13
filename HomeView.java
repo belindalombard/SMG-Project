@@ -61,7 +61,7 @@ public class HomeView extends SignUpView{
             public void mouseClicked(MouseEvent e) {
                 if(e.getClickCount() == 2){
 		    selected_seller = sellers.get(shopList.getSelectedIndex());
-                    ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj, selected_seller, db);
+                    ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj,  selected_seller, db);
                     window.setVisible(false);
                 }
             }

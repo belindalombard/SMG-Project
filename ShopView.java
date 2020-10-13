@@ -5,9 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+
 
 public class ShopView {
-    public ShopView(JFrame previousWindowFrame, int selectedShop, String [] shops, buyer buyerobj){
+    public ShopView(JFrame previousWindowFrame, int selectedShop, String [] shops, buyer buyerobj, seller s, DatabaseAccess db){
         //Frame
         JFrame window = new JFrame("Sell My Goods: "+shops[selectedShop]);
         window.setMinimumSize(new Dimension(800, 600));
@@ -32,9 +34,13 @@ public class ShopView {
         productsLabel.setBounds(10, 20, 150, 100);
         productsLabel.setFont(new Font(null, Font.BOLD, 30));
 
-        String [] products = new String[100];
-        for(int i = 0; i < 100; i++){
-            products[i] = "Product "+i;
+	ArrayList<product> product_list = new ArrayList<product>();
+	int code = db.getUserCode(s.getEmail(), "seller"); //get seller code of the shop that wants to be visited now. 
+	product_list = db.getProductsFromSeller(code); //get list of products by a specific seller.
+	
+        String [] products = new String[product_list.size()];
+        for(int i = 0; i < product_list.size(); i++){
+            products[i] = product_list.get(i).getProductName();
         }
 
         JList productList = new JList(products);
@@ -48,7 +54,7 @@ public class ShopView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(e.getClickCount() == 2){
-                    ProductView productView = new ProductView(window, productList.getSelectedIndex(), products, buyerobj);
+                    ProductView productView = new ProductView(window, productList.getSelectedIndex(), products, buyerobj); //getProductsFromSeller
                     window.setVisible(false);
                 }
             }

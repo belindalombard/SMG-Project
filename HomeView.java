@@ -14,10 +14,12 @@ public class HomeView extends SignUpView{
     JFrame window;
     ArrayList<String> tempShops;
     DatabaseAccess db = new DatabaseAccess();
+    seller selected_seller;
+    ArrayList<seller> sellers = new ArrayList<seller>();
 
     public HomeView(JFrame previousWindowFrame, buyer buyerobj){
         this.buyerobj = buyerobj;
-	
+	selected_seller =null;	
 	//Frame
         window = new JFrame("Sell My Goods: Home");
         window.setMinimumSize(new Dimension(800, 600));
@@ -35,13 +37,13 @@ public class HomeView extends SignUpView{
                 window.dispose();
             }
         });
-	//get shops in area from the database. (NOT CURRENTLY WORKING - STILL FIXING IT)
-	ArrayList<seller> sellers = new ArrayList<seller>();
+	//get shops in area from the database.
+	//ArrayList<seller> sellers = new ArrayList<seller>();
 	sellers = db.getSellersAtDistrict(buyerobj.getResidentialAdr());
 
         shops = new String[sellers.size()];
         
-	System.out.println(sellers.size()); //trace statement
+//	System.out.println(sellers.size()); //trace statement
 	
 	// Shops List
         for(int i = 0; i < shops.length; i++){
@@ -58,7 +60,8 @@ public class HomeView extends SignUpView{
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(e.getClickCount() == 2){
-                    ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj);
+		    selected_seller = sellers.get(shopList.getSelectedIndex());
+                    ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj, selected_seller, db);
                     window.setVisible(false);
                 }
             }
@@ -116,7 +119,7 @@ public class HomeView extends SignUpView{
         shopList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj);
+                ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj, selected_seller, db);
                 window.setVisible(false);
             }
 
@@ -150,7 +153,7 @@ public class HomeView extends SignUpView{
                     }
                 }
                 if(refinedTempShops.length != 0){
-                    ShopView shopView = new ShopView(window, clickedItemIndex, shops, buyerobj);
+                    ShopView shopView = new ShopView(window, clickedItemIndex, shops, buyerobj, selected_seller, db);
                     window.setVisible(false);
                 }
             }

@@ -57,8 +57,10 @@ public class HomeView extends SignUpView{
         shopList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj);
-                window.setVisible(false);
+                if(e.getClickCount() == 2){
+                    ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj);
+                    window.setVisible(false);
+                }
             }
 
             @Override

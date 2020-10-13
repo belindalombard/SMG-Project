@@ -47,8 +47,10 @@ public class ShopView {
         productList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ProductView productView = new ProductView(window, productList.getSelectedIndex(), products, buyerobj);
-                window.setVisible(false);
+                if(e.getClickCount() == 2){
+                    ProductView productView = new ProductView(window, productList.getSelectedIndex(), products, buyerobj);
+                    window.setVisible(false);
+                }
             }
             @Override
             public void mousePressed(MouseEvent e) { }

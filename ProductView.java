@@ -7,14 +7,15 @@ import java.util.regex.Pattern;
 public class ProductView {
 
     int quantityOfItems = 1;
-    int availableStockItems = 160;
-    double productPriceAmount = 200.67;
+    int availableStockItems;
+    double productPriceAmount;
     double quantityTotalPrice = productPriceAmount;
     JLabel totalAmount;
     String shopLocation;
     JButton contactSellerButton;
+    product current_product;
 
-    public ProductView(JFrame previousWindowFrame, int selectedProduct, String [] products, buyer buyerobj){
+    public ProductView(JFrame previousWindowFrame, int selectedProduct, String [] products, buyer buyerobj, DatabaseAccess db){
         //Frame
         JFrame window = new JFrame("Sell My Goods: "+products[selectedProduct]);
         window.setMinimumSize(new Dimension(800, 600));
@@ -43,19 +44,23 @@ public class ProductView {
         productName.setFont(new Font(null, Font.BOLD, 20));
         productName.setBounds(400, 100, 150, 50);
 
+	current_product = db.getProductFromName(products[selectedProduct]);
+	productPriceAmount=current_product.getProductPrice();
+	availableStockItems=current_product.getProductQty();
+
         JLabel productPrice = new JLabel();
         productPrice.setText("Product Price : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
         productPrice.setBounds(400, 150, 150, 50);
 
         JTextArea productDetailsLabel = new JTextArea();
-        productDetailsLabel.setText("Product Details :\nHello World, this product is so cool, like really cool! It does everything...It does everything");
+        productDetailsLabel.setText("Product Details :\n"+ current_product.getProductDescription());
         productDetailsLabel.setBounds(400, 200, 350, 85);
         productDetailsLabel.setBackground(window.getBackground());
         productDetailsLabel.setEditable(false);
         productDetailsLabel.setLineWrap(true);
         productDetailsLabel.setWrapStyleWord(true);
 
-        shopLocation = "Cape Town"; //Set the location of the shop.
+        shopLocation = "Johannesburg"; //Set the location of the shop.
         JLabel locationLabel = new JLabel("Location : "+shopLocation);
         locationLabel.setBounds(400, 275, 300, 50);
 

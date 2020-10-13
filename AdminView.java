@@ -54,20 +54,31 @@ public class AdminView {
             public void mouseClicked(MouseEvent e) {
                 if(e.getClickCount() == 2){
                     int selectedFromSellers = 0;
+		    int selectedFromBuyers = 0;
+		    String selectedClass="buyer";
                     if(!userAccounts.isEmpty()){
-                        for(int i = 0; i < sellers.size(); i++){
-                            if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
-                                selectedFromSellers = i;
-                            }
+                        //for(int i = 0; i < (sellers.size()+buyers.size()); i++){
+                            //if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()))){
+                            //    selectedFromSellers = i;
+			    
+			    			
+                           // }
+			int index = userAccountsList.getSelectedIndex();
+			selectedClass = allUsers.get(index).getClass().getName();
+			if (selectedClass.equals("seller"))
+				selectedFromSellers=index-buyers.size();
+				
+
                         }
-                        String selectedClass = allUsers.get(userAccountsList.getSelectedIndex()).getClass().getName();
-                        AccountDetailsView accountDetailsView = new AccountDetailsView(window, userAccountsList.getSelectedIndex(),
-                                userAccounts, sellers, buyers, selectedClass, selectedFromSellers, userAccountsList, allUsers);
+			//System.out.println(sellers.get(0).getName());
+			//System.out.println(buyers.get(0).getName());
+
+                        //String selectedClass = allUsers.get(userAccountsList.getSelectedIndex()).getClass().getName();
+                        AccountDetailsView accountDetailsView = new AccountDetailsView(window, userAccountsList.getSelectedIndex(), userAccounts, sellers, buyers, selectedClass, selectedFromSellers, userAccountsList, allUsers);
                         window.setVisible(false);
                     }
                 }
-            }
-
+            
             @Override
             public void mousePressed(MouseEvent e) { }
             @Override

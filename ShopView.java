@@ -9,8 +9,11 @@ import java.util.ArrayList;
 
 
 public class ShopView {
+	DatabaseAccess db;
     public ShopView(JFrame previousWindowFrame, int selectedShop, String [] shops, buyer buyerobj, seller s, DatabaseAccess db){
-        //Frame
+        this.db=db;
+	    
+	//Frame
         JFrame window = new JFrame("Sell My Goods: "+shops[selectedShop]);
         window.setMinimumSize(new Dimension(800, 600));
         window.setLocation(300, 150);
@@ -54,7 +57,7 @@ public class ShopView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(e.getClickCount() == 2){
-                    ProductView productView = new ProductView(window, productList.getSelectedIndex(), products, buyerobj); //getProductsFromSeller
+                    ProductView productView = new ProductView(window, productList.getSelectedIndex(), products, buyerobj,db); //getProductsFromSeller
                     window.setVisible(false);
                 }
             }

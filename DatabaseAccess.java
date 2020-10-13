@@ -1160,6 +1160,34 @@ public class DatabaseAccess {
 			return products;		
 		}
 	}
+	
+	/**
+	 * Get a product object based on a product name
+	 */
+	public product getProductFromName(String product_name){
+		product p=null;
+		try {
+			if (checkAndResetConnection()){
+				db.setAutoCommit(true);
+				PreparedStatement get_product = db.prepareStatement("SELECT * FROM smg.product WHERE name=?");
+				get_product.setString(1, product_name);
+				ResultSet rs = get_product.executeQuery();
+
+				if (rs.next()){
+					//String productName, String productDescription, int productQty, double productPrice, boolean hide, int productID
+					//product_id | seller_code |       name       | description | cost | quantity_left | visible | photo
+					double cost = rs.getBigDecimal(5).doubleValue();	
+					p = new product(rs.getString(3), rs.getString(4), rs.getInt(6), cost, rs.getBoolean(7), rs.getInt(1));  	
+				}
+				return p;
+
+			}
+		}
+		catch (Exception e){
+		       e.printStackTrace();
+		}
+		return p;
+	}	
 			
 }
 

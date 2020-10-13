@@ -52,14 +52,17 @@ public class AccountDetailsView {
 		
 		if (nameOfClass.equals("seller")){
 			System.out.println(selectedFromSellers);
-			System.out.println(sellers.get(selectedFromSellers).getSellerID());
-			//sellers.remove(selectedFromSellers);
+			//System.out.println(sellers.get(selectedFromSellers).getSellerID());
+			//System.out.println(sellers.get(selectedFromSellers).getName());
+	
 			db.removeSellerAccount(sellers.get(selectedFromSellers).getSellerID());
-                        previousWindowFrame.setVisible(true);
+			sellers.remove(selectedFromSellers);
+           	
+			userAccounts.remove(selectedAccount);
+		       	previousWindowFrame.setVisible(true);
                         window.setVisible(false);				
 		}		
 		    
-                userAccounts.remove(selectedAccount);
             }
         });
 

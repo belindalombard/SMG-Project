@@ -56,7 +56,8 @@ public class  ChatRoomView {
                     contactSeller.setEnabled(true);
                     previousWindowFrame.setFocusable(true);
                     //message messageSent = new message();
-                    db.sendMessage(seller.getEmail(),buyer.getEmail(),messageBoard.getText(),buyer.getName());
+		    System.out.println(buyer.getEmail());
+                    db.sendMessage(seller.getEmail(),buyer.getEmail(),messageBoard.getText(),"buyer");
                     JOptionPane.showMessageDialog(null, "Message succesfully sent!");
                     window.setVisible(false);
                 }

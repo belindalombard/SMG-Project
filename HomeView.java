@@ -16,6 +16,7 @@ public class HomeView extends SignUpView{
     DatabaseAccess db = new DatabaseAccess();
     seller selected_seller;
     ArrayList<seller> sellers = new ArrayList<seller>();
+    JComboBox searchCriteriaComboBox;
 
     public HomeView(JFrame previousWindowFrame, buyer buyerobj){
         this.buyerobj = buyerobj;
@@ -103,8 +104,31 @@ public class HomeView extends SignUpView{
             }
         });
 
+        String choiceList [] = {"Shop", "Area", "Delivery Method", "Product"};
+        searchCriteriaComboBox = new JComboBox<String>(choiceList);
+        searchCriteriaComboBox.setBounds(270, 252, 150, 27);
+
+        //getting shops based on search criteria
+        String selectedCriteria = searchCriteriaComboBox.getSelectedItem().toString();
+
+        String [] selecetedShops = new String[1000];
+
+        if (selectedCriteria.equals("Area"))
+        {
+
+        }
+        else if (selectedCriteria.equals("Product"))
+        {}
+        else if (selectedCriteria.equals("Delivery Method"))
+        {}
+        else if (selectedCriteria.equals("Shop"))
+        {}
+
+
+
         topSearchBarLayout.add(logoutButton);
         topSearchBarLayout.add(searchBar);
+        topSearchBarLayout.add(searchCriteriaComboBox);
         topSearchBarLayout.add(searchButton);
         window.add(topSearchBarLayout, BorderLayout.NORTH);
         window.add(scrollPane);

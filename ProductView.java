@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,17 +37,18 @@ public class ProductView {
         });
 
 
-        JLabel productImage = new JLabel(new ImageIcon("/Users/lindazungu/Desktop/Sell My Goods/src/sampleImage.png"));
+        JLabel productImage = new JLabel(new ImageIcon(/*"/Users/lindazungu/Desktop/Sell My Goods/src/sampleImage.png"*/));
         productImage.setBounds(80, 100, 250, 250);
+        productImage.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 
         JLabel productName = new JLabel();
         productName.setText(products[selectedProduct]);
         productName.setFont(new Font(null, Font.BOLD, 20));
         productName.setBounds(400, 100, 150, 50);
 
-	current_product = db.getProductFromName(products[selectedProduct]);
-	productPriceAmount=current_product.getProductPrice();
-	availableStockItems=current_product.getProductQty();
+	    current_product = db.getProductFromName(products[selectedProduct]);
+	    productPriceAmount=current_product.getProductPrice();
+	    availableStockItems=current_product.getProductQty();
 
         JLabel productPrice = new JLabel();
         productPrice.setText("Product Price : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
@@ -60,7 +62,7 @@ public class ProductView {
         productDetailsLabel.setLineWrap(true);
         productDetailsLabel.setWrapStyleWord(true);
 
-        shopLocation = "Johannesburg"; //Set the location of the shop.
+        shopLocation = db.getUserDistrict(s.getSellerID(), "seller"); //Set the location of the shop.
         JLabel locationLabel = new JLabel("Location : "+shopLocation);
         locationLabel.setBounds(400, 275, 300, 50);
 

@@ -6,12 +6,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class    ChatRoomView {
+public class  ChatRoomView {
 
     JTextArea messageBoard;
     JScrollPane scrollPane;
 
     public ChatRoomView(JFrame previousWindowFrame, JButton back, JButton pay, JButton contactSeller,seller seller, buyer buyer, product product){
+        DatabaseAccess db = new DatabaseAccess();
         //Frame
         JFrame window = new JFrame("Sell My Goods: ChatRoom");
         window.setMinimumSize(new Dimension(300, 500));
@@ -54,7 +55,8 @@ public class    ChatRoomView {
                     pay.setEnabled(true);
                     contactSeller.setEnabled(true);
                     previousWindowFrame.setFocusable(true);
-
+                    //message messageSent = new message();
+                    db.sendMessage(seller.getEmail(),buyer.getEmail(),messageBoard.getText(),buyer.getName());
                     JOptionPane.showMessageDialog(null, "Message succesfully sent!");
                     window.setVisible(false);
                 }
@@ -80,8 +82,5 @@ public class    ChatRoomView {
         window.setVisible(true);
 
     }
-    private void send (String message)
-    {
 
-    }
 }

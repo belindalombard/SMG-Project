@@ -12,7 +12,7 @@ import java.math.MathContext;
 
 public class FoldersView {
     DatabaseAccess db = new DatabaseAccess();
-    JButton addFolderButton, removeFolderButton;
+    JButton addFolderButton, removeFolderButton, inboxButton;
     DefaultListModel hiddenFolders;
 
     public FoldersView(int sellercode){
@@ -98,8 +98,18 @@ public class FoldersView {
                 window.dispose();
             }
         });
+        inboxButton = new JButton("Inbox");
+        inboxButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                InboxView inboxView = new InboxView(window, db.getSellerEmail(sellercode));
+                window.setVisible(false);
+
+            }
+        });
 
         topLayout.add(logoutButton);
+        topLayout.add(inboxButton);
 
         window.add(addFolderButton);
         window.add(removeFolderButton);

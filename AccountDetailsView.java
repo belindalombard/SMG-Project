@@ -32,28 +32,8 @@ public class AccountDetailsView {
         removeAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /**for(int i = 0; i < buyers.size(); i++){
-                    if(buyers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()-1))){
-                        buyers.remove(i);
-                        db.removeBuyerAccount(buyers.get(i).getBuyerID());
-                        previousWindowFrame.setVisible(true);
-                        window.setVisible(false);
-                    }
-                }
-
-                for(int i = 0; i < sellers.size(); i++){
-                    if(sellers.get(i).equals(allUsers.get(userAccountsList.getSelectedIndex()-1))){
-                        sellers.remove(i);
-                        db.removeSellerAccount(sellers.get(i).getSellerID());
-                        previousWindowFrame.setVisible(true);
-                        window.setVisible(false);
-                    }
-                }*/
 		
 		if (nameOfClass.equals("seller")){
-			//System.out.println(selectedFromSellers);
-			//System.out.println(sellers.get(selectedFromSellers).getSellerID());
-			//System.out.println(sellers.get(selectedFromSellers).getName());
 	
 			db.removeSellerAccount(sellers.get(selectedFromSellers).getSellerID());
 			sellers.remove(selectedFromSellers);
@@ -68,7 +48,7 @@ public class AccountDetailsView {
            	
 			userAccounts.remove(selectedAccount);
 		       	previousWindowFrame.setVisible(true);
-                        window.setVisible(false);	
+                        window.setVisible(false);
 		}		
 		    
             }
@@ -77,10 +57,27 @@ public class AccountDetailsView {
         JButton validateAccountButton = new JButton("Validate");
         validateAccountButton.addActionListener(new ActionListener() {
             @Override
+	    /*
+	     * Change validation in Database to true. 
+	     */
             public void actionPerformed(ActionEvent e) {
+		String _id;
+		if (nameOfClass.equals("seller")) {
+			_id = sellers.get(selectedFromSellers).getSellerID();
+			((seller)sellers.get(selectedFromSellers)).setValidation(true);
+		}
+		else { 
+			_id = buyers.get(selectedFromBuyers).getBuyerID();
+			((buyer)buyers.get(selectedFromBuyers)).setValidation(true);
+		}
+		db.setValidation(_id, nameOfClass, true);
+		
+		previousWindowFrame.setVisible(true);
+                window.setVisible(false);
 
-
-            }
+	    }		
+			
+	
         });
 
         JButton backButton = new JButton("Back");
@@ -96,7 +93,7 @@ public class AccountDetailsView {
             showBuyerDetails((buyer) buyers.get(selectedAccount));
         }
         else{
-            showSellerDetails((seller)sellers.get(selectedFromSellers));
+            showSellerDetails((seller)sellers.get(selectedFromSellers),db.getShopFromSeller((seller)sellers.get(selectedFromSellers)));
         }
 
         backBoxLayout.add(backButton);
@@ -169,30 +166,30 @@ public class AccountDetailsView {
         window.add(new JLabel());
     }
 
-    private void showShopDetails(){
+    private void showShopDetails(store shop){
         JLabel shopNameLabel = new JLabel("Shop Name : ");
         shopNameLabel.setBounds(150, 270, 150, 50);
-        JLabel actualShopName = new JLabel("The Name");
+        JLabel actualShopName = new JLabel(shop.getStoreName());
         actualShopName.setBounds(320, 270, 150, 50);
 
         JLabel bankAccNumberLabel = new JLabel("Bank Account Number : ");
         bankAccNumberLabel.setBounds(150, 300, 180, 50);
-        JLabel actualBankAccNum = new JLabel("12345678901");
+        JLabel actualBankAccNum = new JLabel(shop.getAccountNumber());
         actualBankAccNum.setBounds(320, 300, 150, 50);
 
         JLabel bankNameLabel = new JLabel("Bank Name : ");
         bankNameLabel.setBounds(150, 330, 150, 50);
-        JLabel actualBankName = new JLabel("Standard Bank");
+        JLabel actualBankName = new JLabel(shop.getBankName());
         actualBankName.setBounds(320, 330, 150, 50);
 
         JLabel bankBranchCodeLabel = new JLabel("Bank Branch code : ");
         bankBranchCodeLabel.setBounds(150, 360, 150, 50);
-        JLabel actualBankBranchCode = new JLabel("123123");
+        JLabel actualBankBranchCode = new JLabel(shop.getBranch());
         actualBankBranchCode.setBounds(320, 360, 150, 50);
 
         JLabel deliveryMethodLabel = new JLabel("Delivery Method : ");
         deliveryMethodLabel.setBounds(150, 390, 150, 50);
-        JLabel actualDeliveryMethod = new JLabel("Delivery & Collection");
+        JLabel actualDeliveryMethod = new JLabel(shop.getDelivery());
         actualDeliveryMethod.setBounds(320, 390, 150, 50);
 
 
@@ -213,7 +210,7 @@ public class AccountDetailsView {
         window.add(new JLabel());
     }
 
-    private void showSellerDetails(seller user){
+    private void showSellerDetails(seller user, store x){
         JLabel nameLabel = new JLabel("Name : ");
         nameLabel.setBounds(150, 60, 50, 27);
         JLabel userName = new JLabel(user.getName());
@@ -271,6 +268,6 @@ public class AccountDetailsView {
         window.add(validation);
         window.add(new JLabel());
 
-        showShopDetails();
+        showShopDetails(x);
     }
 }

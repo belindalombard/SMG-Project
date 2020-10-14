@@ -20,8 +20,8 @@ public class ProductFolderView {
         JPanel topButtonLayout = new JPanel();
         topButtonLayout.setLayout(new BoxLayout(topButtonLayout, BoxLayout.LINE_AXIS));
 
-	JButton backButton = new JButton("Back");
-	backButton.addActionListener(new ActionListener() {
+	    JButton backButton = new JButton("Back");
+	    backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 previousWindowFrame.setVisible(true);
@@ -29,12 +29,12 @@ public class ProductFolderView {
             }
         });
 
-	boolean product_hide = ((product)productsList.get(selectedFolder)).getHide();
+	    boolean product_hide = ((product)productsList.get(selectedFolder)).getHide();
         show = new Checkbox("Show",!product_hide);
         
-	show.setBounds(340, 50, 100, 20);
+	    show.setBounds(340, 50, 100, 20);
         
-	show.addItemListener(new ItemListener() {
+	    show.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if(hide.getState()){
@@ -60,6 +60,37 @@ public class ProductFolderView {
             }
         });
 
+        JButton uploadImageButton = new JButton();
+        uploadImageButton.setBounds(80, 100, 250, 250);
+        uploadImageButton.setOpaque(false);
+        uploadImageButton.setContentAreaFilled(false);
+        uploadImageButton.setBorderPainted(false);
+        uploadImageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Button clicked!");
+            }
+        });
+        uploadImageButton.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) { }
+
+            @Override
+            public void mousePressed(MouseEvent e) { }
+
+            @Override
+            public void mouseReleased(MouseEvent e) { }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                uploadImageButton.setBorderPainted(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                uploadImageButton.setBorderPainted(false);
+            }
+        });
         JLabel productImage = new JLabel(new ImageIcon("/Users/lindazungu/Desktop/Sell My Goods/src/sampleImage.png"));
         productImage.setBounds(80, 100, 250, 250);
 
@@ -111,9 +142,8 @@ public class ProductFolderView {
         JButton saveProductButton = new JButton("Save");
         saveProductButton.addActionListener(new ActionListener() {
             @Override
-
-	    //String productName, String productDescription, int productQty, double productPrice, boolean visible
             public void actionPerformed(ActionEvent e) {
+                //String productName, String productDescription, int productQty, double productPrice, boolean visible
                 folders.setElementAt(productName.getText(), selectedFolder);
                 ((product)productsList.get(selectedFolder)).setProductName(productName.getText());
                 ((product)productsList.get(selectedFolder)).setProductQty(Integer.parseInt(stockAvailableField.getText()));
@@ -121,17 +151,17 @@ public class ProductFolderView {
                 ((product)productsList.get(selectedFolder)).setProductDescription(productDetailsTextArea.getText());
                 ((product)productsList.get(selectedFolder)).setHide(hide.getState());
 		
-		if(hide.getState()){
-                    hiddenFolders.addElement(folders.getElementAt(selectedFolder));
-                    System.out.println(hiddenFolders.size());
-                    /*hiddenFolders is going to be used in
+		        if(hide.getState()){
+		            hiddenFolders.addElement(folders.getElementAt(selectedFolder));
+		            System.out.println(hiddenFolders.size());
+		            /*hiddenFolders is going to be used in
                     the database in order to know what to hide from the user.*/
 
-//                    folders.removeElementAt(selectedFolder);
-                }
+//                  folders.removeElementAt(selectedFolder);
+		        }
 
-                previousWindowFrame.setVisible(true);
-                window.setVisible(false);
+		        previousWindowFrame.setVisible(true);
+		        window.setVisible(false);
             }
         });
 
@@ -142,6 +172,7 @@ public class ProductFolderView {
         window.add(show);
         window.add(hide);
         window.add(productImage);
+        window.add(uploadImageButton);
         window.add(productNameLabel);
         window.add(productName);
         window.add(productPrice);

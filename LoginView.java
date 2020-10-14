@@ -53,24 +53,21 @@ public class LoginView {
                FoldersView folderView;
                HomeView homeView;
                if (verify((emailField.getText()).toLowerCase(),new String(passwordField.getPassword()))) {
-                       int sb = SellerOrBuyer(emailField.getText().toLowerCase());
-               	       if (sb==1)
-               	       { //Person loggin in is a Seller.
-               	           // Get seller details
-                 		int sellerID = db.getUserCode((emailField.getText()).toLowerCase(), "seller"); //get the seller's code so that the correct paramaters can be sent through to the next view.
-		   		        folderView = new FoldersView(sellerID);
-               	       }
-	                   else
-	                   { //Person login in is a buyer.
-	                       
-	                       buyer buyerobj = db.getBuyer((emailField.getText()).toLowerCase());
-	                      // buyerobj.setUserEmail(emailField.getText());
-                           homeView = new HomeView(window, buyerobj);
-                           window.setVisible(false);
-                       }
+                   int sb = SellerOrBuyer(emailField.getText().toLowerCase());
+                   if (sb==1) { //Person loggin in is a Seller.
+                       // Get seller details
+                       int sellerID = db.getUserCode((emailField.getText()).toLowerCase(), "seller"); //get the seller's code so that the correct paramaters can be sent through to the next view.
+                       folderView = new FoldersView(sellerID);
+                       window.setVisible(false);
+                   }
+                   else { //Person login in is a buyer.
+                       buyer buyerobj = db.getBuyer((emailField.getText()).toLowerCase());
+                       // buyerobj.setUserEmail(emailField.getText());
+                       homeView = new HomeView(window, buyerobj);
+                       window.setVisible(false);
+                   }
                }
-               else
-               {
+               else {
                    unknownAccountFlow.setVisible(true);
                    accountDoesNotExistLabel.setForeground(Color.RED);
 
@@ -85,13 +82,11 @@ public class LoginView {
             public void actionPerformed(ActionEvent e) {
                 SignUpView toSignUpView = new SignUpView(window);
                 window.setVisible(false);
-
             }
         });
         JLabel noAccountYetLabel = new JLabel("Don't have an account yet? ");
         noAccountYetLabel.setForeground(new Color(0x9A9B9C));
 //        unknownAccountFlow.setBackground(Color.ORANGE);
-
 
         window.add(nameLabel);
         window.add(emailField);
@@ -117,14 +112,13 @@ public class LoginView {
     }
 
     // Lookup user in the database
-    private Boolean verify(String username, String password)
-    {
+    private Boolean verify(String username, String password) {
         boolean exists = false;
         String encPassword = encrypt(password);
         exists = db.Login(username, encPassword);
-	//System.out.println(encPassword); //Trace statement
+	    //System.out.println(encPassword); //Trace statement
 	
-	return exists;
+	    return exists;
     }
     //Method for encrypting user password
     private String encrypt(String pass)

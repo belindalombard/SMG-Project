@@ -37,9 +37,9 @@ public class ShopView {
         productsLabel.setBounds(10, 20, 150, 100);
         productsLabel.setFont(new Font(null, Font.BOLD, 30));
 
-	ArrayList<product> product_list = new ArrayList<product>();
-	int code = db.getUserCode(s.getEmail(), "seller"); //get seller code of the shop that wants to be visited now. 
-	product_list = db.getVisibleProductsFromSeller(code); //get list of products by a specific seller.
+        ArrayList<product> product_list = new ArrayList<product>();
+        int code = db.getUserCode(s.getEmail(), "seller"); //get seller code of the shop that wants to be visited now.
+        product_list = db.getVisibleProductsFromSeller(code); //get list of products by a specific seller.
 	
         String [] products = new String[product_list.size()];
         for(int i = 0; i < product_list.size(); i++){

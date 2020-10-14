@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,21 +37,22 @@ public class ProductView {
         });
 
 
-        JLabel productImage = new JLabel(new ImageIcon("/Users/lindazungu/Desktop/Sell My Goods/src/sampleImage.png"));
+        JLabel productImage = new JLabel(new ImageIcon(/*"/Users/lindazungu/Desktop/Sell My Goods/src/sampleImage.png"*/));
         productImage.setBounds(80, 100, 250, 250);
+        productImage.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 
         JLabel productName = new JLabel();
         productName.setText(products[selectedProduct]);
         productName.setFont(new Font(null, Font.BOLD, 20));
         productName.setBounds(400, 100, 150, 50);
 
-	current_product = db.getProductFromName(products[selectedProduct]);
-	productPriceAmount=current_product.getProductPrice();
-	availableStockItems=current_product.getProductQty();
+	    current_product = db.getProductFromName(products[selectedProduct]);
+	    productPriceAmount=current_product.getProductPrice();
+	    availableStockItems=current_product.getProductQty();
 
         JLabel productPrice = new JLabel();
         productPrice.setText("Product Price : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
-        productPrice.setBounds(400, 150, 150, 50);
+        productPrice.setBounds(400, 150, 350, 50);
 
         JTextArea productDetailsLabel = new JTextArea();
         productDetailsLabel.setText("Product Details :\n"+ current_product.getProductDescription());
@@ -60,7 +62,7 @@ public class ProductView {
         productDetailsLabel.setLineWrap(true);
         productDetailsLabel.setWrapStyleWord(true);
 
-        shopLocation = "Johannesburg"; //Set the location of the shop.
+        shopLocation = db.getUserDistrict(s.getSellerID(), "seller"); //Set the location of the shop.
         JLabel locationLabel = new JLabel("Location : "+shopLocation);
         locationLabel.setBounds(400, 275, 300, 50);
 
@@ -69,19 +71,19 @@ public class ProductView {
 
         JTextField quantityField = new JTextField(10);
         quantityField.setBounds(440, 355, 70, 27);
-        quantityField.setText("1");
+        quantityField.setText("0");
         quantityField.setHorizontalAlignment(SwingConstants.CENTER);
         quantityField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
                     if(quantityField.getText().isEmpty()){
-                        quantityOfItems = 1;
+                        quantityOfItems = 0;
                         quantityField.setText(""+quantityOfItems);
                         totalAmount.setText("Total : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
                     }
-                    else if(Integer.parseInt(quantityField.getText()) > availableStockItems || Integer.parseInt(quantityField.getText()) < 1){
-                        quantityOfItems = 1;
+                    else if(Integer.parseInt(quantityField.getText()) > availableStockItems || Integer.parseInt(quantityField.getText()) < 0){
+                        quantityOfItems = 0;
                         quantityField.setText(""+quantityOfItems);
                         totalAmount.setText("Total : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
                     }
@@ -104,7 +106,7 @@ public class ProductView {
             public void actionPerformed(ActionEvent e) {
                 try{
                     if(quantityField.getText().isEmpty()){
-                        quantityOfItems = 1;
+                        quantityOfItems = 0;
                         quantityField.setText("" + quantityOfItems);
                     }
                     else if(Integer.parseInt(quantityField.getText()) < availableStockItems){
@@ -129,12 +131,12 @@ public class ProductView {
             public void actionPerformed(ActionEvent e) {
                 try {
                     if (quantityField.getText().isEmpty()) {
-                        quantityOfItems = 1;
+                        quantityOfItems = 0;
                         quantityField.setText("" + quantityOfItems);
                     } else if (Integer.parseInt(quantityField.getText()) > availableStockItems) {
                         quantityOfItems = availableStockItems;
                         quantityField.setText("" + quantityOfItems);
-                    } else if (Integer.parseInt(quantityField.getText()) > 1) {
+                    } else if (Integer.parseInt(quantityField.getText()) > 0) {
                         quantityOfItems = Integer.parseInt(quantityField.getText()) - 1;
                         quantityTotalPrice -= productPriceAmount;
                         quantityField.setText("" + quantityOfItems);

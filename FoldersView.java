@@ -136,9 +136,15 @@ public class FoldersView {
             product add = (product)i.next();
 
             if (add.getProductID()==-1) {//product not yet added to the database.
-                BigDecimal price = new BigDecimal(add.getProductPrice(), MathContext.DECIMAL64); //Convert double to big decimal.
-                if (!db.AddProductToShop(sellerCode, add.getProductName(), add.getProductDescription(), price, add.getProductQty(), add.getHide()));
-                return false; //Error - product could not be added to the database.
+		BigDecimal price = new BigDecimal(add.getProductPrice(), MathContext.DECIMAL64); //Convert double to big decimal.
+                if (add.getProductImage()!=null) {
+			if (!db.AddProductToShop(sellerCode, add.getProductName(), add.getProductDescription(), price, add.getProductQty(), add.getHide(), add.getProductImage()))
+				return false;
+		}
+		else {
+			if (!db.AddProductToShop(sellerCode, add.getProductName(), add.getProductDescription(), price, add.getProductQty(), add.getHide()))
+                		return false; //Error - product could not be added to the database.
+		}
             }
             else { //product is already in the databse - just update the product info in the db.
                 db.updateProduct(add);

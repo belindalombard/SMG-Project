@@ -3,7 +3,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.filechooser.*;
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream ;
+import javax.imageio.ImageIO;
 
 public class ProductFolderView {
 
@@ -20,6 +24,8 @@ public class ProductFolderView {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         //
+
+	product current_product = ((product)productsList.get(selectedFolder));
 
         JPanel topButtonLayout = new JPanel();
         topButtonLayout.setLayout(new BoxLayout(topButtonLayout, BoxLayout.LINE_AXIS));
@@ -90,14 +96,12 @@ public class ProductFolderView {
                             || extension.equalsIgnoreCase(".bmp") || extension.equalsIgnoreCase(".tif")
                             || extension.equalsIgnoreCase(".gif")) {
                         photo_path=fileChooser.getSelectedFile().getPath();
-                        productImage.setIcon(new ImageIcon(photo_path));
-
-			        } /**else {
-                    		JOptionPane.showMessageDialog(this, "Kindly Select Image File Only",  
-				"Error", JOptionPane.ERROR_MESSAGE);  
-                	} */
+                        byte[] arr = image_to_bytea(photo_path);
+                        BufferedImage buff = bytea_to_image(arr);
+                        productImage.setIcon(new ImageIcon(buff));
+                        current_product.setPhoto(arr);
+                    }
                 }
-
             }
         });
         uploadImageButton.addMouseListener(new MouseListener() {
@@ -122,7 +126,10 @@ public class ProductFolderView {
                 showUploadInstruction.setVisible(false);
             }
         });
-        productImage = new JLabel(new ImageIcon("/Users/lindazungu/Desktop/Sell My Goods/src/sampleImage.png"));
+	if ((current_product.getProductImage()!=null))
+        	productImage = new JLabel(new ImageIcon(bytea_to_image(current_product.getProductImage())));
+	else 
+		productImage = new JLabel(new ImageIcon()); 
         productImage.setBounds(80, 100, 250, 250);
 
         JLabel productNameLabel = new JLabel("Product Name : ");
@@ -219,4 +226,32 @@ public class ProductFolderView {
         window.setVisible(true);
     }
 
-}
+
+   public byte[] image_to_bytea(String file_path){
+        try {
+                File file = new File(file_path);
+                FileInputStream fs = new FileInputStream(file);
+                long bytes = file.length();
+                byte[] bytea = new byte[(int)bytes];
+
+                fs.read(bytea, 0, (int) bytes);
+                return bytea;
+        }
+        catch (Exception e){
+                e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    public BufferedImage bytea_to_image(byte[] bytes){
+	try {
+        	ByteArrayInputStream b = new ByteArrayInputStream(bytes);
+		BufferedImage image = ImageIO.read(b);
+		return image;
+    	} catch (Exception e){
+		e.printStackTrace();
+	}
+    return null;
+    }	
+}	

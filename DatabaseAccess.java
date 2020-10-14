@@ -795,7 +795,7 @@ public class DatabaseAccess {
 				rs.next();
 					// shop_id |    shop_name    | bank_account_number |   bank_name   | bank_banch_code |    delivery_method    |        description        | seller  - db entries
 					//String storeID,String storeName,String storeLocation,String storeDescription,Array products, String storeAccountNumber, String storeBankName, String storeBankBranch, String deliveryOption - constructor of shop
-				store s = new store(rs.getInt(1), rs.getString(2), sell.getResidentialAdr(), rs.getString(7), products, rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)); 
+					store s = new store(rs.getInt(1), rs.getString(2), sell.getResidentialAdr(), rs.getString(7), products, rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)); 
 
 				get_shop.close();
 				return s;
@@ -1108,7 +1108,7 @@ public class DatabaseAccess {
 				rs.next(); 	
 				
 				//table fields  code |    name    | email_address  | phone_numebr |            password            |  national_id  | area | validated
-				s = new seller(rs.getString(6), rs.getString(7), rs.getString(2), rs.getString(5), rs.getString(2), rs.getString(4), rs.getBoolean(8));
+				s = new seller(rs.getString(6), rs.getString(7), rs.getString(2), rs.getString(5), rs.getString(3), rs.getString(4), rs.getBoolean(8));
 				
 			return s;		
 			}
@@ -1264,8 +1264,64 @@ public class DatabaseAccess {
 		return null;
 	}	
 
+	/*
+	 * Method to search for a shop based on a search criteria and "search by" option
+	 */
+	public ArrayList<store> searchShops(String search_criteria, String table) {
+		ArrayList<store> shops = new ArrayList<store>();
+		try{
+			if(checkAndResetConnection()){
+				db.setAutoCommit(true);
+				PreparedStatement get_sellers=null;
 
+				if (table.equals("district")){
+					get_sellers = db.prepareStatement("SELECT * FROM smg.seller WHERE area=(SELECT district_id FROM smg.district WHERE UPPER(name) LIKE ?)");
+					ArrayList<seller> sellers = new ArrayList<seller>();
+					get_sellers.setString(1, "%"+search_criteria.toUpperCase()+"%");
+					ResultSet rs = get_sellers.executeQuery();
+					while(rs.next()){
+						seller _seller = new seller(rs.getString(6), rs.getString(7), rs.getString(2), rs.getString(5), rs.getString(3), rs.getString(4),rs.getBoolean(8));
+						sellers.add(_seller);
+					}
+					for (int k=0; k<sellers.size(); k++)
+						shops.add(getShopFromSeller(sellers.get(k)));
+					return shops;
+				}
+				if ((table.equals("shop"))||(table.equals("store"))){
+					get_sellers = db.prepareStatement("SELECT seller FROM smg.shop WHERE UPPER(shop_name) LIKE ?");
+					get_sellers.setString(1, "%"+search_criteria.toUpperCase()+"%");
+					ResultSet rs = get_sellers.executeQuery();
+					while (rs.next()){
+						int seller_id = rs.getInt(1);
+						seller next_seller = getSeller(getSellerEmail(seller_id));
+						store next_shop = getShopFromSeller(next_seller);
+						shops.add(next_shop);
+					}
+					return shops;
+				}
+				if (table.equals("product")){
+					get_sellers = db.prepareStatement("SELECT seller_code FROM smg.product WHERE UPPER(name) LIKE ?");
+					get_sellers.setString(1, "%"+search_criteria.toUpperCase()+"%");
+					ResultSet rs = get_sellers.executeQuery();
+					while (rs.next()){
+						int seller_id = rs.getInt(1);
+						seller next_seller = getSeller(getSellerEmail(seller_id));
+						store next_shop = getShopFromSeller(next_seller);
+						shops.add(next_shop);
+					}
+					return shops;
 
+				}
+
+				get_sellers.close();
+			}
+
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		return shops;
+	}
 
 }
 

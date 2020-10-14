@@ -5,11 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class MessageView {
     JButton backButton;
-    JLabel messageText;
-    public MessageView(JFrame previousWindowFrame,int selectedMessage, DefaultListModel messages)
+    JLabel messageText = new JLabel();
+    public MessageView(JFrame previousWindowFrame, ArrayList<message> listOfMessages,int selectedMessage, DefaultListModel messages)
     {
         JFrame window = new JFrame("Sell My Goods: Inbox");
         window.setMinimumSize(new Dimension(800, 500));
@@ -17,7 +18,9 @@ public class MessageView {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
 
-        messageText.setText(((message)messages.getElementAt(selectedMessage)).getMessage());
+        // message messages.getElementAt(selectedMessage)).toString()
+        message thisMessage = listOfMessages.get(selectedMessage);
+        messageText.setText(thisMessage.getMessage());
         messageText.setBounds(400, 300, 200, 200);
         backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {

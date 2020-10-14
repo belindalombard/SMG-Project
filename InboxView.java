@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 public class InboxView {
     JButton backButton;
+    ArrayList<message> listOfMessages = new ArrayList<message>();
     DatabaseAccess db = new DatabaseAccess();
     public InboxView(JFrame previousWindowFrame, String sellerEmail)
     {
@@ -21,8 +22,8 @@ public class InboxView {
         //
         DefaultListModel messages = new DefaultListModel();
 	
-        ArrayList<message> listOfMessages = new ArrayList<message>();
-	listOfMessages= db.getMessagesBySeller(sellerEmail);
+
+        listOfMessages= db.getMessagesBySeller(sellerEmail);
         Iterator i = listOfMessages.iterator();
 
         while (i.hasNext()){
@@ -44,7 +45,7 @@ public class InboxView {
 
                 if(messages.size() != 0){
                     if(mouseEvent.getClickCount() == 2){
-                        MessageView messageView = new MessageView(window, messageList.getSelectedIndex(), messages);
+                        MessageView messageView = new MessageView(window, listOfMessages, messageList.getSelectedIndex(), messages);
                         window.setVisible(false);
                     }
                 }

@@ -2,12 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import javax.swing.filechooser.*;
+
 
 public class ProductFolderView {
 
     JTextField productName;
     Checkbox show, hide;
-    JLabel showUploadInstruction;
+    JLabel showUploadInstruction, productImage;
+    String photo_path = "";
 
     public ProductFolderView(JFrame previousWindowFrame, int selectedFolder, DefaultListModel folders, DefaultListModel hiddenFolders, ArrayList productsList){
         //Frame
@@ -73,7 +76,30 @@ public class ProductFolderView {
         uploadImageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Button clicked!");
+
+		//Code to add photo to the database.
+                JFileChooser fileChooser = new JFileChooser("C:\\", FileSystemView.getFileSystemView());
+            	fileChooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "png", "tif", "gif", "bmp"));  
+		System.out.println("Button clicked!");
+		int val = fileChooser.showOpenDialog(topButtonLayout);
+		if (val==JFileChooser.APPROVE_OPTION) {
+			String fileName = fileChooser.getSelectedFile().getName(); 
+		       	//System.out.println(fileName);	
+                	String extension = fileName.substring(fileName.lastIndexOf("."));  
+                	if (extension.equalsIgnoreCase(".jpg") || extension.equalsIgnoreCase(".png")  
+                        	|| extension.equalsIgnoreCase(".bmp") || extension.equalsIgnoreCase(".tif")  
+                        	|| extension.equalsIgnoreCase(".gif")) {  
+				photo_path=fileChooser.getSelectedFile().getPath();
+  				productImage.setIcon(new ImageIcon(photo_path));  
+   
+
+				
+			} /**else {  
+                    		JOptionPane.showMessageDialog(this, "Kindly Select Image File Only",  
+				"Error", JOptionPane.ERROR_MESSAGE);  
+                	} */
+		}
+
             }
         });
         uploadImageButton.addMouseListener(new MouseListener() {
@@ -101,7 +127,7 @@ public class ProductFolderView {
                 showUploadInstruction.setVisible(false);
             }
         });
-        JLabel productImage = new JLabel(new ImageIcon("/Users/lindazungu/Desktop/Sell My Goods/src/sampleImage.png"));
+        productImage = new JLabel(new ImageIcon("/Users/lindazungu/Desktop/Sell My Goods/src/sampleImage.png"));
         productImage.setBounds(80, 100, 250, 250);
 
         JLabel productNameLabel = new JLabel("Product Name : ");
@@ -197,4 +223,5 @@ public class ProductFolderView {
         window.add(topButtonLayout, BorderLayout.NORTH);
         window.setVisible(true);
     }
+
 }

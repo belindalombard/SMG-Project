@@ -7,6 +7,7 @@ public class ProductFolderView {
 
     JTextField productName;
     Checkbox show, hide;
+    JLabel showUploadInstruction;
 
     public ProductFolderView(JFrame previousWindowFrame, int selectedFolder, DefaultListModel folders, DefaultListModel hiddenFolders, ArrayList productsList){
         //Frame
@@ -19,6 +20,10 @@ public class ProductFolderView {
 
         JPanel topButtonLayout = new JPanel();
         topButtonLayout.setLayout(new BoxLayout(topButtonLayout, BoxLayout.LINE_AXIS));
+
+        showUploadInstruction = new JLabel("^ Upload Image ^");
+        showUploadInstruction.setBounds(150, 350, 250, 27);
+        showUploadInstruction.setVisible(false);
 
 	    JButton backButton = new JButton("Back");
 	    backButton.addActionListener(new ActionListener() {
@@ -84,11 +89,16 @@ public class ProductFolderView {
             @Override
             public void mouseEntered(MouseEvent e) {
                 uploadImageButton.setBorderPainted(true);
+//                if(!showUploadInstruction.isVisible()){
+//                    showUploadInstruction.setVisible(true);
+//                }
+                showUploadInstruction.setVisible(true);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 uploadImageButton.setBorderPainted(false);
+                showUploadInstruction.setVisible(false);
             }
         });
         JLabel productImage = new JLabel(new ImageIcon("/Users/lindazungu/Desktop/Sell My Goods/src/sampleImage.png"));
@@ -173,6 +183,7 @@ public class ProductFolderView {
         window.add(hide);
         window.add(productImage);
         window.add(uploadImageButton);
+        window.add(showUploadInstruction);
         window.add(productNameLabel);
         window.add(productName);
         window.add(productPrice);

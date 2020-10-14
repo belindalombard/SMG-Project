@@ -44,6 +44,8 @@ public class  ChatRoomView {
 
         JPanel topLabelLayout = new JPanel(new FlowLayout());
         JLabel userInstruction = new JLabel("Type your message below");
+        topLabelLayout.setBackground(Color.WHITE);
+        userInstruction.setForeground(Color.GRAY);
 
         JPanel bottomButtonLayout = new JPanel(new FlowLayout());
         JButton sendMessageButton = new JButton("Send");

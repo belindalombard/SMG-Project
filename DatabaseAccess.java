@@ -1208,7 +1208,7 @@ public class DatabaseAccess {
 					//String productName, String productDescription, int productQty, double productPrice, boolean hide, int productID
 					//product_id | seller_code |       name       | description | cost | quantity_left | visible | photo
 					double cost = rs.getBigDecimal(5).doubleValue();	
-					p = new product(rs.getString(3), rs.getString(4), rs.getInt(6), cost, rs.getBoolean(7), rs.getInt(1));  	
+					p = new product(rs.getString(3), rs.getString(4), rs.getInt(6), cost, rs.getBoolean(7), rs.getInt(1), rs.getBytes(8));  	
 				}
 				return p;
 

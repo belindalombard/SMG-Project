@@ -4,6 +4,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
+import java.io.File;
+import java.io.FileInputStream;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream ;
+import javax.imageio.ImageIO;
+
+
 
 public class ProductView {
 
@@ -35,10 +42,14 @@ public class ProductView {
                 window.setVisible(false);
             }
         });
+	current_product = db.getProductFromName(products[selectedProduct]);
 
-
-        JLabel productImage = new JLabel(new ImageIcon(/*"/Users/lindazungu/Desktop/Sell My Goods/src/sampleImage.png"*/));
-        productImage.setBounds(80, 100, 250, 250);
+	JLabel productImage;
+	if (current_product.getProductImage()!=null)
+        	productImage = new JLabel(new ImageIcon(bytea_to_image(current_product.getProductImage())));
+	else
+		productImage = new JLabel(new ImageIcon());
+	productImage.setBounds(80, 100, 250, 250);
         productImage.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 
         JLabel productName = new JLabel();
@@ -46,9 +57,8 @@ public class ProductView {
         productName.setFont(new Font(null, Font.BOLD, 20));
         productName.setBounds(400, 100, 150, 50);
 
-	    current_product = db.getProductFromName(products[selectedProduct]);
-	    productPriceAmount=current_product.getProductPrice();
-	    availableStockItems=current_product.getProductQty();
+	productPriceAmount=current_product.getProductPrice();
+	availableStockItems=current_product.getProductQty();
 
         JLabel productPrice = new JLabel();
         productPrice.setText("Product Price : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
@@ -214,4 +224,23 @@ public class ProductView {
         window.add(new JLabel());
         window.setVisible(true);
     }
+
+
+
+    /** 
+     * Convert a byte array to an image obj
+     */
+    public BufferedImage bytea_to_image(byte[] bytes){
+        try {
+                ByteArrayInputStream b = new ByteArrayInputStream(bytes);
+                BufferedImage image = ImageIO.read(b);
+                return image;
+        } catch (Exception e){
+                e.printStackTrace();
+        }
+    return null;
+    }
+
+
+
 }

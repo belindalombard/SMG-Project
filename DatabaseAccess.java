@@ -964,7 +964,6 @@ public class DatabaseAccess {
 			if(checkAndResetConnection()){
 				int seller_code = getUserCode(seller_email, "seller");
 				int buyer_code = getUserCode(buyer_email, "buyer");
-		
 				PreparedStatement new_message = db.prepareStatement("INSERT INTO smg.message(seller,buyer,message,status,sender,time) VALUES(?,?,?,?,?,?) RETURNING message_id");
 				
 				new_message.setInt(1,seller_code);
@@ -1086,8 +1085,9 @@ public class DatabaseAccess {
 				PreparedStatement get_obj = db.prepareStatement("SELECT * FROM smg.buyer WHERE code=?");
 				get_obj.setInt(1, code);
 				ResultSet rs = get_obj.executeQuery();
-				rs.next(); 		
-				s = new buyer(rs.getString(7), getDistrictName(rs.getInt(6)), rs.getString(2), rs.getString(5), rs.getString(2), rs.getString(4), rs.getBoolean(8));
+				rs.next(); 	
+				//buyer table entries:  code |    name    |      email_address       | phone_number |             password             | area |  national_id  | validated 	
+				s = new buyer(rs.getString(7), getDistrictName(rs.getInt(6)), rs.getString(2), rs.getString(5), rs.getString(3), rs.getString(4), rs.getBoolean(8));
 				
 			return s;		
 			}

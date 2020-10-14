@@ -79,26 +79,24 @@ public class ProductFolderView {
 
 		//Code to add photo to the database.
                 JFileChooser fileChooser = new JFileChooser("C:\\", FileSystemView.getFileSystemView());
-            	fileChooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "png", "tif", "gif", "bmp"));  
-		System.out.println("Button clicked!");
-		int val = fileChooser.showOpenDialog(topButtonLayout);
-		if (val==JFileChooser.APPROVE_OPTION) {
-			String fileName = fileChooser.getSelectedFile().getName(); 
-		       	//System.out.println(fileName);	
-                	String extension = fileName.substring(fileName.lastIndexOf("."));  
-                	if (extension.equalsIgnoreCase(".jpg") || extension.equalsIgnoreCase(".png")  
-                        	|| extension.equalsIgnoreCase(".bmp") || extension.equalsIgnoreCase(".tif")  
-                        	|| extension.equalsIgnoreCase(".gif")) {  
-				photo_path=fileChooser.getSelectedFile().getPath();
-  				productImage.setIcon(new ImageIcon(photo_path));  
-   
+            	fileChooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "png", "tif", "gif", "bmp", "jpeg"));
+                System.out.println("Button clicked!");
+                int val = fileChooser.showOpenDialog(topButtonLayout);
+                if (val==JFileChooser.APPROVE_OPTION) {
+                    String fileName = fileChooser.getSelectedFile().getName();
+                    //System.out.println(fileName);
+                    String extension = fileName.substring(fileName.lastIndexOf("."));
+                    if (extension.equalsIgnoreCase(".jpg") || extension.equalsIgnoreCase(".png")
+                            || extension.equalsIgnoreCase(".bmp") || extension.equalsIgnoreCase(".tif")
+                            || extension.equalsIgnoreCase(".gif")) {
+                        photo_path=fileChooser.getSelectedFile().getPath();
+                        productImage.setIcon(new ImageIcon(photo_path));
 
-				
-			} /**else {  
+			        } /**else {
                     		JOptionPane.showMessageDialog(this, "Kindly Select Image File Only",  
 				"Error", JOptionPane.ERROR_MESSAGE);  
                 	} */
-		}
+                }
 
             }
         });
@@ -115,9 +113,6 @@ public class ProductFolderView {
             @Override
             public void mouseEntered(MouseEvent e) {
                 uploadImageButton.setBorderPainted(true);
-//                if(!showUploadInstruction.isVisible()){
-//                    showUploadInstruction.setVisible(true);
-//                }
                 showUploadInstruction.setVisible(true);
             }
 

@@ -17,7 +17,7 @@ public class FoldersView {
 
     public FoldersView(int sellercode){
         //Frame
-        JFrame window = new JFrame("Sell My Goods: Folders");
+        JFrame window = new JFrame("Sell My Goods: Product");
         window.setMinimumSize(new Dimension(800, 500));
         window.setLocation(300, 200);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

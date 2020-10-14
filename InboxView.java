@@ -21,7 +21,7 @@ public class InboxView {
         window.setResizable(false);
         //
         DefaultListModel messages = new DefaultListModel();
-        
+
 
         listOfMessages= db.getMessagesBySeller(sellerEmail);
         Iterator i = listOfMessages.iterator();

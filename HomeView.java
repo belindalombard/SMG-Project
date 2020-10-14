@@ -25,7 +25,7 @@ public class HomeView extends SignUpView{
         this.buyerobj = buyerobj;
 	selected_seller =null;	
 	//Frame
-        window = new JFrame("Sell My Goods: Home");
+        window = new JFrame("Sell My Goods: Stores");
         window.setMinimumSize(new Dimension(800, 600));
         window.setLocation(300, 150);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

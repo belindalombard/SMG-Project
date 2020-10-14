@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.*;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,7 +14,7 @@ public class ProductFolderView {
 
     JTextField productName;
     Checkbox show, hide;
-    JLabel showUploadInstruction, productImage;
+    JLabel showUploadInstruction, productImage, addInstruction;
     String photo_path = "";
 
     public ProductFolderView(JFrame previousWindowFrame, int selectedFolder, DefaultListModel folders, DefaultListModel hiddenFolders, ArrayList productsList){
@@ -33,6 +34,11 @@ public class ProductFolderView {
         showUploadInstruction = new JLabel("^ Upload Image ^");
         showUploadInstruction.setBounds(150, 350, 250, 27);
         showUploadInstruction.setVisible(false);
+
+        addInstruction = new JLabel("Add Image");
+        addInstruction.setBounds(175, 200, 100,27);
+        addInstruction.setForeground(new Color(0x9A9B9C));
+        addInstruction.setVisible(false);
 
 	    JButton backButton = new JButton("Back");
 	    backButton.addActionListener(new ActionListener() {
@@ -94,7 +100,7 @@ public class ProductFolderView {
                     String extension = fileName.substring(fileName.lastIndexOf("."));
                     if (extension.equalsIgnoreCase(".jpg") || extension.equalsIgnoreCase(".png")
                             || extension.equalsIgnoreCase(".bmp") || extension.equalsIgnoreCase(".tif")
-                            || extension.equalsIgnoreCase(".gif")) {
+                            || extension.equalsIgnoreCase(".gif") || extension.equalsIgnoreCase(".jpeg")) {
                         photo_path=fileChooser.getSelectedFile().getPath();
                         byte[] arr = image_to_bytea(photo_path);
                         BufferedImage buff = bytea_to_image(arr);
@@ -116,21 +122,28 @@ public class ProductFolderView {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                uploadImageButton.setBorderPainted(true);
+                productImage.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
                 showUploadInstruction.setVisible(true);
+                addInstruction.setVisible(false);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                uploadImageButton.setBorderPainted(false);
+                productImage.setBorder(new EtchedBorder(EtchedBorder.RAISED));
                 showUploadInstruction.setVisible(false);
+                addInstruction.setVisible(true);
             }
         });
-	if ((current_product.getProductImage()!=null))
-        	productImage = new JLabel(new ImageIcon(bytea_to_image(current_product.getProductImage())));
-	else 
-		productImage = new JLabel(new ImageIcon()); 
-        productImage.setBounds(80, 100, 250, 250);
+        if ((current_product.getProductImage()!=null)){
+            productImage = new JLabel(new ImageIcon(bytea_to_image(current_product.getProductImage())));
+            addInstruction.setVisible(false);
+        }
+
+        else
+            productImage = new JLabel();
+            productImage.setBounds(80, 100, 250, 250);
+            productImage.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+            addInstruction.setVisible(true);
 
         JLabel productNameLabel = new JLabel("Product Name : ");
         productNameLabel.setBounds(400, 100, 150, 50);
@@ -188,7 +201,7 @@ public class ProductFolderView {
                 ((product)productsList.get(selectedFolder)).setProductPrice(Double.parseDouble(productPriceField.getText()));
                 ((product)productsList.get(selectedFolder)).setProductDescription(productDetailsTextArea.getText());
                 ((product)productsList.get(selectedFolder)).setHide(hide.getState());
-		
+
 		        if(hide.getState()){
 		            hiddenFolders.addElement(folders.getElementAt(selectedFolder));
 		            System.out.println(hiddenFolders.size());
@@ -212,6 +225,7 @@ public class ProductFolderView {
         window.add(productImage);
         window.add(uploadImageButton);
         window.add(showUploadInstruction);
+        window.add(addInstruction);
         window.add(productNameLabel);
         window.add(productName);
         window.add(productPrice);

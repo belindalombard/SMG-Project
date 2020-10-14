@@ -12,10 +12,11 @@ import javax.swing.border.LineBorder;
 import java.util.concurrent.Flow;
 
 public class LoginView {
-    DatabaseAccess db = new DatabaseAccess();
+    JFrame window;
+    DatabaseAccess db = new DatabaseAccess(window);
     public LoginView(){
         //Frame
-        JFrame window = new JFrame("Sell My Goods: Login");
+        window = new JFrame("Sell My Goods: Login");
         window.setMinimumSize(new Dimension(500, 250));
         window.setLocation(450, 200);
         window.setResizable(false);

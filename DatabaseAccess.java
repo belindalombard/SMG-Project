@@ -33,7 +33,24 @@ public class DatabaseAccess {
 		}
 	}
 
-	
+	public DatabaseAccess(JFrame loginview) {
+		String url = "jdbc:postgresql://witblitz.zapto.org:20977/smgapp";
+		String username = "smgapp";
+		String password = "Bi_h0Iu8ie";
+
+		try {
+			Class.forName("org.postgresql.Driver");
+			db = DriverManager.getConnection(url, username, password);
+		}
+		catch (SQLException e){
+			JOptionPane.showMessageDialog(null, "Connection not established. Please relaunch", "ERROR", JOptionPane.ERROR_MESSAGE);
+			loginview.dispose();
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException f){
+			f.printStackTrace();
+		}
+	}
 	//Method to test that connection is open. If the connection is open, the buyer can be added. If not, try to set the connection and then add a buyer. 	
 	public boolean AddBuyer(String name, String email, String cellno, String password, String district, String national_id){
 		try{

@@ -290,6 +290,36 @@ public class DatabaseAccess {
 		}
 		return false;
 	}
+	
+	
+	//Used by a Seller to add a new product to their shop IF IMAGE has been added
+        public boolean AddProductToShop(int seller_code, String name, String description, BigDecimal cost, int quantity_left, boolean visible, byte[] image){
+                try{
+                        if(checkAndResetConnection()){
+                                PreparedStatement insert_product = null;
+
+                                String sql_statement_product = "INSERT INTO smg.product(seller_code, name, description, cost, quantity_left, visible, photo) VALUES (?,?,?,?,?,?,?)";
+                                insert_product = db.prepareStatement(sql_statement_product);
+                                insert_product.setInt(1, seller_code);
+                                insert_product.setString(2, name);
+                                insert_product.setString(3, description);
+                                insert_product.setBigDecimal(4, cost);
+                                insert_product.setInt(5, quantity_left);
+                                insert_product.setBoolean(6,visible);
+				insert_product.setBytes(7,image);
+
+                                insert_product.execute();
+                                insert_product.close();
+                                return true;
+                        }
+                }
+                catch (Exception e){
+                        e.printStackTrace();
+                        return false;
+                }
+                return false;
+        }
+
 
 	//Method to close the connection so that unnecessary resources aren't being taken up. 
 	public void CloseConnection(){
@@ -540,7 +570,7 @@ public class DatabaseAccess {
 				ResultSet rs = get_products.executeQuery();
 				get_products.close();
 				while (rs.next()){
-					product add_to_list = new product(rs.getString(3), rs.getString(4), rs.getInt(6), rs.getBigDecimal(5).doubleValue(), rs.getBoolean(7), rs.getInt(1));
+					product add_to_list = new product(rs.getString(3), rs.getString(4), rs.getInt(6), rs.getBigDecimal(5).doubleValue(), rs.getBoolean(7), rs.getInt(1), rs.getBytes(8));
 					products.add(add_to_list);
 				}
 			return products;	
@@ -558,14 +588,15 @@ public class DatabaseAccess {
 	public boolean updateProduct(product P){
 		try {
 			if (checkAndResetConnection()){
-				PreparedStatement updateProduct = db.prepareStatement("UPDATE smg.product SET name=?, description=?, cost=?, quantity_left=?, visible=? WHERE product_id=?");
+				PreparedStatement updateProduct = db.prepareStatement("UPDATE smg.product SET name=?, description=?, cost=?, quantity_left=?, visible=?, photo=? WHERE product_id=?");
 				updateProduct.setString(1, P.getProductName());
 				updateProduct.setString(2,P.getProductDescription());
 				BigDecimal price = new BigDecimal(P.getProductPrice(),MathContext.DECIMAL64);
 				updateProduct.setBigDecimal(3,price);
 				updateProduct.setInt(4,P.getProductQty());
 				updateProduct.setBoolean(5, P.getHide());
-				updateProduct.setInt(6,P.getProductID());
+				updateProduct.setBytes(6,P.getProductImage());
+				updateProduct.setInt(7,P.getProductID());
 				updateProduct.executeUpdate();
 				updateProduct.close();		
 				return true;

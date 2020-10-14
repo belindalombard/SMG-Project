@@ -10,13 +10,16 @@ public class HomeView extends SignUpView{
     JList shopList;
     int clickedItemIndex;
     String [] shops;
+    String [] selecetedShops;
     JScrollPane scrollPane;
     JFrame window;
     ArrayList<String> tempShops;
     DatabaseAccess db = new DatabaseAccess();
     seller selected_seller;
     ArrayList<seller> sellers = new ArrayList<seller>();
+    ArrayList<store>  returnedShops= new ArrayList<>();
     JComboBox searchCriteriaComboBox;
+    String selectedCriteria;
 
     public HomeView(JFrame previousWindowFrame, buyer buyerobj){
         this.buyerobj = buyerobj;
@@ -79,6 +82,13 @@ public class HomeView extends SignUpView{
             @Override
             public void mouseExited(MouseEvent e) { }
         });
+        String choiceList [] = {"Shop", "Area", "Delivery Method", "Product"};
+        searchCriteriaComboBox = new JComboBox<String>(choiceList);
+        searchCriteriaComboBox.setBounds(270, 252, 150, 27);
+
+        //getting shops based on search criteria
+        selectedCriteria = searchCriteriaComboBox.getSelectedItem().toString();
+
 
         JTextField searchBar = new JTextField(25);
         JButton searchButton = new JButton("Search");
@@ -87,42 +97,51 @@ public class HomeView extends SignUpView{
             @Override
             public void actionPerformed(ActionEvent e) {
                 tempShops = new ArrayList<>();
+                selectedCriteria = searchCriteriaComboBox.getSelectedItem().toString();
+                System.out.println(selectedCriteria);
                 String searchedWord = searchBar.getText();
+                selecetedShops = new String[1000];
 
                 if(searchedWord.equals("")){
                     searchAllShops();
                 }
                 else{
-                    for(int i = 0; i < shops.length; i++){
-                        if((shops[i].toLowerCase()).contains(searchedWord.toLowerCase())){
-                            tempShops.add(shops[i]);
+                    if (selectedCriteria.equals("Area"))
+                    {
+                        returnedShops = db.searchShops(searchedWord,"district");
+                        for(int i=0;i<returnedShops.size();i++)
+                        {
+                            tempShops.add(returnedShops.get(i).getStoreName());
                         }
+
+                        /*for(int i = 0; i < selecetedShops.length; i++){
+                            if((returnedShops.get(i).toLowerCase()).contains(searchedWord.toLowerCase())){
+                                tempShops.add(selecetedShops[i]);
+                            }
+                        }*/
+                        filterShops();
                     }
-                    filterShops();
+                    else if (selectedCriteria.equals("Product"))
+                    {}
+                    else if (selectedCriteria.equals("Delivery Method"))
+                    {}
+                    else if (selectedCriteria.equals("Shop"))
+                    {
+                        for(int i = 0; i < shops.length; i++){
+                            if((shops[i].toLowerCase()).contains(searchedWord.toLowerCase())){
+                                tempShops.add(shops[i]);
+                            }
+                        }
+                        filterShops();
+                    }
+
+
                 }
                 window.repaint();
             }
         });
 
-        String choiceList [] = {"Shop", "Area", "Delivery Method", "Product"};
-        searchCriteriaComboBox = new JComboBox<String>(choiceList);
-        searchCriteriaComboBox.setBounds(270, 252, 150, 27);
 
-        //getting shops based on search criteria
-        String selectedCriteria = searchCriteriaComboBox.getSelectedItem().toString();
-
-        String [] selecetedShops = new String[1000];
-
-        if (selectedCriteria.equals("Area"))
-        {
-
-        }
-        else if (selectedCriteria.equals("Product"))
-        {}
-        else if (selectedCriteria.equals("Delivery Method"))
-        {}
-        else if (selectedCriteria.equals("Shop"))
-        {}
 
 
 

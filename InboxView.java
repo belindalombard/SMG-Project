@@ -85,6 +85,7 @@ public class InboxView {
         topButtonLayout.setLayout(new BoxLayout(topButtonLayout, BoxLayout.LINE_AXIS));
 
         topButtonLayout.add(backButton);
+        window.add(scrollPane);
         window.add(topButtonLayout, BorderLayout.NORTH);
         window.setVisible(true);
 

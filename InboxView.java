@@ -10,7 +10,7 @@ import java.util.Iterator;
 
 public class InboxView {
     JButton backButton;
-    DatabaseAccess db;
+    DatabaseAccess db = new DatabaseAccess();
     public InboxView(JFrame previousWindowFrame, String sellerEmail)
     {
         JFrame window = new JFrame("Sell My Goods: Inbox");
@@ -19,8 +19,18 @@ public class InboxView {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         //
-
         DefaultListModel messages = new DefaultListModel();
+	
+        ArrayList<message> listOfMessages = new ArrayList<message>();
+	listOfMessages= db.getMessagesBySeller(sellerEmail);
+        Iterator i = listOfMessages.iterator();
+
+        while (i.hasNext()){
+            message next = (message) i.next();
+	    //System.out.println(next.getBuyerEmail());
+            messages.addElement((next.getBuyerEmail()));
+	}
+
         JList messageList = new JList(messages);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(messageList);
@@ -62,12 +72,7 @@ public class InboxView {
 
             }
         });
-        ArrayList<message> listOfMessages = db.getMessagesBySeller(sellerEmail);
-        Iterator i = listOfMessages.iterator();
-        while (i.hasNext()){
-            message next = (message) i.next();
-            messages.addElement((next.getSender()));
-        }
+ 
         backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override

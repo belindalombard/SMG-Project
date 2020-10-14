@@ -1191,5 +1191,33 @@ public class DatabaseAccess {
 			
 
 	public boolean AddOrder(){ return true; }
+
+
+ 	/* 
+	 * Returns the buyer's name based on their email address.
+	 */
+	public String getBuyerName(String email){
+		try {
+			if (checkAndResetConnection()){
+				db.setAutoCommit(true);
+				PreparedStatement get_name = db.prepareStatement("SELECT name FROM smg.buyer WHERE email_address=?");
+				get_name.setString(1, email);
+				ResultSet rs = get_name.executeQuery();
+
+				if (rs.next()){
+					return rs.getString(1);
+				}
+
+			}
+		}
+		catch (Exception e){
+		       e.printStackTrace();
+		}
+		return null;
+	}	
+
+
+
+
 }
 

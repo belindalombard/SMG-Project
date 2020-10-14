@@ -21,7 +21,7 @@ public class InboxView {
         window.setResizable(false);
         //
         DefaultListModel messages = new DefaultListModel();
-	
+        
 
         listOfMessages= db.getMessagesBySeller(sellerEmail);
         Iterator i = listOfMessages.iterator();
@@ -45,8 +45,8 @@ public class InboxView {
 
                 if(messages.size() != 0){
                     if(mouseEvent.getClickCount() == 2){
-                        MessageView messageView = new MessageView(window, listOfMessages, messageList.getSelectedIndex(), messages);
-                        window.setVisible(false);
+                        MessageView messageView = new MessageView(window, listOfMessages, messageList.getSelectedIndex(), messages, backButton, messageList);
+//                        window.setVisible(false);
                     }
                 }
 

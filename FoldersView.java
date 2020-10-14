@@ -79,12 +79,15 @@ public class FoldersView {
         removeFolderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(foldersList.isSelectedIndex(foldersList.getSelectedIndex())){
-                    int product_id_to_remove = productsList.get(foldersList.getSelectedIndex()).getProductID();
-                    db.removeProduct(product_id_to_remove);
+                int dialog = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove this item: "+productsList.get(foldersList.getSelectedIndex()).getProductName(),"Confirmation", JOptionPane.YES_NO_OPTION);
+                if(dialog == JOptionPane.YES_OPTION){
+                    if(foldersList.isSelectedIndex(foldersList.getSelectedIndex())){
+                        int product_id_to_remove = productsList.get(foldersList.getSelectedIndex()).getProductID();
+                        db.removeProduct(product_id_to_remove);
 
-                    productsList.remove(foldersList.getSelectedIndex());
-                    folders.remove(foldersList.getSelectedIndex());
+                        productsList.remove(foldersList.getSelectedIndex());
+                        folders.remove(foldersList.getSelectedIndex());
+                    }
                 }
             }
         });

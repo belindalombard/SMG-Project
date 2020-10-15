@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +18,7 @@ public class PaymentView {
         //Frame
         JFrame window = new JFrame("Sell My Goods: Payment");
         window.setMinimumSize(new Dimension(400, 550));
-        window.setLocation(650, 150);
+        window.setLocation(500, 150);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         //
@@ -57,7 +58,7 @@ public class PaymentView {
 
         JLabel paymentHeading = new JLabel("PAYMENT");
         paymentHeading.setBounds(20, 30, 200, 50);
-        paymentHeading.setFont(new Font(null, Font.BOLD, 20));
+        paymentHeading.setFont(new Font(null, Font.BOLD, 25));
         paymentHeading.setForeground(Color.GRAY);
 
         JLabel itemBoughtLabel = new JLabel("Item : "+productName);

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
@@ -92,6 +93,26 @@ public class HomeView extends SignUpView{
 
 
         JTextField searchBar = new JTextField(25);
+        searchBar.setBorder(new BevelBorder(2));
+        searchBar.setText("Search for shops around you");
+        searchBar.setForeground(Color.GRAY);
+        searchBar.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(searchBar.getText().equals("Search for shops around you")){
+                    searchBar.setText("");
+                    searchBar.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(searchBar.getText().isEmpty()){
+                    searchBar.setText("Search for shops around you");
+                    searchBar.setForeground(Color.GRAY);
+                }
+            }
+        });
         JButton searchButton = new JButton("Search");
 
         searchButton.addActionListener(new ActionListener() {
@@ -100,10 +121,10 @@ public class HomeView extends SignUpView{
                 tempShops = new ArrayList<>();
                 selectedCriteria = searchCriteriaComboBox.getSelectedItem().toString();
                 System.out.println(selectedCriteria);
-               searchedWord = searchBar.getText();
+                searchedWord = searchBar.getText();
                 selecetedShops = new String[1000];
 
-                if(searchedWord.equals("")){
+                if(searchedWord.equals("") || searchedWord.equals("Search for shops around you")){
                     searchAllShops();
                 }
                 else{
@@ -137,12 +158,8 @@ public class HomeView extends SignUpView{
             public void actionPerformed(ActionEvent actionEvent) {
                 InboxView inboxView = new InboxView(buyerobj.getEmail(),window);
                 window.setVisible(false);
-
             }
         });
-
-
-
 
 
         topSearchBarLayout.add(logoutButton);

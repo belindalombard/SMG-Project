@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class AddFolderView {
     public AddFolderView(JButton addFolderButton, JButton removeFolderButton, DefaultListModel folders, ArrayList productsList){
         //Frame
-        JFrame window = new JFrame("Sell My Goods: Add Folders");
+        JFrame window = new JFrame("Sell My Goods: Add Item");
         window.setMinimumSize(new Dimension(300, 120));
         window.setLocation(550, 300);
         window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -40,21 +40,24 @@ public class AddFolderView {
         JPanel bottomButtonLayout = new JPanel(new FlowLayout());
 
         JPanel topButtonLayout = new JPanel(new FlowLayout());
-        JLabel folderNameLabel = new JLabel("Folder Name");
+        JLabel folderNameLabel = new JLabel("Item Name");
 
         JTextField folderNameField = new JTextField();
-        JButton createFolder = new JButton("Create Folder");
+        JButton createFolder = new JButton("Create Item");
         createFolder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addFolderButton.setEnabled(true);
-                removeFolderButton.setEnabled(true);
-		//String productName, String productDescription, int productQty, double productPrice, boolean visible
-                product newProduct = new product(folderNameField.getText(),"",0,0,false);
-                folders.addElement(newProduct.getProductName());
-                productsList.add(newProduct);
+                int dialog = JOptionPane.showConfirmDialog(null, "Are you sure you want to add this item: "+folderNameField.getText(),"Confirmation", JOptionPane.YES_NO_OPTION);
+                if(dialog == JOptionPane.YES_OPTION){
+                    addFolderButton.setEnabled(true);
+                    removeFolderButton.setEnabled(true);
+                    //String productName, String productDescription, int productQty, double productPrice, boolean visible
+                    product newProduct = new product(folderNameField.getText(),"",0,0,false);
+                    folders.addElement(newProduct.getProductName());
+                    productsList.add(newProduct);
 
-                window.setVisible(false);
+                    window.setVisible(false);
+                }
             }
         });
 

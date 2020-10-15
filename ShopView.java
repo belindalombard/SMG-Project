@@ -13,7 +13,7 @@ public class ShopView {
     public ShopView(JFrame previousWindowFrame, int selectedShop, String [] shops, buyer buyerobj, seller s, DatabaseAccess db){
         this.db=db;
 	    
-	//Frame
+	    //Frame
         JFrame window = new JFrame("Sell My Goods: "+shops[selectedShop]);
         window.setMinimumSize(new Dimension(800, 600));
         window.setLocation(300, 150);
@@ -23,6 +23,7 @@ public class ShopView {
 
         JPanel topButtonLayout = new JPanel();
         topButtonLayout.setLayout(new BoxLayout(topButtonLayout, BoxLayout.LINE_AXIS));
+        topButtonLayout.setBackground(new Color(0xFFFFFF));
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -57,7 +58,7 @@ public class ShopView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(e.getClickCount() == 2){
-                    ProductView productView = new ProductView(window, productList.getSelectedIndex(), products, buyerobj,s,db); //getProductsFromSeller
+                    ProductView productView = new ProductView(window, productList.getSelectedIndex(), products, buyerobj,s,db, shops[selectedShop]); //getProductsFromSeller
                     window.setVisible(false);
                 }
             }

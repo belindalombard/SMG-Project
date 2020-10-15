@@ -23,7 +23,7 @@ public class ProductView {
     JButton contactSellerButton;
     product current_product;
 
-    public ProductView(JFrame previousWindowFrame, int selectedProduct, String [] products, buyer buyerobj, seller s,DatabaseAccess db){
+    public ProductView(JFrame previousWindowFrame, int selectedProduct, String [] products, buyer buyerobj, seller s,DatabaseAccess db, String nameOfShop){
         //Frame
         JFrame window = new JFrame("Sell My Goods: "+products[selectedProduct]);
         window.setMinimumSize(new Dimension(800, 600));
@@ -34,6 +34,12 @@ public class ProductView {
 
         JPanel topButtonLayout = new JPanel();
         topButtonLayout.setLayout(new BoxLayout(topButtonLayout, BoxLayout.LINE_AXIS));
+
+        JLabel shopNameLabel = new JLabel(nameOfShop);
+        shopNameLabel.setBounds(30, 30, 770, 50);
+        shopNameLabel.setFont(new Font(null, Font.BOLD, 25));
+        shopNameLabel.setForeground(Color.GRAY);
+
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -42,14 +48,14 @@ public class ProductView {
                 window.setVisible(false);
             }
         });
-	current_product = db.getProductFromName(products[selectedProduct]);
+        current_product = db.getProductFromName(products[selectedProduct]);
 
-	JLabel productImage;
-	if (current_product.getProductImage()!=null)
-        	productImage = new JLabel(new ImageIcon(bytea_to_image(current_product.getProductImage())));
-	else
-		productImage = new JLabel(new ImageIcon());
-	productImage.setBounds(80, 100, 250, 250);
+        JLabel productImage;
+        if (current_product.getProductImage()!=null)
+                productImage = new JLabel(new ImageIcon(bytea_to_image(current_product.getProductImage())));
+        else
+            productImage = new JLabel(new ImageIcon());
+        productImage.setBounds(80, 100, 250, 250);
         productImage.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 
         JLabel productName = new JLabel();
@@ -57,8 +63,8 @@ public class ProductView {
         productName.setFont(new Font(null, Font.BOLD, 20));
         productName.setBounds(400, 100, 150, 50);
 
-	productPriceAmount=current_product.getProductPrice();
-	availableStockItems=current_product.getProductQty();
+        productPriceAmount=current_product.getProductPrice();
+        availableStockItems=current_product.getProductQty();
 
         JLabel productPrice = new JLabel();
         productPrice.setText("Product Price : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
@@ -210,6 +216,7 @@ public class ProductView {
 
         window.add(topButtonLayout, BorderLayout.NORTH);
         window.add(bottomButtonLayout, BorderLayout.SOUTH);
+        window.add(shopNameLabel);
         window.add(productName);
         window.add(productPrice);
         window.add(productDetailsLabel);

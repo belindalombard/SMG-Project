@@ -1050,8 +1050,8 @@ public int updateMessage(String seller_email, String buyer_email, String message
 			new_message.setTimestamp(6,new Timestamp(System.currentTimeMillis()));*/
 
 			update_message.execute();
-			update_message.close();
 			ResultSet rs = update_message.getResultSet();
+			update_message.close();
 			rs.next();
 
 			return rs.getInt(1);
@@ -1081,8 +1081,9 @@ public int updateMessage(String seller_email, String buyer_email, String message
 				new_message.setTimestamp(6,new Timestamp(System.currentTimeMillis()));
 								
 				new_message.execute();
-				new_message.close();
 				ResultSet rs = new_message.getResultSet();
+				new_message.close();
+				
 				rs.next();
 
 				

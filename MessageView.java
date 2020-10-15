@@ -81,7 +81,7 @@ public class MessageView {
                 panel.add(area);
                 panel.revalidate();
                 scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
-                db.sendMessage(seller.getEmail(),thisMessage.getBuyerEmail(),area.getText(),"buyer");
+                db.updateMessage(seller.getEmail(),thisMessage.getBuyerEmail(),area.getText(),"buyer");
                 JOptionPane.showMessageDialog(null, "Message succesfully sent!");
             }
         });
@@ -205,7 +205,7 @@ public class MessageView {
                 panel.add(area);
                 panel.revalidate();
                 scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
-                db.sendMessage(thisMessage.getSellerEmail(),buyer.getEmail(),area.getText(),"buyer");
+                db.updateMessage(thisMessage.getSellerEmail(),buyer.getEmail(),area.getText(),"buyer");
                 JOptionPane.showMessageDialog(null, "Message succesfully sent!");
 
             }

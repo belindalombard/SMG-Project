@@ -949,6 +949,7 @@ public class DatabaseAccess {
 					return false;
 			}
 		}
+
 		catch (Exception e){
 			e.printStackTrace();
 		}
@@ -1004,7 +1005,65 @@ public class DatabaseAccess {
 
 		return null; 
 	}
+	//get messageID of user
+	public int getMessageId(String seller_email,String buyer_email){
+		try {
+			if(checkAndResetConnection()){
+				int seller_code = getUserCode(seller_email, "seller");
+				int buyer_code = getUserCode(buyer_email, "buyer");
+				PreparedStatement get_messageId = null;
 
+				get_messageId = db.prepareStatement("SELECT message_id FROM smg.message WHERE seller=? and buyer=?");
+
+				get_messageId.setInt(1,seller_code);
+				get_messageId.setInt(2,buyer_code);
+				ResultSet rs = get_messageId.executeQuery();
+
+				rs.next();
+				return rs.getInt(1);
+
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return -1;
+	}
+
+public int updateMessage(String seller_email, String buyer_email, String message, String sender){
+	try {
+		if(checkAndResetConnection()){
+			int seller_code = getUserCode(seller_email, "seller");
+			int buyer_code = getUserCode(buyer_email, "buyer");
+			int messageId = getMessageId(seller_email,buyer_email);
+			PreparedStatement update_message = db.prepareStatement("UPDATE smg.message SET message=? WHERE message_id=?");
+			update_message.setString(1,message);
+			update_message.setInt(2,messageId);
+
+
+			/*new_message.setInt(1,seller_code);
+			new_message.setInt(2,buyer_code);
+			new_message.setString(3,message);
+			new_message.setString(4,"Sent");
+			new_message.setString(5,sender);
+			new_message.setTimestamp(6,new Timestamp(System.currentTimeMillis()));*/
+
+			update_message.execute();
+			update_message.close();
+			ResultSet rs = update_message.getResultSet();
+			rs.next();
+
+			return rs.getInt(1);
+
+		}
+	}
+	catch (Exception e){
+		e.printStackTrace();
+	}
+
+	return -1;
+}
 	//Fields in message table:   message_id | seller | buyer | message | status | sender | time
 	//Method to send message which will insert the message in the database. Returns unique db ID of newly inserted entry.  
 	public int sendMessage(String seller_email, String buyer_email, String message, String sender){
@@ -1022,9 +1081,10 @@ public class DatabaseAccess {
 				new_message.setTimestamp(6,new Timestamp(System.currentTimeMillis()));
 								
 				new_message.execute();
-
+				new_message.close();
 				ResultSet rs = new_message.getResultSet();
 				rs.next();
+
 				
 				return rs.getInt(1);
 

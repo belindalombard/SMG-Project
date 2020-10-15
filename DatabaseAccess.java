@@ -1323,5 +1323,6 @@ public class DatabaseAccess {
 		return shops;
 	}
 
+
 }
 

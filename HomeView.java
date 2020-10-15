@@ -151,7 +151,9 @@ public class HomeView extends SignUpView{
         shopList.setFixedCellHeight(60);
         shopList.addMouseListener(new MouseListener() {
             @Override
+
             public void mouseClicked(MouseEvent e) {
+                selected_seller = sellers.get(shopList.getSelectedIndex());
                 ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj, selected_seller, db);
                 window.setVisible(false);
             }
@@ -180,6 +182,13 @@ public class HomeView extends SignUpView{
         shopList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                //sellers=null
+                /*for (int i=0;i<tempShops.size();i++)
+                {
+                    sellers.set(i,db.getSellerByShop (tempShops.get(i)));
+                }*/
+
+                selected_seller = sellers.get(shopList.getSelectedIndex());
                 for(int i = 0; i < shops.length; i++){
                     if(refinedTempShops.length != 0 && refinedTempShops[shopList.getSelectedIndex()].equals(shops[i])){
                         clickedItemIndex = i;

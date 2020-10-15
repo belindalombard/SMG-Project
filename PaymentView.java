@@ -4,16 +4,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PaymentView {
 
     JTextField cardNumberField, cvvNumField, expiryDateField;
+    boolean done;
+    JFrame loading;
 
     public PaymentView(JFrame previousWindowFrame, JButton payButton, JButton preBackButton, JTextField quantityField, JButton addButton, JButton subtractButton, JButton chatButton, String productName, JLabel totalAmount, buyer buyerobj){
         //Frame
         JFrame window = new JFrame("Sell My Goods: Payment");
         window.setMinimumSize(new Dimension(400, 550));
-        window.setLocation(500, 150);
+        window.setLocation(650, 150);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         //
@@ -43,22 +47,6 @@ public class PaymentView {
                     JOptionPane.showMessageDialog(null, validateAllFields(cvvNumField.getText(), expiryDateField.getText(), cardNumberField.getText()), "WARNING", JOptionPane.WARNING_MESSAGE);
                 }
                 else{
-                    try{
-                        JFrame loading = new JFrame("Loading");
-                        loading.setMinimumSize(new Dimension(300, 200));
-                        loading.setLocation(400, 250);
-
-                        JPanel x = new JPanel(new FlowLayout());
-                        x.add(new JLabel("Loading..."));
-                        loading.add(x, BorderLayout.CENTER);
-                        loading.setVisible(true);
-                        loading.setAlwaysOnTop(true);
-
-                        Thread.sleep(5000);
-
-                        loading.dispose();
-
-                    }catch (Exception k){}
                     expiryDateField.setText(expiryDateField.getText().substring(0, 2)+"/"+expiryDateField.getText().substring(2, 4));
                     ConfirmationView confirmationView = new ConfirmationView(buyerobj);
                     window.setVisible(false);
@@ -95,7 +83,7 @@ public class PaymentView {
         expiryDateField = new JTextField(10);
         expiryDateField.setBounds(200, 382, 150, 27);
 
-        JLabel csvNumLabel = new JLabel("CSV Number : ");
+        JLabel csvNumLabel = new JLabel("CVV Number : ");
         csvNumLabel.setBounds(60, 420, 150, 50);
         cvvNumField = new JTextField(10);
         cvvNumField.setBounds(200, 432, 150, 27);

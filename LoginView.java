@@ -2,13 +2,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ImageObserver;
+import java.awt.image.RenderedImage;
+import java.awt.image.renderable.RenderableImage;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.text.AttributedCharacterIterator;
 import java.util.Arrays;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.swing.border.LineBorder;
+import javax.swing.border.*;
+import java.util.Map;
 import java.util.concurrent.Flow;
 
 public class LoginView {
@@ -25,12 +35,17 @@ public class LoginView {
         // Fields
         JLabel nameLabel = new JLabel("Email : ");
         nameLabel.setBounds(150, 60, 150, 27);
+
         JTextField emailField = new JTextField(10);
-        emailField.setBounds(230, 60, 150, 27);
+        emailField.setBounds(230, 60, 150, 22);
+        emailField.setBorder(new BevelBorder(2));
+
         JLabel passwordLabel = new JLabel("Password : ");
         passwordLabel.setBounds(150, 100, 150, 27);
+
         JPasswordField passwordField = new JPasswordField(10);
-        passwordField.setBounds(230, 100, 150, 27);
+        passwordField.setBounds(230, 100, 150, 22);
+        passwordField.setBorder(new BevelBorder(2));
         //
         //Layouts
         JPanel unknownAccountFlow = new JPanel(new FlowLayout(FlowLayout.CENTER));

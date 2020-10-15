@@ -29,7 +29,7 @@ public class InboxView {
         while (i.hasNext()){
             message next = (message) i.next();
             //System.out.println(next.getBuyerEmail());
-            messages.addElement((next.getSellerEmail()));
+            messages.addElement((next.getSender()));
         }
 
         JList messageList = new JList(messages);
@@ -45,7 +45,7 @@ public class InboxView {
 
                 if(messages.size() != 0){
                     if(mouseEvent.getClickCount() == 2){
-                        MessageView messageView = new MessageView(window, listOfMessages, messageList.getSelectedIndex(), messages, backButton, messageList);
+                        MessageView messageView = new MessageView(window, listOfMessages, messageList.getSelectedIndex(), messages, backButton, messageList, db.getBuyer(buyerEmail));
 //
 //                        window.setVisible(false);
                     }
@@ -109,7 +109,7 @@ public class InboxView {
         while (i.hasNext()){
             message next = (message) i.next();
 	    //System.out.println(next.getBuyerEmail());
-            messages.addElement((next.getBuyerEmail()));
+            messages.addElement((next.getSender()));
 	}
 
         JList messageList = new JList(messages);
@@ -125,7 +125,7 @@ public class InboxView {
 
                 if(messages.size() != 0){
                     if(mouseEvent.getClickCount() == 2){
-                        MessageView messageView = new MessageView(window, listOfMessages, messageList.getSelectedIndex(), messages, backButton, messageList);
+                        MessageView messageView = new MessageView(window, listOfMessages, messageList.getSelectedIndex(), messages, backButton, messageList,db.getSeller(sellerEmail));
 //                        window.setVisible(false);
                     }
                 }

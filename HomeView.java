@@ -19,7 +19,7 @@ public class HomeView extends SignUpView{
     ArrayList<seller> sellers = new ArrayList<seller>();
     ArrayList<store>  returnedShops= new ArrayList<>();
     JComboBox searchCriteriaComboBox;
-    String selectedCriteria;
+    String selectedCriteria , searchedWord ;
 
     public HomeView(JFrame previousWindowFrame, buyer buyerobj){
         this.buyerobj = buyerobj;
@@ -82,7 +82,7 @@ public class HomeView extends SignUpView{
             @Override
             public void mouseExited(MouseEvent e) { }
         });
-        String choiceList [] = {"Shop", "Area", "Delivery Method", "Product"};
+        String choiceList [] = {"Shop", "Area", "Product"};
         searchCriteriaComboBox = new JComboBox<String>(choiceList);
         searchCriteriaComboBox.setBounds(270, 252, 150, 27);
 
@@ -99,7 +99,7 @@ public class HomeView extends SignUpView{
                 tempShops = new ArrayList<>();
                 selectedCriteria = searchCriteriaComboBox.getSelectedItem().toString();
                 System.out.println(selectedCriteria);
-                String searchedWord = searchBar.getText();
+               searchedWord = searchBar.getText();
                 selecetedShops = new String[1000];
 
                 if(searchedWord.equals("")){
@@ -108,23 +108,13 @@ public class HomeView extends SignUpView{
                 else{
                     if (selectedCriteria.equals("Area"))
                     {
-                        returnedShops = db.searchShops(searchedWord,"district");
-                        for(int i=0;i<returnedShops.size();i++)
-                        {
-                            tempShops.add(returnedShops.get(i).getStoreName());
-                        }
-
-                        /*for(int i = 0; i < selecetedShops.length; i++){
-                            if((returnedShops.get(i).toLowerCase()).contains(searchedWord.toLowerCase())){
-                                tempShops.add(selecetedShops[i]);
-                            }
-                        }*/
-                        filterShops();
+                        populateList("district");
                     }
                     else if (selectedCriteria.equals("Product"))
-                    {}
-                    else if (selectedCriteria.equals("Delivery Method"))
-                    {}
+                    {
+                       populateList("product");
+                    }
+
                     else if (selectedCriteria.equals("Shop"))
                     {
                         for(int i = 0; i < shops.length; i++){
@@ -218,5 +208,14 @@ public class HomeView extends SignUpView{
     {
         ArrayList<store> shops = new ArrayList<>();
         return shops;
+    }
+    private void populateList (String table)
+    {
+        returnedShops = db.searchShops(searchedWord,table);
+        for(int i=0;i<returnedShops.size();i++)
+        {
+            tempShops.add(returnedShops.get(i).getStoreName());
+        }
+        filterShops();
     }
 }

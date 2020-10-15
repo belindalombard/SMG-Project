@@ -20,6 +20,7 @@ public class HomeView extends SignUpView{
     ArrayList<store>  returnedShops= new ArrayList<>();
     JComboBox searchCriteriaComboBox;
     String selectedCriteria , searchedWord ;
+    JButton inboxButton;
 
     public HomeView(JFrame previousWindowFrame, buyer buyerobj){
         this.buyerobj = buyerobj;
@@ -130,12 +131,22 @@ public class HomeView extends SignUpView{
                 window.repaint();
             }
         });
+        inboxButton = new JButton("Inbox");
+        inboxButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                InboxView inboxView = new InboxView(buyerobj.getEmail(),window);
+                window.setVisible(false);
+
+            }
+        });
 
 
 
 
 
         topSearchBarLayout.add(logoutButton);
+        topSearchBarLayout.add(inboxButton);
         topSearchBarLayout.add(searchBar);
         topSearchBarLayout.add(searchCriteriaComboBox);
         topSearchBarLayout.add(searchButton);

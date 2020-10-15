@@ -105,7 +105,7 @@ public class FoldersView {
         inboxButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                InboxView inboxView = new InboxView(window, db.getSellerEmail(sellercode));
+                InboxView inboxView = new InboxView(window,db.getSellerEmail(sellercode));
                 window.setVisible(false);
 
             }

@@ -29,7 +29,7 @@ public class InboxView {
         while (i.hasNext()){
             message next = (message) i.next();
             //System.out.println(next.getBuyerEmail());
-            messages.addElement((next.getSender()));
+            messages.addElement((next.getBuyerEmail()));
         }
 
         JList messageList = new JList(messages);
@@ -109,7 +109,7 @@ public class InboxView {
         while (i.hasNext()){
             message next = (message) i.next();
 	    //System.out.println(next.getBuyerEmail());
-            messages.addElement((next.getSender()));
+            messages.addElement((next.getSellerEmail()));
 	}
 
         JList messageList = new JList(messages);

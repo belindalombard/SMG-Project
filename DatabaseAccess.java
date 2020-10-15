@@ -1322,7 +1322,32 @@ public class DatabaseAccess {
 		}
 		return shops;
 	}
+	
+	/*
+	 * Returns a seller object based on the seller's shop name
+	 */
+	public seller getSellerByShopName(String shopName) {
+		seller s = null;
+		try {
+			if (checkAndResetConnection()){
+				db.setAutoCommit(true);
+				PreparedStatement get_seller = db.prepareStatement("SELECT email_address FROM smg.seller WHERE code=(SELECT seller FROM smg.shop WHERE shop_name=?)");
+				get_seller.setString(1, shopName);
+				ResultSet rs = get_seller.executeQuery();
 
+
+				if (rs.next()){
+					String seller_email = rs.getString(1);
+					s = getSeller(seller_email);
+				}
+
+			}
+		}
+		catch (Exception e){
+		       e.printStackTrace();
+		}
+		return s;
+	}
 
 }
 

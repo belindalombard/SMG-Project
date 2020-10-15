@@ -182,13 +182,13 @@ public class HomeView extends SignUpView{
         shopList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //sellers=null
-                /*for (int i=0;i<tempShops.size();i++)
+                ArrayList<seller> sellersByShop=new ArrayList<>();
+                for (int i=0;i<tempShops.size();i++)
                 {
-                    sellers.set(i,db.getSellerByShop (tempShops.get(i)));
-                }*/
+                    sellersByShop.add(db.getSellerByShopName (tempShops.get(i)));
+                }
 
-                selected_seller = sellers.get(shopList.getSelectedIndex());
+                selected_seller = sellersByShop.get(shopList.getSelectedIndex());
                 for(int i = 0; i < shops.length; i++){
                     if(refinedTempShops.length != 0 && refinedTempShops[shopList.getSelectedIndex()].equals(shops[i])){
                         clickedItemIndex = i;

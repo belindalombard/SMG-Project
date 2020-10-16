@@ -51,19 +51,35 @@ public class AddFolderView {
         createFolder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int dialog = JOptionPane.showConfirmDialog(null, "Are you sure you want to add this item: "+folderNameField.getText(),"Confirmation", JOptionPane.YES_NO_OPTION);
-                if(dialog == JOptionPane.YES_OPTION){
-                    addFolderButton.setEnabled(true);
-                    removeFolderButton.setEnabled(true);
-                    //String productName, String productDescription, int productQty, double productPrice, boolean visible
-                    product newProduct = new product(folderNameField.getText(),"",0,0,false);
-                    folders.addElement(newProduct.getProductName());
-                    productsList.add(newProduct);
+		if (folderNameField.getText().equals("")) {
+                    JOptionPane x = new JOptionPane();
+                    x.showMessageDialog(null, "Please enter a product name", "Warning", JOptionPane.WARNING_MESSAGE);
+                    x.setFocusable(true);
+		}
+		else {
+			DatabaseAccess db = new DatabaseAccess();
+	  		boolean exists = db.productExists(folderNameField.getText())	;
+			db.CloseConnection();     
+		        if (exists) {
+                    		JOptionPane x = new JOptionPane();
+                    		x.showMessageDialog(null, "Please enter a unique product name", "Warning", JOptionPane.WARNING_MESSAGE);
+                    		x.setFocusable(true);
+			}	
 
-                    window.setVisible(false);
-                }
-            }
-        });
+                	else {
+				int dialog = JOptionPane.showConfirmDialog(null, "Are you sure you want to add this item: "+folderNameField.getText(),"Confirmation", JOptionPane.YES_NO_OPTION);
+				if(dialog == JOptionPane.YES_OPTION){
+                    			addFolderButton.setEnabled(true);
+                    			removeFolderButton.setEnabled(true);
+                    			//String productName, String productDescription, int productQty, double productPrice, boolean visible
+                    			product newProduct = new product(folderNameField.getText(),"",0,0,false);
+                    			folders.addElement(newProduct.getProductName());
+                    			productsList.add(newProduct);
+                    			window.setVisible(false);
+				}
+                	}
+	    	}
+	    }});
 
         topButtonLayout.add(folderNameLabel);
         bottomButtonLayout.add(createFolder);

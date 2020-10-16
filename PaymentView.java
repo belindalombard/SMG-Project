@@ -8,11 +8,13 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class PaymentView {
-
+public class PaymentView { 
+    DatabaseAccess db = new DatabaseAccess();
     JTextField cardNumberField, cvvNumField, expiryDateField;
     boolean done;
     JFrame loading;
+    String productName;
+
 
     public PaymentView(JFrame previousWindowFrame, JButton payButton, JButton preBackButton, JTextField quantityField, JButton addButton, JButton subtractButton, JButton chatButton, String productName, JLabel totalAmount, buyer buyerobj, boolean isDarkMode){
         //Frame
@@ -62,7 +64,8 @@ public class PaymentView {
                     JOptionPane.showMessageDialog(null, validateAllFields(cvvNumField.getText(), expiryDateField.getText(), cardNumberField.getText()), "WARNING", JOptionPane.WARNING_MESSAGE);
                 }
                 else{
-                    expiryDateField.setText(expiryDateField.getText().substring(0, 2)+"/"+expiryDateField.getText().substring(2, 4));
+         	    db.updateQuantity(productName, Integer.parseInt(quantityField.getText())); 
+	            expiryDateField.setText(expiryDateField.getText().substring(0, 2)+"/"+expiryDateField.getText().substring(2, 4));
                     ConfirmationView confirmationView = new ConfirmationView(buyerobj, isDarkMode);
                     window.setVisible(false);
                     previousWindowFrame.setVisible(false);

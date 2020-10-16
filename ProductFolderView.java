@@ -16,9 +16,13 @@ public class ProductFolderView {
     Checkbox show, hide;
     JLabel showUploadInstruction, productImage, addInstruction;
     String photo_path = "";
+    int selectedFolder;
+    ArrayList productsList;
 
     public ProductFolderView(JFrame previousWindowFrame, int selectedFolder, DefaultListModel folders, DefaultListModel hiddenFolders, ArrayList productsList, boolean isDarkMode){
         //Frame
+	this.selectedFolder=selectedFolder;
+	this.productsList=productsList;
         JFrame window = new JFrame("Sell My Goods: "+folders.getElementAt(selectedFolder));
         window.setMinimumSize(new Dimension(800, 500));
         window.setLocation(300, 200);
@@ -298,7 +302,10 @@ public class ProductFolderView {
 	}
     return null;
     }	
-	
+
+    /**
+     * Validates shop informtion. Returns message indicate what error is. 
+     */    
     public String validate_shop_info(String shop_name, String qty, String price) {	
 	if (!validate_product_name(shop_name)) {
 		return "Please enter a valid shop name" ;
@@ -309,14 +316,26 @@ public class ProductFolderView {
 	if (!validate_product_price(price)){
 		return "Please enter a valid product price";
 	}
+	DatabaseAccess db = new DatabaseAccess();
+	if (!(((product)productsList.get(selectedFolder)).getProductName().equals(shop_name))&&(db.productExists(shop_name)))
+		return "Please enter a unique shop name";
+       db.CloseConnection();	
 	return "done";
     }
-
-    public boolean validate_product_name(String shop_name) {
-	if (shop_name.replace(" ","").equals("")) 
+    
+    /**
+     * Validates product name. Returns boolean. 
+     */    
+    public boolean validate_product_name(String product_name) {
+	if (product_name.replace(" ","").equals("")) 
 		return false;
+
 	return true;
     }
+    
+    /**
+     * Validates product qty. Returns boolean. 
+     */    
 
     public boolean validate_product_qty(String qty){
 	if (!qty.matches("\\d+"))
@@ -325,6 +344,9 @@ public class ProductFolderView {
 	
     }
 
+    /**
+     * Validates product price. Returns boolean. 
+     */     
     public boolean validate_product_price(String price){
 	try
 	{

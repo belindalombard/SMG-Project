@@ -1410,7 +1410,9 @@ public int updateMessage(String seller_email, String buyer_email, String message
 		return s;
 	}
 
-
+ 	/**
+	 * Check if product exists based on name - for uniqueness.
+	 */
 	public boolean productExists(String name) {
 		try {
 			if (checkAndResetConnection()){
@@ -1433,5 +1435,42 @@ public int updateMessage(String seller_email, String buyer_email, String message
 		return false;
 	}
 
+	/** 
+	 * Check if the quantity of a prodcut can be updated once a order has been placed."
+	*/
+ 	 public void updateQuantity(String product_name,  int amount_bought){
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement update_qty = db.prepareStatement("UPDATE smg.product SET quantity_left=? WHERE name=?");
+				int original_quantity = getQuantity(product_name);
+				update_qty.setInt(1,original_quantity-amount_bought);
+				update_qty.setString(2, product_name);
+				update_qty.execute();
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+ 	/** 
+	 * Get quantity of product left based on product's name
+	 */
+	public int getQuantity(String product_name){
+		try {
+			if (checkAndResetConnection()){
+				PreparedStatement get_qty = db.prepareStatement("SELECT quantity_left FROM smg.product WHERE name=?");
+				get_qty.setString(1, product_name);
+				ResultSet rs = get_qty.executeQuery();
+				if (rs.next())
+					return rs.getInt(1);
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	return -1;
+	}
+		 
 }
 

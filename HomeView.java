@@ -133,6 +133,55 @@ public class HomeView extends SignUpView{
                 }
             }
         });
+        searchBar.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                    tempShops = new ArrayList<>();
+                    selectedCriteria = searchCriteriaComboBox.getSelectedItem().toString();
+                    System.out.println(selectedCriteria);
+                    searchedWord = searchBar.getText();
+                    selecetedShops = new String[1000];
+
+                    if(searchedWord.equals("") || searchedWord.equals("Search for shops around you")){
+                        searchAllShops(isDarkMode);
+                    }
+                    else{
+                        if (selectedCriteria.equals("Area"))
+                        {
+                            populateList("district", isDarkMode);
+                        }
+                        else if (selectedCriteria.equals("Product"))
+                        {
+                            populateList("product", isDarkMode);
+                        }
+
+                        else if (selectedCriteria.equals("Shop"))
+                        {
+                            for(int i = 0; i < shops.length; i++){
+                                if((shops[i].toLowerCase()).contains(searchedWord.toLowerCase())){
+                                    tempShops.add(shops[i]);
+                                }
+                            }
+                            filterShops(isDarkMode);
+                        }
+
+
+                    }
+                    window.repaint();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
         JButton searchButton = new JButton("Search");
 
         searchButton.addActionListener(new ActionListener() {

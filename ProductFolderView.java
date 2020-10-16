@@ -41,8 +41,8 @@ public class ProductFolderView {
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON);
                 GradientPaint gp = new GradientPaint(0, 0,
-                        isDarkMode ? getBackground().darker().darker().gray : getBackground().brighter(), 0, getHeight(),
-                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().darker().darker());
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().darker(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().brighter().brighter().brighter().brighter());
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }

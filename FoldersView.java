@@ -28,7 +28,7 @@ public class FoldersView {
         DefaultListModel folders = new DefaultListModel();
         ArrayList<product> productsList = db.getProductsFromSeller(sellercode);//to store all the products of the shop	
 	    JList foldersList = new JList(folders);
-        foldersList.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
+        foldersList.setBackground(isDarkMode ? new Color(0x222425) : new Color(0xFFFFFF));
         foldersList.setForeground(isDarkMode ? Color.white : Color.BLACK);
 	    JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(foldersList);
@@ -72,8 +72,8 @@ public class FoldersView {
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON);
                 GradientPaint gp = new GradientPaint(0, 0,
-                        isDarkMode ? getBackground().darker().darker().gray : getBackground().brighter(), 0, getHeight(),
-                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().darker().darker());
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().darker(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().brighter().brighter().brighter().brighter());
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }

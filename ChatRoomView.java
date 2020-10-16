@@ -11,7 +11,7 @@ public class  ChatRoomView {
     JTextArea messageBoard;
     JScrollPane scrollPane;
 
-    public ChatRoomView(JFrame previousWindowFrame, JButton back, JButton pay, JButton contactSeller,seller seller, buyer buyer, product product){
+    public ChatRoomView(JFrame previousWindowFrame, JButton back, JButton pay, JButton contactSeller,seller seller, buyer buyer, product product, boolean isDarkMode){
         DatabaseAccess db = new DatabaseAccess();
         //Frame
         JFrame window = new JFrame("Sell My Goods: ChatRoom");
@@ -44,10 +44,11 @@ public class  ChatRoomView {
 
         JPanel topLabelLayout = new JPanel(new FlowLayout());
         JLabel userInstruction = new JLabel("Type your message below");
-        topLabelLayout.setBackground(Color.WHITE);
+        topLabelLayout.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
         userInstruction.setForeground(Color.GRAY);
 
         JPanel bottomButtonLayout = new JPanel(new FlowLayout());
+        bottomButtonLayout.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
         JButton sendMessageButton = new JButton("Send");
         sendMessageButton.addActionListener(new ActionListener() {
             @Override
@@ -73,6 +74,7 @@ public class  ChatRoomView {
         scrollPane = new JScrollPane();
         scrollPane.setViewportView(messageBoard);
         scrollPane.setBorder(new EmptyBorder(0,0,0,0));
+        messageBoard.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
 
 
         topLabelLayout.add(userInstruction);

@@ -62,7 +62,7 @@ public class ShopView {
         }
 
         JList productList = new JList(products);
-        productList.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
+        productList.setBackground(isDarkMode ? new Color(0x222425) : new Color(0xFFFFFF));
         productList.setForeground(isDarkMode ? Color.white : Color.BLACK);
 
         JScrollPane scrollPane = new JScrollPane();

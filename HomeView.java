@@ -74,7 +74,7 @@ public class HomeView extends SignUpView{
 	    shops[i]=shop.getStoreName();
         }
         shopList = new JList(shops);
-        shopList.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
+        shopList.setBackground(isDarkMode ? new Color(0x222425) : new Color(0xFFFFFF));
         shopList.setForeground(isDarkMode ? Color.white : Color.BLACK);
 
         scrollPane = new JScrollPane();

@@ -227,7 +227,7 @@ public class ProductView {
         contactSellerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChatRoomView chatRoomView = new ChatRoomView(window, backButton, payButton,contactSellerButton,s, buyerobj, current_product);
+                ChatRoomView chatRoomView = new ChatRoomView(window, backButton, payButton,contactSellerButton,s, buyerobj, current_product, isDarkMode);
 //                window.setVisible(false);
                 contactSellerButton.setEnabled(false);
                 backButton.setEnabled(false);

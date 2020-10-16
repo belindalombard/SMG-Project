@@ -33,7 +33,7 @@ public class InboxView {
         }
 
         JList messageList = new JList(messages);
-        messageList.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
+        messageList.setBackground(isDarkMode ? new Color(0x222425) : new Color(0xFFFFFF));
         messageList.setForeground(isDarkMode ? Color.white : Color.BLACK);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(messageList);
@@ -128,7 +128,7 @@ public class InboxView {
 	}
 
         JList messageList = new JList(messages);
-        messageList.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
+        messageList.setBackground(isDarkMode ? new Color(0x222425) : new Color(0xFFFFFF));
         messageList.setForeground(isDarkMode ? Color.white : Color.BLACK);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(messageList);

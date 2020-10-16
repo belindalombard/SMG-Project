@@ -215,13 +215,15 @@ public class ProductFolderView {
         saveProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //String productName, String productDescription, int productQty, double productPrice, boolean visible
-                folders.setElementAt(productName.getText(), selectedFolder);
-                ((product)productsList.get(selectedFolder)).setProductName(productName.getText());
-                ((product)productsList.get(selectedFolder)).setProductQty(Integer.parseInt(stockAvailableField.getText()));
-                ((product)productsList.get(selectedFolder)).setProductPrice(Double.parseDouble(productPriceField.getText()));
-                ((product)productsList.get(selectedFolder)).setProductDescription(productDetailsTextArea.getText());
-                ((product)productsList.get(selectedFolder)).setHide(hide.getState());
+		String val = validate_shop_info(productName.getText(), stockAvailableField.getText(), productPriceField.getText());
+		if (val.equals("done")){
+                	//String productName, String productDescription, int productQty, double productPrice, boolean visible
+                	folders.setElementAt(productName.getText(), selectedFolder);
+                	((product)productsList.get(selectedFolder)).setProductName(productName.getText());
+                	((product)productsList.get(selectedFolder)).setProductQty(Integer.parseInt(stockAvailableField.getText()));
+                	((product)productsList.get(selectedFolder)).setProductPrice(Double.parseDouble(productPriceField.getText()));
+                	((product)productsList.get(selectedFolder)).setProductDescription(productDetailsTextArea.getText());
+               		((product)productsList.get(selectedFolder)).setHide(hide.getState());
 
 		        if(hide.getState()){
 		            hiddenFolders.addElement(folders.getElementAt(selectedFolder));
@@ -234,7 +236,14 @@ public class ProductFolderView {
 
 		        previousWindowFrame.setVisible(true);
 		        window.setVisible(false);
-            }
+            	}
+		else {
+   		    JOptionPane x = new JOptionPane();
+                    x.showMessageDialog(null, val, "Warning", JOptionPane.WARNING_MESSAGE);
+                    x.setFocusable(true);
+		}
+
+	    }
         });
 
         topButtonLayout.add(backButton);
@@ -289,4 +298,42 @@ public class ProductFolderView {
 	}
     return null;
     }	
+	
+    public String validate_shop_info(String shop_name, String qty, String price) {	
+	if (!validate_product_name(shop_name)) {
+		return "Please enter a valid shop name" ;
+	}
+	if (!validate_product_qty(qty)){
+		return "Please enter a valid integer for the quantity";
+	}
+	if (!validate_product_price(price)){
+		return "Please enter a valid product price";
+	}
+	return "done";
+    }
+
+    public boolean validate_product_name(String shop_name) {
+	if (shop_name.replace(" ","").equals("")) 
+		return false;
+	return true;
+    }
+
+    public boolean validate_product_qty(String qty){
+	if (!qty.matches("\\d+"))
+		return false;
+	return true;
+	
+    }
+
+    public boolean validate_product_price(String price){
+	try
+	{
+  		Double.parseDouble(price);
+		return true;
+	}
+	catch(NumberFormatException e)
+	{
+		return false;
+	}
+    }
 }	

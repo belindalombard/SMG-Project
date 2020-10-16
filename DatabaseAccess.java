@@ -1416,9 +1416,9 @@ public int updateMessage(String seller_email, String buyer_email, String message
 	public boolean productExists(String name) {
 		try {
 			if (checkAndResetConnection()){
-				String check_ex_sql = "SELECT product_id FROM smg.product WHERE name=?";
+				String check_ex_sql = "SELECT product_id FROM smg.product WHERE UPPER(name)=?";
 				PreparedStatement check_existence = db.prepareStatement(check_ex_sql);
-				check_existence.setString(1,name);
+				check_existence.setString(1,name.toUpperCase());
 				ResultSet rs = check_existence.executeQuery();
 				if (rs.next()){
 					check_existence.close();

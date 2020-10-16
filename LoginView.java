@@ -2,9 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ImageObserver;
@@ -24,6 +27,8 @@ import java.util.concurrent.Flow;
 public class LoginView {
     JFrame window;
     DatabaseAccess db = new DatabaseAccess(window);
+    JLabel appName, nameLabel, passwordLabel;
+    JPanel unknownAccountFlow, boxLayout, flowSignUpLayout;
     public LoginView(){
         //Frame
         window = new JFrame("Sell My Goods: Login");
@@ -31,29 +36,73 @@ public class LoginView {
         window.setLocation(450, 200);
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         //
         // Fields
-        JLabel nameLabel = new JLabel("Email : ");
-        nameLabel.setBounds(150, 60, 150, 27);
+
+        Checkbox dark = new Checkbox("Dark Mode", false);
+        dark.setBounds(200, 160,100,20);
+        dark.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(dark.getState() == true){
+                    appName.setForeground(Color.LIGHT_GRAY);
+                    window.getContentPane().setBackground(new Color(0x1F201F));
+
+                    dark.setBackground(new Color(0x1F201F));
+                    dark.setForeground(Color.white);
+
+                    nameLabel.setForeground(Color.WHITE);
+                    passwordLabel.setForeground(Color.WHITE);
+
+                    unknownAccountFlow.setBackground(new Color(0x1F201F));
+                    boxLayout.setBackground(new Color(0x1F201F));
+                    flowSignUpLayout.setBackground(new Color(0x1F201F));
+                }
+                else{
+                    appName.setForeground(Color.GRAY);
+                    window.getContentPane().setBackground(window.getBackground());
+
+                    dark.setBackground(window.getBackground());
+                    dark.setForeground(Color.BLACK);
+
+                    nameLabel.setForeground(Color.BLACK);
+                    passwordLabel.setForeground(Color.BLACK);
+
+                    unknownAccountFlow.setBackground(window.getBackground());
+                    boxLayout.setBackground(window.getBackground());
+                    flowSignUpLayout.setBackground(window.getBackground());
+                }
+
+            }
+        });
+
+        appName = new JLabel("S-M-G");
+        appName.setBounds(200, 10, 200, 50);
+        appName.setFont(new Font(null, Font.BOLD, 25));
+
+
+        nameLabel = new JLabel("Email : ");
+        nameLabel.setBounds(150, 80, 150, 27);
 
         JTextField emailField = new JTextField(10);
-        emailField.setBounds(230, 60, 150, 22);
+        emailField.setBounds(230, 80, 150, 22);
         emailField.setBorder(new BevelBorder(2));
 
-        JLabel passwordLabel = new JLabel("Password : ");
-        passwordLabel.setBounds(150, 100, 150, 27);
+        passwordLabel = new JLabel("Password : ");
+        passwordLabel.setBounds(150, 120, 150, 27);
 
         JPasswordField passwordField = new JPasswordField(10);
-        passwordField.setBounds(230, 100, 150, 22);
+        passwordField.setBounds(230, 120, 150, 22);
         passwordField.setBorder(new BevelBorder(2));
         //
         //Layouts
-        JPanel unknownAccountFlow = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        unknownAccountFlow = new JPanel(new FlowLayout(FlowLayout.CENTER));
         unknownAccountFlow.setVisible(false);
 
-        JPanel boxLayout = new JPanel();
+        boxLayout = new JPanel();
         boxLayout.setLayout(new BoxLayout(boxLayout, BoxLayout.LINE_AXIS));
-        JPanel flowSignUpLayout = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        flowSignUpLayout = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         //
 
         JLabel accountDoesNotExistLabel = new JLabel("Invalid Login Details");
@@ -73,15 +122,19 @@ public class LoginView {
                    if (sb==1) { //Person loggin in is a Seller.
                        // Get seller details
                        int sellerID = db.getUserCode((emailField.getText()).toLowerCase(), "seller"); //get the seller's code so that the correct paramaters can be sent through to the next view.
-                       folderView = new FoldersView(sellerID);
+                       folderView = new FoldersView(sellerID, dark.getState());
                        window.setVisible(false);
                    }
                    else { //Person login in is a buyer.
                        buyer buyerobj = db.getBuyer((emailField.getText()).toLowerCase());
                        // buyerobj.setUserEmail(emailField.getText());
-                       homeView = new HomeView(window, buyerobj);
+                       homeView = new HomeView(window, buyerobj, dark.getState());
                        window.setVisible(false);
                    }
+               }
+               else if(emailField.getText().equals("admin@admin.com") && ((String.valueOf(passwordField.getPassword())).equals("CoolAdmin"))){
+                   AdminView adminView = new AdminView(window, dark.getState());
+                   window.setVisible(false);
                }
                else {
                    unknownAccountFlow.setVisible(true);
@@ -96,7 +149,7 @@ public class LoginView {
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SignUpView toSignUpView = new SignUpView(window);
+                SignUpView toSignUpView = new SignUpView(window, dark.getState());
                 window.setVisible(false);
             }
         });
@@ -104,6 +157,8 @@ public class LoginView {
         noAccountYetLabel.setForeground(new Color(0x9A9B9C));
 //        unknownAccountFlow.setBackground(Color.ORANGE);
 
+        window.add(dark);
+        window.add(appName);
         window.add(nameLabel);
         window.add(emailField);
         window.add(passwordLabel);

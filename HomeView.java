@@ -1,8 +1,10 @@
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -22,11 +24,12 @@ public class HomeView extends SignUpView{
     JComboBox searchCriteriaComboBox;
     String selectedCriteria , searchedWord ;
     JButton inboxButton;
+    JPanel topSearchBarLayout;
 
-    public HomeView(JFrame previousWindowFrame, buyer buyerobj){
+    public HomeView(JFrame previousWindowFrame, buyer buyerobj, boolean isDarkMode){
         this.buyerobj = buyerobj;
-	selected_seller =null;	
-	//Frame
+	    selected_seller =null;
+	    //Frame
         window = new JFrame("Sell My Goods: Stores");
         window.setMinimumSize(new Dimension(800, 600));
         window.setLocation(300, 150);
@@ -34,7 +37,21 @@ public class HomeView extends SignUpView{
         window.setResizable(false);
         //
 
-        JPanel topSearchBarLayout = new JPanel(new FlowLayout());
+        topSearchBarLayout = new JPanel(new FlowLayout()){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0,
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().darker(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().brighter().brighter().brighter().brighter());
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+//        topSearchBarLayout.setBackground(Color.black);//////
         JButton logoutButton = new JButton("Logout");
         logoutButton.addActionListener(new ActionListener() {
             @Override
@@ -43,9 +60,9 @@ public class HomeView extends SignUpView{
                 window.dispose();
             }
         });
-	//get shops in area from the database.
-	//ArrayList<seller> sellers = new ArrayList<seller>();
-	sellers = db.getSellersAtDistrict(buyerobj.getResidentialAdr());
+        //get shops in area from the database.
+        //ArrayList<seller> sellers = new ArrayList<seller>();
+        sellers = db.getSellersAtDistrict(buyerobj.getResidentialAdr());
 
         shops = new String[sellers.size()];
         
@@ -57,6 +74,9 @@ public class HomeView extends SignUpView{
 	    shops[i]=shop.getStoreName();
         }
         shopList = new JList(shops);
+        shopList.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
+        shopList.setForeground(isDarkMode ? Color.white : Color.BLACK);
+
         scrollPane = new JScrollPane();
         scrollPane.setViewportView(shopList);
         scrollPane.setBorder(new EmptyBorder(0,0,0,0));
@@ -67,7 +87,7 @@ public class HomeView extends SignUpView{
             public void mouseClicked(MouseEvent e) {
                 if(e.getClickCount() == 2){
 		    selected_seller = sellers.get(shopList.getSelectedIndex());
-                    ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj,  selected_seller, db);
+                    ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj,  selected_seller, db, isDarkMode);
                     window.setVisible(false);
                 }
             }
@@ -125,16 +145,16 @@ public class HomeView extends SignUpView{
                 selecetedShops = new String[1000];
 
                 if(searchedWord.equals("") || searchedWord.equals("Search for shops around you")){
-                    searchAllShops();
+                    searchAllShops(isDarkMode);
                 }
                 else{
                     if (selectedCriteria.equals("Area"))
                     {
-                        populateList("district");
+                        populateList("district", isDarkMode);
                     }
                     else if (selectedCriteria.equals("Product"))
                     {
-                       populateList("product");
+                       populateList("product", isDarkMode);
                     }
 
                     else if (selectedCriteria.equals("Shop"))
@@ -144,7 +164,7 @@ public class HomeView extends SignUpView{
                                 tempShops.add(shops[i]);
                             }
                         }
-                        filterShops();
+                        filterShops(isDarkMode);
                     }
 
 
@@ -156,7 +176,7 @@ public class HomeView extends SignUpView{
         inboxButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                InboxView inboxView = new InboxView(buyerobj.getEmail(),window);
+                InboxView inboxView = new InboxView(buyerobj.getEmail(),window, isDarkMode);
                 window.setVisible(false);
             }
         });
@@ -172,8 +192,10 @@ public class HomeView extends SignUpView{
         window.setVisible(true);
     }
 
-    private void searchAllShops(){
+    private void searchAllShops(boolean isDarkMode){
         shopList = new JList(shops);
+        shopList.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
+        shopList.setForeground(isDarkMode ? Color.white : Color.BLACK);
         scrollPane.setViewportView(shopList);
         shopList.setLayoutOrientation(JList.VERTICAL);
         shopList.setFixedCellHeight(60);
@@ -182,7 +204,7 @@ public class HomeView extends SignUpView{
 
             public void mouseClicked(MouseEvent e) {
                 selected_seller = sellers.get(shopList.getSelectedIndex());
-                ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj, selected_seller, db);
+                ShopView shopView = new ShopView(window, shopList.getSelectedIndex(), shops, buyerobj, selected_seller, db, isDarkMode);
                 window.setVisible(false);
             }
 
@@ -200,10 +222,12 @@ public class HomeView extends SignUpView{
         });
     }
 
-    private void filterShops(){
+    private void filterShops(boolean isDarkMode){
         Object [] refinedTempShops = tempShops.toArray();
 
         shopList = new JList(refinedTempShops);
+        shopList.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
+        shopList.setForeground(isDarkMode ? Color.white : Color.BLACK);
         scrollPane.setViewportView(shopList);
         shopList.setLayoutOrientation(JList.VERTICAL);
         shopList.setFixedCellHeight(60);
@@ -223,7 +247,7 @@ public class HomeView extends SignUpView{
                     }
                 }
                 if(refinedTempShops.length != 0){
-                    ShopView shopView = new ShopView(window, clickedItemIndex, shops, buyerobj, selected_seller, db);
+                    ShopView shopView = new ShopView(window, clickedItemIndex, shops, buyerobj, selected_seller, db, isDarkMode);
                     window.setVisible(false);
                 }
             }
@@ -246,13 +270,13 @@ public class HomeView extends SignUpView{
         ArrayList<store> shops = new ArrayList<>();
         return shops;
     }
-    private void populateList (String table)
+    private void populateList (String table, boolean isDarkMode)
     {
         returnedShops = db.searchShops(searchedWord,table);
         for(int i=0;i<returnedShops.size();i++)
         {
             tempShops.add(returnedShops.get(i).getStoreName());
         }
-        filterShops();
+        filterShops(isDarkMode);
     }
 }

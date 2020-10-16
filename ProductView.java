@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,19 +24,34 @@ public class ProductView {
     JButton contactSellerButton;
     product current_product;
 
-    public ProductView(JFrame previousWindowFrame, int selectedProduct, String [] products, buyer buyerobj, seller s,DatabaseAccess db, String nameOfShop){
+    public ProductView(JFrame previousWindowFrame, int selectedProduct, String [] products, buyer buyerobj, seller s,DatabaseAccess db, String nameOfShop, boolean isDarkMode){
         //Frame
         JFrame window = new JFrame("Sell My Goods: "+products[selectedProduct]);
         window.setMinimumSize(new Dimension(800, 600));
         window.setLocation(300, 150);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
+        window.getContentPane().setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
         //
 
-        JPanel topButtonLayout = new JPanel();
+        JPanel topButtonLayout = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0,
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().darker(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().brighter().brighter().brighter().brighter());
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         topButtonLayout.setLayout(new BoxLayout(topButtonLayout, BoxLayout.LINE_AXIS));
 
         JLabel shopNameLabel = new JLabel(nameOfShop);
+        shopNameLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         shopNameLabel.setBounds(30, 30, 770, 50);
         shopNameLabel.setFont(new Font(null, Font.BOLD, 25));
         shopNameLabel.setForeground(Color.GRAY);
@@ -59,6 +75,7 @@ public class ProductView {
         productImage.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 
         JLabel productName = new JLabel();
+        productName.setForeground(isDarkMode ? Color.white : Color.BLACK);
         productName.setText(products[selectedProduct]);
         productName.setFont(new Font(null, Font.BOLD, 20));
         productName.setBounds(400, 100, 150, 50);
@@ -67,28 +84,34 @@ public class ProductView {
         availableStockItems=current_product.getProductQty();
 
         JLabel productPrice = new JLabel();
+        productPrice.setForeground(isDarkMode ? Color.white : Color.BLACK);
         productPrice.setText("Product Price : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
         productPrice.setBounds(400, 150, 350, 50);
 
         JTextArea productDetailsLabel = new JTextArea();
+        productDetailsLabel.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
+        productDetailsLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         productDetailsLabel.setText("Product Details :\n"+ current_product.getProductDescription());
         productDetailsLabel.setBounds(400, 200, 350, 85);
-        productDetailsLabel.setBackground(window.getBackground());
+//        productDetailsLabel.setBackground(window.getBackground());
         productDetailsLabel.setEditable(false);
         productDetailsLabel.setLineWrap(true);
         productDetailsLabel.setWrapStyleWord(true);
 
         shopLocation = db.getUserDistrict(s.getSellerID(), "seller"); //Set the location of the shop.
         JLabel locationLabel = new JLabel("Location : "+shopLocation);
+        locationLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         locationLabel.setBounds(400, 275, 300, 50);
 
         JLabel availableStock = new JLabel("Available Stock : "+availableStockItems);
+        availableStock.setForeground(isDarkMode ? Color.white : Color.BLACK);
         availableStock.setBounds(400, 305, 150, 50);
 
         JTextField quantityField = new JTextField(10);
-        quantityField.setBounds(440, 355, 70, 27);
+        quantityField.setBounds(440, 355, 70, 25);
         quantityField.setText("0");
         quantityField.setHorizontalAlignment(SwingConstants.CENTER);
+        quantityField.setBorder(new BevelBorder(2));
         quantityField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,6 +136,7 @@ public class ProductView {
         });
 
         totalAmount = new JLabel("Total : R"+ quantityTotalPrice);
+        totalAmount.setForeground(isDarkMode ? Color.white : Color.BLACK);
         totalAmount.setBounds(400, 395, 150, 25);
 
         JButton addItemButton = new JButton("+");
@@ -180,7 +204,7 @@ public class ProductView {
                     else if(Integer.parseInt(quantityField.getText()) <= availableStockItems){
                         quantityOfItems = Integer.parseInt(quantityField.getText());
                         totalAmount.setText("Total : R"+ String.format("%.2f",Math.round(quantityOfItems*productPriceAmount*100.0)/100.0));
-                        PaymentView paymentView = new PaymentView(window, payButton, backButton, quantityField, addItemButton, subtractItemButton, contactSellerButton, products[selectedProduct], totalAmount,buyerobj);
+                        PaymentView paymentView = new PaymentView(window, payButton, backButton, quantityField, addItemButton, subtractItemButton, contactSellerButton, products[selectedProduct], totalAmount,buyerobj, isDarkMode);
 //                        window.setVisible(false);
                         payButton.setEnabled(false);
                         backButton.setEnabled(false);
@@ -197,6 +221,8 @@ public class ProductView {
         });
 
         JPanel bottomButtonLayout = new JPanel(new FlowLayout());
+        bottomButtonLayout.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
+        bottomButtonLayout.setForeground(isDarkMode ? Color.white : Color.BLACK);
         contactSellerButton = new JButton("Contact Seller");
         contactSellerButton.addActionListener(new ActionListener() {
             @Override

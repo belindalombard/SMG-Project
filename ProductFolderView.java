@@ -17,22 +17,37 @@ public class ProductFolderView {
     JLabel showUploadInstruction, productImage, addInstruction;
     String photo_path = "";
 
-    public ProductFolderView(JFrame previousWindowFrame, int selectedFolder, DefaultListModel folders, DefaultListModel hiddenFolders, ArrayList productsList){
+    public ProductFolderView(JFrame previousWindowFrame, int selectedFolder, DefaultListModel folders, DefaultListModel hiddenFolders, ArrayList productsList, boolean isDarkMode){
         //Frame
         JFrame window = new JFrame("Sell My Goods: "+folders.getElementAt(selectedFolder));
         window.setMinimumSize(new Dimension(800, 500));
         window.setLocation(300, 200);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
+        window.getContentPane().setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
         //
 
-	product current_product = ((product)productsList.get(selectedFolder));
+	    product current_product = ((product)productsList.get(selectedFolder));
 
-        JPanel topButtonLayout = new JPanel();
+        JPanel topButtonLayout = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0,
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().brighter(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().darker().darker());
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         topButtonLayout.setLayout(new BoxLayout(topButtonLayout, BoxLayout.LINE_AXIS));
 
         showUploadInstruction = new JLabel("^ Upload Image ^");
         showUploadInstruction.setBounds(150, 350, 250, 27);
+        showUploadInstruction.setForeground(isDarkMode ? Color.white : Color.BLACK);
         showUploadInstruction.setVisible(false);
 
         addInstruction = new JLabel("Add Image");
@@ -53,6 +68,7 @@ public class ProductFolderView {
         show = new Checkbox("Show",!product_hide);
         
 	    show.setBounds(340, 50, 100, 20);
+	    show.setForeground(isDarkMode ? Color.white : Color.BLACK);
         
 	    show.addItemListener(new ItemListener() {
             @Override
@@ -68,6 +84,7 @@ public class ProductFolderView {
 
         hide = new Checkbox("Hide", product_hide);
         hide.setBounds(440, 50, 100, 20);
+        hide.setForeground(isDarkMode ? Color.white : Color.BLACK);
         hide.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -147,6 +164,7 @@ public class ProductFolderView {
 
         JLabel productNameLabel = new JLabel("Product Name : ");
         productNameLabel.setBounds(400, 100, 150, 50);
+        productNameLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
 
         productName = new JTextField();
         productName.setText((String) folders.getElementAt(selectedFolder));
@@ -169,6 +187,7 @@ public class ProductFolderView {
         JLabel productPrice = new JLabel();
         productPrice.setText("Product Price : R");
         productPrice.setBounds(400, 150, 150, 50);
+        productPrice.setForeground(isDarkMode ? Color.white : Color.BLACK);
 
         JTextField productPriceField = new JTextField(10);
         productPriceField.setBounds(525, 163, 150, 27);
@@ -176,6 +195,7 @@ public class ProductFolderView {
 
         JLabel productDetailsLabel = new JLabel("Product Details : ");
         productDetailsLabel.setBounds(400, 200, 150, 20);
+        productDetailsLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
 
         JTextArea productDetailsTextArea = new JTextArea();
         productDetailsTextArea.setBounds(525, 200, 250, 85);
@@ -185,6 +205,7 @@ public class ProductFolderView {
 
         JLabel stockAvailableLabel = new JLabel("Stock Available : ");
         stockAvailableLabel.setBounds(400, 300, 150, 24);
+        stockAvailableLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
 
         JTextField stockAvailableField = new JTextField(10);
         stockAvailableField.setBounds(525, 300, 150, 27);

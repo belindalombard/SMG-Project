@@ -14,16 +14,30 @@ public class PaymentView {
     boolean done;
     JFrame loading;
 
-    public PaymentView(JFrame previousWindowFrame, JButton payButton, JButton preBackButton, JTextField quantityField, JButton addButton, JButton subtractButton, JButton chatButton, String productName, JLabel totalAmount, buyer buyerobj){
+    public PaymentView(JFrame previousWindowFrame, JButton payButton, JButton preBackButton, JTextField quantityField, JButton addButton, JButton subtractButton, JButton chatButton, String productName, JLabel totalAmount, buyer buyerobj, boolean isDarkMode){
         //Frame
         JFrame window = new JFrame("Sell My Goods: Payment");
         window.setMinimumSize(new Dimension(400, 550));
         window.setLocation(500, 150);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
+        window.getContentPane().setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
         //
 
-        JPanel topButtonLayout = new JPanel();
+        JPanel topButtonLayout = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0,
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().darker(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().brighter().brighter().brighter().brighter());
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         topButtonLayout.setLayout(new BoxLayout(topButtonLayout, BoxLayout.LINE_AXIS));
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
@@ -49,7 +63,7 @@ public class PaymentView {
                 }
                 else{
                     expiryDateField.setText(expiryDateField.getText().substring(0, 2)+"/"+expiryDateField.getText().substring(2, 4));
-                    ConfirmationView confirmationView = new ConfirmationView(buyerobj);
+                    ConfirmationView confirmationView = new ConfirmationView(buyerobj, isDarkMode);
                     window.setVisible(false);
                     previousWindowFrame.setVisible(false);
                 }
@@ -62,12 +76,15 @@ public class PaymentView {
         paymentHeading.setForeground(Color.GRAY);
 
         JLabel itemBoughtLabel = new JLabel("Item : "+productName);
+        itemBoughtLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         itemBoughtLabel.setBounds(130, 100, 150, 27);
 
         JLabel quantityBoughtLabel = new JLabel("Number of Items : "+quantityField.getText());
+        quantityBoughtLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         quantityBoughtLabel.setBounds(130, 150, 150, 27);
 
         JLabel totalAmountSpentLabel = new JLabel(totalAmount.getText());
+        totalAmountSpentLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         totalAmountSpentLabel.setBounds(130, 200, 150, 27);
 
         JLabel paymentDetailsInst = new JLabel("Fill in your payment details");
@@ -76,18 +93,24 @@ public class PaymentView {
 
         JLabel cardNumberLabel = new JLabel("Card Number : ");
         cardNumberLabel.setBounds(60, 320, 180, 50);
+        cardNumberLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         cardNumberField = new JTextField(10);
-        cardNumberField.setBounds(200, 332, 150, 27);
+        cardNumberField.setBounds(200, 332, 150, 22);
+        cardNumberField.setBorder(new BevelBorder(2));
 
         JLabel expiryDateLabel = new JLabel("Expiry Date[mmyy] : ");
         expiryDateLabel.setBounds(60, 370, 150, 50);
+        expiryDateLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         expiryDateField = new JTextField(10);
-        expiryDateField.setBounds(200, 382, 150, 27);
+        expiryDateField.setBounds(200, 382, 150, 22);
+        expiryDateField.setBorder(new BevelBorder(2));
 
-        JLabel csvNumLabel = new JLabel("CVV Number : ");
-        csvNumLabel.setBounds(60, 420, 150, 50);
+        JLabel cvvNumLabel = new JLabel("CVV Number : ");
+        cvvNumLabel.setBounds(60, 420, 150, 50);
+        cvvNumLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         cvvNumField = new JTextField(10);
-        cvvNumField.setBounds(200, 432, 150, 27);
+        cvvNumField.setBounds(200, 432, 150, 22);
+        cvvNumField.setBorder(new BevelBorder(2));
 
         topButtonLayout.add(backButton);
         topButtonLayout.add(Box.createHorizontalGlue());
@@ -102,7 +125,7 @@ public class PaymentView {
         window.add(expiryDateField);
         window.add(cardNumberLabel);
         window.add(cardNumberField);
-        window.add(csvNumLabel);
+        window.add(cvvNumLabel);
         window.add(cvvNumField);
         window.add(new JLabel());
         window.add(topButtonLayout, BorderLayout.NORTH);

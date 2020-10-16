@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AddFolderView {
-    public AddFolderView(JButton addFolderButton, JButton removeFolderButton, DefaultListModel folders, ArrayList productsList){
+    public AddFolderView(JButton addFolderButton, JButton removeFolderButton, DefaultListModel folders, ArrayList productsList, boolean isDarkMode){
         //Frame
         JFrame window = new JFrame("Sell My Goods: Add Item");
         window.setMinimumSize(new Dimension(300, 120));
@@ -35,12 +35,16 @@ public class AddFolderView {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
+        window.getContentPane().setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
         //
 
         JPanel bottomButtonLayout = new JPanel(new FlowLayout());
+        bottomButtonLayout.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
 
         JPanel topButtonLayout = new JPanel(new FlowLayout());
+        topButtonLayout.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
         JLabel folderNameLabel = new JLabel("Item Name");
+        folderNameLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
 
         JTextField folderNameField = new JTextField();
         JButton createFolder = new JButton("Create Item");

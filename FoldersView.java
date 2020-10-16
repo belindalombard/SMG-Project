@@ -15,7 +15,7 @@ public class FoldersView {
     JButton addFolderButton, removeFolderButton, inboxButton;
     DefaultListModel hiddenFolders;
 
-    public FoldersView(int sellercode){
+    public FoldersView(int sellercode, boolean isDarkMode){
         //Frame
         JFrame window = new JFrame("Sell My Goods: Items");
         window.setMinimumSize(new Dimension(800, 500));
@@ -28,6 +28,8 @@ public class FoldersView {
         DefaultListModel folders = new DefaultListModel();
         ArrayList<product> productsList = db.getProductsFromSeller(sellercode);//to store all the products of the shop	
 	    JList foldersList = new JList(folders);
+        foldersList.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
+        foldersList.setForeground(isDarkMode ? Color.white : Color.BLACK);
 	    JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(foldersList);
         scrollPane.setBorder(new EmptyBorder(0,0,0,0));
@@ -39,7 +41,7 @@ public class FoldersView {
             public void mouseClicked(MouseEvent e) {
                 if(folders.size() != 0){
                     if(e.getClickCount() == 2){
-                        ProductFolderView productFolderView = new ProductFolderView(window, foldersList.getSelectedIndex(), folders, hiddenFolders, productsList);
+                        ProductFolderView productFolderView = new ProductFolderView(window, foldersList.getSelectedIndex(), folders, hiddenFolders, productsList, isDarkMode);
                         window.setVisible(false);
                     }
                 }
@@ -62,7 +64,20 @@ public class FoldersView {
         }
 
 
-        JPanel topLayout = new JPanel();
+        JPanel topLayout = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0,
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().brighter(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().darker().darker());
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         topLayout.setLayout(new BoxLayout(topLayout, BoxLayout.LINE_AXIS));
 
         addFolderButton = new JButton("+");
@@ -71,7 +86,7 @@ public class FoldersView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 disable();
-                AddFolderView addFolderView = new AddFolderView(addFolderButton, removeFolderButton, folders, productsList);
+                AddFolderView addFolderView = new AddFolderView(addFolderButton, removeFolderButton, folders, productsList, isDarkMode);
             }
         });
         removeFolderButton = new JButton("-");
@@ -105,7 +120,7 @@ public class FoldersView {
         inboxButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                InboxView inboxView = new InboxView(window,db.getSellerEmail(sellercode));
+                InboxView inboxView = new InboxView(window,db.getSellerEmail(sellercode), isDarkMode);
                 window.setVisible(false);
 
             }

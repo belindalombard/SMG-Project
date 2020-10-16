@@ -14,7 +14,7 @@ public class MessageView {
     JPanel panel;
     JScrollPane scrollPane;
     DatabaseAccess db;
-    public MessageView(JFrame previousWindowFrame, ArrayList<message> listOfMessages,int selectedMessage, DefaultListModel messages, JButton previousBackButton, JList messagesList, seller seller)
+    public MessageView(JFrame previousWindowFrame, ArrayList<message> listOfMessages,int selectedMessage, DefaultListModel messages, JButton previousBackButton, JList messagesList, seller seller, boolean isDarkMode)
     {
         db = new DatabaseAccess();
         JFrame window = new JFrame("Sell My Goods: Inbox");
@@ -42,18 +42,58 @@ public class MessageView {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
+        window.getContentPane().setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
 
         previousBackButton.setEnabled(false);
         messagesList.setEnabled(false);
         previousWindowFrame.setFocusable(false);
 
-        JPanel topButtonLayout = new JPanel();
+        JPanel topButtonLayout = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0,
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().darker(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().brighter().brighter().brighter().brighter());
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         topButtonLayout.setLayout(new BoxLayout(topButtonLayout, BoxLayout.LINE_AXIS));
 
-        JPanel bottomButtonLayout = new JPanel();
+        JPanel bottomButtonLayout = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0,
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().darker(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().brighter().brighter().brighter().brighter());
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         bottomButtonLayout.setLayout(new BoxLayout(bottomButtonLayout, BoxLayout.LINE_AXIS));
 
-        panel = new JPanel();
+        panel = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0,
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().darker(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().brighter().brighter().brighter().brighter());
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         message thisMessage = listOfMessages.get(selectedMessage);
         JTextField sellerMessageField = new JTextField(10);
@@ -63,19 +103,23 @@ public class MessageView {
             public void actionPerformed(ActionEvent e) {
                 scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
                 JTextArea area = new JTextArea();
+                area.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
                 area.setLineWrap(true);
                 area.setWrapStyleWord(true);
                 area.setText("\n"+(new Time(System.currentTimeMillis()))+"\n"+thisMessage.getMessage()+"\n"+seller.getName()+ ": "+ sellerMessageField.getText());
                 area.setEditable(false);
                 area.setMargin(new Insets(10, 10, 10, 10));
-                area.setBackground(window.getBackground());
+//                area.setBackground(window.getBackground());
+                area.setForeground(isDarkMode ? Color.white : Color.BLACK);
 
                 JTextArea sentTimestamp = new JTextArea((new Time(System.currentTimeMillis()))+"");
                 sentTimestamp.setLineWrap(true);
                 sentTimestamp.setWrapStyleWord(true);
                 sentTimestamp.setEditable(false);
                 sentTimestamp.setMargin(new Insets(10, 10, 10, 10));
-                sentTimestamp.setBackground(window.getBackground());
+//                sentTimestamp.setBackground(window.getBackground());
+                sentTimestamp.setForeground(isDarkMode ? Color.white : Color.BLACK);
+
                 scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
                 panel.add(sentTimestamp);
                 panel.add(area);
@@ -91,7 +135,8 @@ public class MessageView {
 
         JTextArea timeReceivedLabel = new JTextArea(""+thisMessage.getTimeStamp().toString().substring(0, 10)+"\n"+thisMessage.getTimeStamp().toString().substring(11, 16));
         timeReceivedLabel.setMargin(new Insets(10, 10, 10, 10));
-        timeReceivedLabel.setBackground(window.getBackground());
+//        timeReceivedLabel.setBackground(window.getBackground());
+        timeReceivedLabel.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
         timeReceivedLabel.setEditable(false);
 //        timeReceivedLabel.setBounds(70, 270, 200, 200);
 
@@ -100,8 +145,9 @@ public class MessageView {
         messageText.setLineWrap(true);
         messageText.setWrapStyleWord(true);
         messageText.setMargin(new Insets(10, 10, 10, 10));
-        messageText.setBackground(window.getBackground());
+//        messageText.setBackground(window.getBackground());
 //        messageText.setBounds(5, 300, 200, 200);
+        messageText.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
 
         backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
@@ -122,6 +168,7 @@ public class MessageView {
         scrollPane.setBorder(new EmptyBorder(0,0,0,0));
         scrollPane.createVerticalScrollBar();
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
 
 
         topButtonLayout.add(backButton);
@@ -138,7 +185,7 @@ public class MessageView {
         window.setVisible(true);
         window.setFocusable(true);
     }
-    public MessageView(JFrame previousWindowFrame, ArrayList<message> listOfMessages,int selectedMessage, DefaultListModel messages, JButton previousBackButton, JList messagesList, buyer buyer)
+    public MessageView(JFrame previousWindowFrame, ArrayList<message> listOfMessages,int selectedMessage, DefaultListModel messages, JButton previousBackButton, JList messagesList, buyer buyer, boolean isDarkMode)
     {
         db = new DatabaseAccess();
         JFrame window = new JFrame("Sell My Goods: Inbox");
@@ -166,18 +213,58 @@ public class MessageView {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
+        window.getContentPane().setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
 
         previousBackButton.setEnabled(false);
         messagesList.setEnabled(false);
         previousWindowFrame.setFocusable(false);
 
-        JPanel topButtonLayout = new JPanel();
+        JPanel topButtonLayout = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0,
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().darker(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().brighter().brighter().brighter().brighter());
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         topButtonLayout.setLayout(new BoxLayout(topButtonLayout, BoxLayout.LINE_AXIS));
 
-        JPanel bottomButtonLayout = new JPanel();
+        JPanel bottomButtonLayout = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0,
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().darker(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().brighter().brighter().brighter().brighter());
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         bottomButtonLayout.setLayout(new BoxLayout(bottomButtonLayout, BoxLayout.LINE_AXIS));
 
-        panel = new JPanel();
+        panel = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0,
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().darker(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().brighter().brighter().brighter().brighter());
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         message thisMessage = listOfMessages.get(selectedMessage);
         JTextField buyerMessageField = new JTextField(10);
@@ -187,19 +274,23 @@ public class MessageView {
             public void actionPerformed(ActionEvent e) {
                 scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
                 JTextArea area = new JTextArea();
+                area.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
                 area.setLineWrap(true);
                 area.setWrapStyleWord(true);
                 area.setText("\n"+(new Time(System.currentTimeMillis()))+"\n"+thisMessage.getMessage()+"\n"+buyer.getName()+ ": "+ buyerMessageField.getText());
                 area.setEditable(false);
                 area.setMargin(new Insets(10, 10, 10, 10));
-                area.setBackground(window.getBackground());
+//                area.setBackground(window.getBackground());
+                area.setForeground(isDarkMode ? Color.white : Color.BLACK);
 
                 JTextArea sentTimestamp = new JTextArea(new Time(System.currentTimeMillis())+"");
                 sentTimestamp.setLineWrap(true);
                 sentTimestamp.setWrapStyleWord(true);
                 sentTimestamp.setEditable(false);
                 sentTimestamp.setMargin(new Insets(10, 10, 10, 10));
-                sentTimestamp.setBackground(window.getBackground());
+//                sentTimestamp.setBackground(window.getBackground());
+                sentTimestamp.setForeground(isDarkMode ? Color.white : Color.BLACK);
+
                 scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
                 panel.add(sentTimestamp);
                 panel.add(area);
@@ -216,7 +307,8 @@ public class MessageView {
 
         JTextArea timeReceivedLabel = new JTextArea(""+thisMessage.getTimeStamp().toString().substring(0, 10)+"\n"+thisMessage.getTimeStamp().toString().substring(11, 16));
         timeReceivedLabel.setMargin(new Insets(10, 10, 10, 10));
-        timeReceivedLabel.setBackground(window.getBackground());
+//        timeReceivedLabel.setBackground(window.getBackground());
+        timeReceivedLabel.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
         timeReceivedLabel.setEditable(false);
 //        timeReceivedLabel.setBounds(70, 270, 200, 200);
 
@@ -225,7 +317,8 @@ public class MessageView {
         messageText.setLineWrap(true);
         messageText.setWrapStyleWord(true);
         messageText.setMargin(new Insets(10, 10, 10, 10));
-        messageText.setBackground(window.getBackground());
+//        messageText.setBackground(window.getBackground());
+        messageText.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
 //        messageText.setBounds(5, 300, 200, 200);
 
         backButton = new JButton("Back");
@@ -247,6 +340,7 @@ public class MessageView {
         scrollPane.setBorder(new EmptyBorder(0,0,0,0));
         scrollPane.createVerticalScrollBar();
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
 
 
         topButtonLayout.add(backButton);

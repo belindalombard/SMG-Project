@@ -7,7 +7,7 @@ import java.awt.event.WindowListener;
 
 public class ShopSignUpView {
     DatabaseAccess db; 
-    public ShopSignUpView(JFrame previousWindowFrame, JFrame adminWindow, JButton backButton, JButton createAccountButton, Checkbox buyer, Checkbox seller, seller sellerObj){
+    public ShopSignUpView(JFrame previousWindowFrame, JFrame adminWindow, JButton backButton, JButton createAccountButton, Checkbox buyer, Checkbox seller, seller sellerObj, boolean isDarkMode){
         //Frame
         db = new DatabaseAccess();
         System.out.println(adminWindow.getTitle());
@@ -36,36 +36,43 @@ public class ShopSignUpView {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
+        window.getContentPane().setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
         //
 
         JLabel shopNameLabel = new JLabel("Shop Name : ");
         shopNameLabel.setBounds(110, 40, 150, 50);
+        shopNameLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         JTextField shopNameField = new JTextField(10);
         shopNameField.setBounds(270, 52, 150, 27);
 
         JLabel bankAccNumberLabel = new JLabel("Bank Account Number : ");
         bankAccNumberLabel.setBounds(110, 90, 180, 50);
+        bankAccNumberLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         JTextField bankAccNumberField = new JTextField(10);
         bankAccNumberField.setBounds(270, 102, 150, 27);
 
         JLabel bankNameLabel = new JLabel("Bank Name : ");
         bankNameLabel.setBounds(110, 140, 150, 50);
+        bankNameLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         JTextField bankNameField = new JTextField(10);
         bankNameField.setBounds(270, 152, 150, 27);
 
         JLabel bankBranchCodeLabel = new JLabel("Bank Branch code : ");
         bankBranchCodeLabel.setBounds(110, 190, 150, 50);
+        bankBranchCodeLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         JTextField bankBranchCodeField = new JTextField(10);
         bankBranchCodeField.setBounds(270, 202, 150, 27);
 
         JLabel deliveryMethodLabel = new JLabel("Delivery Method : ");
         deliveryMethodLabel.setBounds(110, 240, 150, 50);
+        deliveryMethodLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         String choiceList [] = {"Choose", "Collection", "Delivery", "Collection & Delivery"};
         JComboBox deliveryMethodField = new JComboBox<String>(choiceList);
         deliveryMethodField.setBounds(270, 252, 150, 27);
 
         JLabel shopDescriptionLabel = new JLabel("Shop Description: ");
         shopDescriptionLabel.setBounds(110, 290, 150, 50);
+        shopDescriptionLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         JTextField shopDescriptionField = new JTextField(10);
         shopDescriptionField.setBounds(270, 302, 150, 27);
 
@@ -90,7 +97,7 @@ public class ShopSignUpView {
                         previousWindowFrame.dispose();
                         if(adminWindow.getTitle().equals("Sell My Goods: Admin")){ }
                         else{
-                            FoldersView foldersView = new FoldersView(sellerID);
+                            FoldersView foldersView = new FoldersView(sellerID, isDarkMode);
                         }
                     }
                     else{

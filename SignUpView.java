@@ -23,7 +23,7 @@ public class SignUpView {
     Checkbox seller, buyer;
 
     public SignUpView(){}
-    public SignUpView(JFrame previousWindowFrame){
+    public SignUpView(JFrame previousWindowFrame, boolean isDarkMode){
 	db=new DatabaseAccess();
         //Frame
         window = new JFrame("Sell My Goods: Sign Up");
@@ -31,23 +31,40 @@ public class SignUpView {
 //        window.setLayout(null);
         window.setLocation(300, 200);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.getContentPane().setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
         //
 
-        JPanel topLayout = new JPanel();
+        JPanel topLayout = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0,
+                        isDarkMode ? getBackground().darker().darker().gray : getBackground().brighter(), 0, getHeight(),
+                        isDarkMode ? getBackground().darker().darker().darkGray : getBackground().darker().darker());
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         topLayout.setLayout(new BoxLayout(topLayout, BoxLayout.LINE_AXIS));
 
         nameLabel = new JLabel("Name : ");
         nameLabel.setBounds(270, 100, 50, 27);
+        nameLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         nameField = new JTextField(10);
         nameField.setBounds(420, 100, 150, 27);
 
         idLabel = new JLabel("ID Number : ");
         idLabel.setBounds(270, 130, 150, 27);
+        idLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         idField = new JTextField(13); //ID Number is max 13 chars
         idField.setBounds(420, 130, 150, 27);
 
         locationLabel = new JLabel("Location : ");
         locationLabel.setBounds(270, 160, 150, 27);
+        locationLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
 	
         //Get list of districts from the db.
         String[] choiceList = db.GetAllDistricts();
@@ -56,29 +73,35 @@ public class SignUpView {
 
         phoneNumberLabel = new JLabel("Cellphone Number : ");
         phoneNumberLabel.setBounds(270, 190, 150, 27);
+        phoneNumberLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         phoneNumberField = new JTextField(10);
         phoneNumberField.setBounds(420, 190, 150, 27);
 
         emailAddressLabel = new JLabel("Email Address : ");
         emailAddressLabel.setBounds(270, 220, 150, 27);
+        emailAddressLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         emailAddressField = new JTextField(10);
         emailAddressField.setBounds(420, 220, 150, 27);
 
         passwordLabel = new JLabel("Password : ");
         passwordLabel.setBounds(270, 250, 150, 27);
+        passwordLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         passwordField = new JPasswordField(10);
         passwordField.setBounds(420, 250, 150, 27);
 
         confirmPasswordLabel = new JLabel("Confirm Password : ");
         confirmPasswordLabel.setBounds(270, 280, 150, 27);
+        confirmPasswordLabel.setForeground(isDarkMode ? Color.white : Color.BLACK);
         confirmPasswordField = new JPasswordField(10);
         confirmPasswordField.setBounds(420, 280, 150, 27);
 
         seller = new Checkbox("Seller", true);
         seller.setBounds(310, 310,100,50);
+        seller.setForeground(isDarkMode ? Color.white : Color.BLACK);
 
         buyer = new Checkbox("Customer");
         buyer.setBounds(420, 310,150,50);
+        buyer.setForeground(isDarkMode ? Color.white : Color.BLACK);
 
 
         seller.addItemListener(new ItemListener() {
@@ -124,7 +147,7 @@ public class SignUpView {
                     if(seller.getState() == true){
                         disable();
                         seller sellerObj = new seller(idField.getText(), locationField.getSelectedItem().toString(), nameField.getText(), encrypt(passwordField.getText()), (emailAddressField.getText()).toLowerCase(), phoneNumberField.getText(),false);
-                        ShopSignUpView shopSignUpView = new ShopSignUpView(window, previousWindowFrame, backToLoginButton, createAccountButton, buyer, seller,sellerObj);
+                        ShopSignUpView shopSignUpView = new ShopSignUpView(window, previousWindowFrame, backToLoginButton, createAccountButton, buyer, seller,sellerObj, isDarkMode);
                     }
                     else{
                         try{
@@ -144,19 +167,19 @@ public class SignUpView {
             }
         });
 
-        JButton adminButton = new JButton("Admin");
-        if(previousWindowFrame.getTitle().equals("Sell My Goods: Admin")){
-            adminButton.setVisible(false);
-        }
-        else{
-            adminButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    AdminLoginView adminLoginView = new AdminLoginView(window);
-                    window.setVisible(false);
-                }
-            });
-        }
+//        JButton adminButton = new JButton("Admin");
+//        if(previousWindowFrame.getTitle().equals("Sell My Goods: Admin")){
+//            adminButton.setVisible(false);
+//        }
+//        else{
+//            adminButton.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    AdminLoginView adminLoginView = new AdminLoginView(window, isDarkMode);
+//                    window.setVisible(false);
+//                }
+//            });
+//        }
 
         //Adding components in the window
         window.add(nameLabel);
@@ -180,8 +203,8 @@ public class SignUpView {
 
         topLayout.add(backToLoginButton);
         topLayout.add(Box.createHorizontalGlue());
-        topLayout.add(adminButton);
-        topLayout.add(Box.createHorizontalGlue());
+//        topLayout.add(adminButton);
+//        topLayout.add(Box.createHorizontalGlue());
         topLayout.add(createAccountButton);
 
         window.add(topLayout, BorderLayout.NORTH);

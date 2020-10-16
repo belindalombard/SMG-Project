@@ -14,7 +14,7 @@ public class AdminView {
     DefaultListModel userAccounts;
     JList userAccountsList;
     JFrame window;
-    public AdminView(JFrame previousWindowFrame){
+    public AdminView(JFrame previousWindowFrame, boolean isDarkMode){
         //Frame
         window = new JFrame("Sell My Goods: Admin");
         window.setMinimumSize(new Dimension(600, 500));
@@ -24,13 +24,17 @@ public class AdminView {
         //
 
         JPanel buttonsBoxLayout = new JPanel();
+        buttonsBoxLayout.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
         buttonsBoxLayout.setLayout(new BoxLayout(buttonsBoxLayout, BoxLayout.LINE_AXIS));
 
         JPanel boxLayout = new JPanel();
+        boxLayout.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
         boxLayout.setLayout(new BoxLayout(boxLayout, BoxLayout.LINE_AXIS));
 
         userAccounts = db.getAccountList();
         userAccountsList = new JList(userAccounts);
+        userAccountsList.setBackground(isDarkMode ? new Color(0x222425) : window.getBackground());
+        userAccountsList.setForeground(isDarkMode ? Color.white : Color.BLACK);
         ArrayList<Object> allUsers = db.getAllUsers();
         ArrayList<buyer> buyers = new ArrayList<>();
         ArrayList<seller> sellers = new ArrayList<>();
@@ -65,7 +69,7 @@ public class AdminView {
 				selectedFromBuyers=index;
 
 			//Shows detail of item selected at the moment.
-                        AccountDetailsView accountDetailsView = new AccountDetailsView(window, userAccountsList.getSelectedIndex(), userAccounts, sellers, buyers, selectedClass, selectedFromSellers, userAccountsList, allUsers, selectedFromBuyers);
+                        AccountDetailsView accountDetailsView = new AccountDetailsView(window, userAccountsList.getSelectedIndex(), userAccounts, sellers, buyers, selectedClass, selectedFromSellers, userAccountsList, allUsers, selectedFromBuyers, isDarkMode);
                         window.setVisible(false);
                     }
                 }
@@ -86,7 +90,7 @@ public class AdminView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Add user account
-                SignUpView x = new SignUpView(window);
+                SignUpView x = new SignUpView(window, isDarkMode);
             }
         });
 
